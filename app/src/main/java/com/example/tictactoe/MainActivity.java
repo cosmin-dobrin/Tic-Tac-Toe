@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     player1Turn = savedInstanceState.getBoolean("player1Turn");
             }
         }
-    }
 
     @Override
     public void onClick(View v) {
