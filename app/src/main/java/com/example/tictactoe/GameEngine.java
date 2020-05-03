@@ -139,11 +139,8 @@ public class GameEngine extends AppCompatActivity implements View.OnClickListene
         textViewPlayer2 = textView2;
     }
 
-    public void setButtonsId(Button[][] buttonArray) {
+    public void setButtonsId(Button[][] buttonArray, Button button) {
         buttons = buttonArray;
-    }
-
-    public void setButtonResetId(Button button) {
         buttonReset = button;
     }
 

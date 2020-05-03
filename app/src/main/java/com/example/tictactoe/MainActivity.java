@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
         Button buttonReset = findViewById(R.id.button_reset);
         TextView textViewPlayer1 = findViewById(R.id.text_view_p1);
         TextView textViewPlayer2 = findViewById(R.id.text_view_p2);
-        engine.setButtonsId(buttons);
-        engine.setButtonResetId(buttonReset);
+        engine.setButtonsId(buttons, buttonReset);
         engine.setTextViewPlayerId(textViewPlayer1, textViewPlayer2);
     }
 }
