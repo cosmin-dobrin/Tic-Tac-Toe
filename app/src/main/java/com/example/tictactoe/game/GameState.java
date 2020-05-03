@@ -1,4 +1,4 @@
-package com.example.tictactoe;
+package com.example.tictactoe.game;
 
 import android.content.Context;
 import android.os.Bundle;

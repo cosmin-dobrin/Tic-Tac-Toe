@@ -1,4 +1,4 @@
-package com.example.tictactoe;
+package com.example.tictactoe.game;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.tictactoe.R;
 
 public class GameEngine extends AppCompatActivity implements View.OnClickListener {
 
