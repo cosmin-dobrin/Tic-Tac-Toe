@@ -10,11 +10,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.w3c.dom.Text;
-
 public class GameEngine extends AppCompatActivity implements View.OnClickListener {
 
-    Button buttonReset;
+    private Button buttonReset;
     private Button[][] buttons = new Button[3][3];
     private boolean player1Turn = true;
     private int roundCount;
@@ -96,26 +94,26 @@ public class GameEngine extends AppCompatActivity implements View.OnClickListene
 
     private void player1Wins() {
         player1Points++;
-        Toast.makeText(context, "Player 1 wins!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getResources().getString(R.string.player_1_wins), Toast.LENGTH_SHORT).show();
         updatePointsText();
         resetBoard();
     }
 
     private void player2Wins() {
         player2Points++;
-        Toast.makeText(context, "Player 2 wins!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getResources().getString(R.string.player_2_wins), Toast.LENGTH_SHORT).show();
         updatePointsText();
         resetBoard();
     }
 
     private void draw() {
-        Toast.makeText(context, "Draw!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getResources().getString(R.string.draw), Toast.LENGTH_SHORT).show();
         resetBoard();
     }
 
     private void updatePointsText() {
-        textViewPlayer1.setText("Player 1: " + player1Points);
-        textViewPlayer2.setText("Player 2: " + player2Points);
+        textViewPlayer1.setText(context.getResources().getString(R.string.player_1_updatePointsText, player1Points)); // String resources + placeholders
+        textViewPlayer2.setText(context.getResources().getString(R.string.player_2_updatePointsText, player2Points));
     }
 
     private void resetBoard() {
