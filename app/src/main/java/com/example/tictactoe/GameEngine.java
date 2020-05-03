@@ -14,10 +14,10 @@ public class GameEngine extends AppCompatActivity implements View.OnClickListene
 
     private Button buttonReset;
     private Button[][] buttons = new Button[3][3];
-    private boolean player1Turn = true;
-    private int roundCount;
-    private int player1Points;
-    private int player2Points;
+    protected boolean player1Turn = true;
+    protected int roundCount;
+    protected int player1Points;
+    protected int player2Points;
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
     private Context context;
@@ -156,25 +156,5 @@ public class GameEngine extends AppCompatActivity implements View.OnClickListene
                 resetGame();
             }
         });
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt("roundCount" , roundCount);
-        outState.putInt("player1Points", player1Points);
-        outState.putInt("player2Points", player2Points);
-        outState.putBoolean("player1Turn", player1Turn);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        roundCount = savedInstanceState.getInt("roundCount");
-        player1Points = savedInstanceState.getInt("player1Points");
-        player2Points = savedInstanceState.getInt("player2Points");
-        player1Turn = savedInstanceState.getBoolean("player1Turn");
     }
 }
