@@ -38,6 +38,6 @@ public class MainActivity extends AppCompatActivity {
         TextView textViewPlayer2 = findViewById(R.id.text_view_p2);
         engine.setButtonsId(buttons);
         engine.setButtonResetId(buttonReset);
-        engine.setTextViewPlayer(textViewPlayer1, textViewPlayer2);
+        engine.setTextViewPlayerId(textViewPlayer1, textViewPlayer2);
     }
 }

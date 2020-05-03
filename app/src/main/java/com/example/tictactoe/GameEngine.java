@@ -134,17 +134,17 @@ public class GameEngine extends AppCompatActivity implements View.OnClickListene
         resetBoard();
     }
 
-    public void setTextViewPlayer(TextView textView1, TextView textView2) {
+    public void setTextViewPlayerId(TextView textView1, TextView textView2) {
         textViewPlayer1 = textView1;
         textViewPlayer2 = textView2;
     }
 
-    public void setButtonsId(Button[][] buttonId) {
-        buttons = buttonId;
+    public void setButtonsId(Button[][] buttonArray) {
+        buttons = buttonArray;
     }
 
-    public void setButtonResetId(Button reset) {
-        buttonReset = reset;
+    public void setButtonResetId(Button button) {
+        buttonReset = button;
     }
 
     public void setListeners() {
