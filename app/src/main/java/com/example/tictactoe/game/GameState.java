@@ -10,7 +10,4 @@ public class GameState {
     public GameState(Context context) {
 
     }
-
-
-    }
 }
