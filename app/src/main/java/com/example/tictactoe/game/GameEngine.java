@@ -15,10 +15,10 @@ import com.example.tictactoe.R;
 class GameEngine {
 
     private Button[][] buttons = new Button[3][3];
-    boolean player1Turn = true;
-    int roundCount;
-    int player1Points;
-    int player2Points;
+    private boolean player1Turn = true;
+    private int roundCount;
+    private int player1Points;
+    private int player2Points;
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
     private Context context;
@@ -134,12 +134,44 @@ class GameEngine {
         resetBoard();
     }
 
-    void setTextViewPlayerId(TextView textView1, TextView textView2) {
-        textViewPlayer1 = textView1;
-        textViewPlayer2 = textView2;
+    void setTextViewPlayerId(TextView textViewPlayer1, TextView textViewPlayer2) {
+        this.textViewPlayer1 = textViewPlayer1;
+        this.textViewPlayer2 = textViewPlayer2;
     }
 
-    void setButtonsId(Button[][] buttonArray) {
-        buttons = buttonArray;
+    void setButtonsId(Button[][] buttons) {
+        this.buttons = buttons;
+    }
+
+    void setPlayer1Turn(boolean player1Turn) {
+        this.player1Turn = player1Turn;
+    }
+
+    void setRoundCount(int roundCount) {
+        this.roundCount = roundCount;
+    }
+
+    void setPlayer1Points(int player1Points) {
+        this.player1Points = player1Points;
+    }
+
+    void setPlayer2Points(int player2Points) {
+        this.player2Points = player2Points;
+    }
+
+    boolean getPlayer1Turn() {
+        return player1Turn;
+    }
+
+    int getRoundCount() {
+        return roundCount;
+    }
+
+    int getPlayer1Points() {
+        return player1Points;
+    }
+
+    int getPlayer2Points() {
+        return player2Points;
     }
 }

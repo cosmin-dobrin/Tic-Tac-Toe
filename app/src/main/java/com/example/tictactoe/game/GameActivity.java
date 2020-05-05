@@ -57,19 +57,19 @@ public class GameActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt("roundCount", engine.roundCount);
-        outState.putInt("player1Points", engine.player1Points);
-        outState.putInt("player2Points", engine.player2Points);
-        outState.putBoolean("player1Turn", engine.player1Turn);
+        outState.putInt("roundCount", engine.getRoundCount());
+        outState.putInt("player1Points", engine.getPlayer1Points());
+        outState.putInt("player2Points", engine.getPlayer2Points());
+        outState.putBoolean("player1Turn", engine.getPlayer1Turn());
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        engine.roundCount = savedInstanceState.getInt("roundCount");
-        engine.player1Points = savedInstanceState.getInt("player1Points");
-        engine.player2Points = savedInstanceState.getInt("player2Points");
-        engine.player1Turn = savedInstanceState.getBoolean("player1Turn");
+        engine.setRoundCount(savedInstanceState.getInt("roundCount"));
+        engine.setPlayer1Points(savedInstanceState.getInt("player1Points"));
+        engine.setPlayer2Points(savedInstanceState.getInt("player2Points"));
+        engine.setPlayer1Turn(savedInstanceState.getBoolean("player1Turn"));
     }
 }
