@@ -12,24 +12,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tictactoe.R;
 
-public class GameEngine extends AppCompatActivity implements View.OnClickListener {
+class GameEngine {
 
-    private Button buttonReset;
     private Button[][] buttons = new Button[3][3];
-    protected boolean player1Turn = true;
-    protected int roundCount;
-    protected int player1Points;
-    protected int player2Points;
+    boolean player1Turn = true;
+    int roundCount;
+    int player1Points;
+    int player2Points;
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
     private Context context;
 
-    public GameEngine(Context context) {
+    GameEngine(Context context) {
         this.context = context;
     }
 
-    @Override
-    public void onClick(View v) {
+    void gameButtonClicked(View v) {
         if (!((Button) v).getText().toString().equals("")) {
             return;
         }
@@ -129,34 +127,19 @@ public class GameEngine extends AppCompatActivity implements View.OnClickListene
         player1Turn = true;
     }
 
-    private void resetGame() {
+    void resetGame() {
         player1Points = 0;
         player2Points = 0;
         updatePointsText();
         resetBoard();
     }
 
-    public void setTextViewPlayerId(TextView textView1, TextView textView2) {
+    void setTextViewPlayerId(TextView textView1, TextView textView2) {
         textViewPlayer1 = textView1;
         textViewPlayer2 = textView2;
     }
 
-    public void setButtonsId(Button[][] buttonArray, Button button) {
+    void setButtonsId(Button[][] buttonArray) {
         buttons = buttonArray;
-        buttonReset = button;
-    }
-
-    public void setListeners() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                buttons[i][j].setOnClickListener(this);
-            }
-        }
-        buttonReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetGame();
-            }
-        });
     }
 }
