@@ -1,33 +1,54 @@
-package com.example.tictactoe;
+package com.example.tictactoe.game;
 
+import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.tictactoe.R;
 
-public class GameEngine extends AppCompatActivity implements View.OnClickListener {
+class GameEngine {
 
-    private Button buttonReset;
     private Button[][] buttons = new Button[3][3];
-    protected boolean player1Turn = true;
-    protected int roundCount;
-    protected int player1Points;
-    protected int player2Points;
+    private boolean player1Turn = true;
+    private int roundCount;
+    private int player1Points;
+    private int player2Points;
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
     private Context context;
+    private Activity activity;
+    private GameState gameState = new GameState();
+    private GameStateRepository gameStateRepository = new GameStateRepository(gameState);
 
-    public GameEngine(Context context) {
+    GameEngine(Context context, Activity activity) {
         this.context = context;
+        this.activity = activity;
     }
 
-    @Override
-    public void onClick(View v) {
+    void saveGameState() {
+
+        gameState.setPlayer1Turn(player1Turn);
+        gameState.setRoundCount(roundCount);
+        gameState.setPlayer1Points(player1Points);
+        gameState.setPlayer2Points(player2Points);
+
+        gameStateRepository.save();
+    }
+
+    void loadGameState() {
+
+        gameStateRepository.load();
+
+        player1Turn = gameState.getPlayer1Turn();
+        roundCount = gameState.getRoundCount();
+        player1Points = gameState.getPlayer1Points();
+        player2Points = gameState.getPlayer2Points();
+    }
+
+    private void gameButtonClicked(View v) {
         if (!((Button) v).getText().toString().equals("")) {
             return;
         }
@@ -134,22 +155,25 @@ public class GameEngine extends AppCompatActivity implements View.OnClickListene
         resetBoard();
     }
 
-    public void setTextViewPlayerId(TextView textView1, TextView textView2) {
-        textViewPlayer1 = textView1;
-        textViewPlayer2 = textView2;
-    }
+    void setUpGame() {
+        Button buttonReset = activity.findViewById(R.id.button_reset);
+        this.textViewPlayer1 = activity.findViewById(R.id.text_view_p2);
+        this.textViewPlayer2 = activity.findViewById(R.id.text_view_p1);
 
-    public void setButtonsId(Button[][] buttonArray, Button button) {
-        buttons = buttonArray;
-        buttonReset = button;
-    }
-
-    public void setListeners() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                buttons[i][j].setOnClickListener(this);
+                String buttonId = "button_" + i + j;
+                int resId = context.getResources().getIdentifier(buttonId, "id", context.getPackageName());
+                buttons[i][j] = activity.findViewById(resId);
+                buttons[i][j].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gameButtonClicked(v);
+                    }
+                });
             }
         }
+
         buttonReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
