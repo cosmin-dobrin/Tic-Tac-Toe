@@ -1,5 +1,6 @@
 package com.example.tictactoe.game;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
@@ -18,11 +19,13 @@ class GameEngine {
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
     private Context context;
+    private Activity activity;
     private GameState gameState = new GameState();
     private GameStateRepository gameStateRepository = new GameStateRepository(gameState);
 
-    GameEngine(Context context) {
+    GameEngine(Context context, Activity activity) {
         this.context = context;
+        this.activity = activity;
     }
 
     void saveGameState() {
@@ -45,7 +48,7 @@ class GameEngine {
         setPlayer2Points(gameState.getPlayer2Points());
     }
 
-    void gameButtonClicked(View v) {
+    private void gameButtonClicked(View v) {
         if (!((Button) v).getText().toString().equals("")) {
             return;
         }
@@ -145,11 +148,38 @@ class GameEngine {
         player1Turn = true;
     }
 
-    void resetGame() {
+    private void resetGame() {
         player1Points = 0;
         player2Points = 0;
         updatePointsText();
         resetBoard();
+    }
+
+    public void setUpGame() {
+        Button buttonReset = activity.findViewById(R.id.button_reset);
+        this.textViewPlayer1 = activity.findViewById(R.id.text_view_p2);
+        this.textViewPlayer2 = activity.findViewById(R.id.text_view_p1);
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                String buttonId = "button_" + i + j;
+                int resId = context.getResources().getIdentifier(buttonId, "id", context.getPackageName());
+                buttons[i][j] = activity.findViewById(resId);
+                buttons[i][j].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gameButtonClicked(v);
+                    }
+                });
+            }
+        }
+
+        buttonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetGame();
+            }
+        });
     }
 
     void setTextViewPlayerId(TextView textViewPlayer1, TextView textViewPlayer2) {
