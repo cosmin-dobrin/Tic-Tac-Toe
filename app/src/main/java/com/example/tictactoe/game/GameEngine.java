@@ -21,8 +21,28 @@ class GameEngine {
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
     private Context context;
+    private GameState gameState = new GameState();
+    private GameStateRepository gameStateRepository = new GameStateRepository(gameState);
 
-    GameEngine(){}
+    void saveGameState() {
+
+        gameState.setPlayer1Turn(player1Turn);
+        gameState.setRoundCount(roundCount);
+        gameState.setPlayer1Points(player1Points);
+        gameState.setPlayer2Points(player2Points);
+
+        gameStateRepository.save();
+    }
+
+    void loadGameState() {
+
+        gameStateRepository.load();
+
+        setPlayer1Turn(gameState.getPlayer1Turn());
+        setRoundCount(gameState.getRoundCount());
+        setPlayer1Points(gameState.getPlayer1Points());
+        setPlayer2Points(gameState.getPlayer2Points());
+    }
 
     GameEngine(Context context) {
         this.context = context;
@@ -175,4 +195,7 @@ class GameEngine {
     int getPlayer2Points() {
         return player2Points;
     }
+
+
+
 }

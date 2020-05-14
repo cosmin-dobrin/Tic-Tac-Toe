@@ -12,14 +12,22 @@ import com.example.tictactoe.R;
 
 public class GameActivity extends AppCompatActivity {
 
-    GameEngine engine = new GameEngine(this);
+    GameEngine gameEngine = new GameEngine(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gameEngine.loadGameState();
         setContentView(R.layout.activity_game);
 
         setUp();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        gameEngine.saveGameState();
     }
 
     public void setUp() {
@@ -36,7 +44,7 @@ public class GameActivity extends AppCompatActivity {
                 buttons[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        engine.gameButtonClicked(v);
+                        gameEngine.gameButtonClicked(v);
                     }
                 });
             }
@@ -45,31 +53,11 @@ public class GameActivity extends AppCompatActivity {
         buttonReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                engine.resetGame();
+                gameEngine.resetGame();
             }
         });
 
-        engine.setButtonsId(buttons);
-        engine.setTextViewPlayerId(textViewPlayer1, textViewPlayer2);
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt("roundCount", engine.getRoundCount());
-        outState.putInt("player1Points", engine.getPlayer1Points());
-        outState.putInt("player2Points", engine.getPlayer2Points());
-        outState.putBoolean("player1Turn", engine.getPlayer1Turn());
-    }
-
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        engine.setRoundCount(savedInstanceState.getInt("roundCount"));
-        engine.setPlayer1Points(savedInstanceState.getInt("player1Points"));
-        engine.setPlayer2Points(savedInstanceState.getInt("player2Points"));
-        engine.setPlayer1Turn(savedInstanceState.getBoolean("player1Turn"));
+        gameEngine.setButtonsId(buttons);
+        gameEngine.setTextViewPlayerId(textViewPlayer1, textViewPlayer2);
     }
 }

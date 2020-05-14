@@ -14,21 +14,15 @@ public class GameStateRepository {
 
     private Context fileContext;
     private static final String FILE_NAME = "State.ser";
-    private GameEngine gameEngine;
     private GameState gameState;
 
-    public GameStateRepository(Context fileContext, GameEngine gameEngine, GameState gameState) {
-        this.fileContext = fileContext;
-        this.gameEngine = gameEngine;
+    GameStateRepository(GameState gameState) {
         this.gameState = gameState;
     }
 
 
 
-    public void save() {
-
-        gameState.setPlayer1Turn(gameEngine.getPlayer1Turn());
-        gameState.setRoundCount(gameEngine.getRoundCount());
+    void save() {
 
         try {
             FileOutputStream fos = fileContext.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
