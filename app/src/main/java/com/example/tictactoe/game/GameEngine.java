@@ -1,16 +1,15 @@
 package com.example.tictactoe.game;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.tictactoe.R;
+
+import java.io.FileOutputStream;
+import java.io.Serializable;
 
 class GameEngine {
 
@@ -22,6 +21,8 @@ class GameEngine {
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
     private Context context;
+
+    GameEngine(){}
 
     GameEngine(Context context) {
         this.context = context;
