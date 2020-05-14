@@ -27,19 +27,19 @@ class GameState implements Serializable {
         this.player2Points = player2Points;
     }
 
-    public boolean getPlayer1Turn() {
+    boolean getPlayer1Turn() {
         return player1Turn;
     }
 
-    public int getRoundCount()  {
+    int getRoundCount()  {
         return roundCount;
     }
 
-    public int getPlayer1Points() {
+    int getPlayer1Points() {
         return player1Points;
     }
 
-    public int getPlayer2Points()   {
+    int getPlayer2Points()   {
         return player2Points;
     }
 }

@@ -8,9 +8,6 @@ import android.widget.Toast;
 
 import com.example.tictactoe.R;
 
-import java.io.FileOutputStream;
-import java.io.Serializable;
-
 class GameEngine {
 
     private Button[][] buttons = new Button[3][3];

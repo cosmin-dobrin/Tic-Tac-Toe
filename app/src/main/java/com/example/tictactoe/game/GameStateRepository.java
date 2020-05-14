@@ -1,18 +1,12 @@
 package com.example.tictactoe.game;
 
-import android.content.Context;
-
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class GameStateRepository {
+class GameStateRepository {
 
-    private Context fileContext;
     private static final String FILE_NAME = "State.ser";
     private GameState gameState;
 
@@ -20,12 +14,10 @@ public class GameStateRepository {
         this.gameState = gameState;
     }
 
-
-
     void save() {
 
         try {
-            FileOutputStream fos = fileContext.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+            FileOutputStream fos = new FileOutputStream(FILE_NAME);
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(gameState);
             os.close();
@@ -34,10 +26,10 @@ public class GameStateRepository {
         }
     }
 
-    public void load() {
+    void load() {
 
         try {
-            FileInputStream fis = fileContext.openFileInput(FILE_NAME);
+            FileInputStream fis = new FileInputStream(FILE_NAME);
             ObjectInputStream os = new ObjectInputStream(fis);
             gameState = (GameState) os.readObject();
             os.close();
