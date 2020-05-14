@@ -7,7 +7,6 @@ import java.io.ObjectOutputStream;
 
 class GameStateRepository {
 
-    private static final String FILE_NAME = "State.ser";
     private GameState gameState;
 
     GameStateRepository(GameState gameState) {
@@ -17,7 +16,7 @@ class GameStateRepository {
     void save() {
 
         try {
-            FileOutputStream fos = new FileOutputStream(FILE_NAME);
+            FileOutputStream fos = new FileOutputStream("State.ser");
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(gameState);
             os.close();
@@ -29,7 +28,7 @@ class GameStateRepository {
     void load() {
 
         try {
-            FileInputStream fis = new FileInputStream(FILE_NAME);
+            FileInputStream fis = new FileInputStream("State.ser");
             ObjectInputStream os = new ObjectInputStream(fis);
             gameState = (GameState) os.readObject();
             os.close();

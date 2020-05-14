@@ -42,10 +42,10 @@ class GameEngine {
 
         gameStateRepository.load();
 
-        setPlayer1Turn(gameState.getPlayer1Turn());
-        setRoundCount(gameState.getRoundCount());
-        setPlayer1Points(gameState.getPlayer1Points());
-        setPlayer2Points(gameState.getPlayer2Points());
+        player1Turn = gameState.getPlayer1Turn();
+        roundCount = gameState.getRoundCount();
+        player1Points = gameState.getPlayer1Points();
+        player2Points = gameState.getPlayer2Points();
     }
 
     private void gameButtonClicked(View v) {
@@ -155,7 +155,7 @@ class GameEngine {
         resetBoard();
     }
 
-    public void setUpGame() {
+    void setUpGame() {
         Button buttonReset = activity.findViewById(R.id.button_reset);
         this.textViewPlayer1 = activity.findViewById(R.id.text_view_p2);
         this.textViewPlayer2 = activity.findViewById(R.id.text_view_p1);
@@ -180,46 +180,5 @@ class GameEngine {
                 resetGame();
             }
         });
-    }
-
-    void setTextViewPlayerId(TextView textViewPlayer1, TextView textViewPlayer2) {
-        this.textViewPlayer1 = textViewPlayer1;
-        this.textViewPlayer2 = textViewPlayer2;
-    }
-
-    void setButtonsId(Button[][] buttons) {
-        this.buttons = buttons;
-    }
-
-    void setPlayer1Turn(boolean player1Turn) {
-        this.player1Turn = player1Turn;
-    }
-
-    void setRoundCount(int roundCount) {
-        this.roundCount = roundCount;
-    }
-
-    void setPlayer1Points(int player1Points) {
-        this.player1Points = player1Points;
-    }
-
-    void setPlayer2Points(int player2Points) {
-        this.player2Points = player2Points;
-    }
-
-    boolean getPlayer1Turn() {
-        return player1Turn;
-    }
-
-    int getRoundCount() {
-        return roundCount;
-    }
-
-    int getPlayer1Points() {
-        return player1Points;
-    }
-
-    int getPlayer2Points() {
-        return player2Points;
     }
 }
