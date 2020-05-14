@@ -18,14 +18,12 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         gameEngine.loadGameState();
         setContentView(R.layout.activity_game);
-
         setUp();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         gameEngine.saveGameState();
     }
 

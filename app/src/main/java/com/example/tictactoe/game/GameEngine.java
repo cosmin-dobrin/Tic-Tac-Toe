@@ -21,6 +21,10 @@ class GameEngine {
     private GameState gameState = new GameState();
     private GameStateRepository gameStateRepository = new GameStateRepository(gameState);
 
+    GameEngine(Context context) {
+        this.context = context;
+    }
+
     void saveGameState() {
 
         gameState.setPlayer1Turn(player1Turn);
@@ -39,10 +43,6 @@ class GameEngine {
         setRoundCount(gameState.getRoundCount());
         setPlayer1Points(gameState.getPlayer1Points());
         setPlayer2Points(gameState.getPlayer2Points());
-    }
-
-    GameEngine(Context context) {
-        this.context = context;
     }
 
     void gameButtonClicked(View v) {
@@ -192,7 +192,4 @@ class GameEngine {
     int getPlayer2Points() {
         return player2Points;
     }
-
-
-
 }

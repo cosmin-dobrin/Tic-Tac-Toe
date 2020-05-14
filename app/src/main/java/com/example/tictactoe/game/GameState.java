@@ -1,7 +1,5 @@
 package com.example.tictactoe.game;
 
-import android.content.Context;
-
 import java.io.Serializable;
 
 class GameState implements Serializable {
