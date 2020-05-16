@@ -18,10 +18,15 @@ class GameEngine {
     private int player2Points;
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
+    private boolean player1Wins = false;
+    private boolean player2Wins = false;
     private Context context;
     private Activity activity;
     private GameState gameState = new GameState();
     private GameStateRepository gameStateRepository = new GameStateRepository(gameState);
+    private GameCompletionListener gameCompletionListener;
+
+    GameEngine() {}
 
     GameEngine(Context context, Activity activity) {
         this.context = context;
@@ -58,16 +63,22 @@ class GameEngine {
         } else {
             ((Button) v).setText("O");
         }
-        roundCount++;
+        updateRoundCount();
+        roundResult();
+    }
 
+    private void roundResult() {
         if (checkForWin()) {
             if (player1Turn) {
                 player1Wins();
+                completion();
             } else {
                 player2Wins();
+                completion();
             }
         } else if (roundCount == 9) {
             draw();
+            completion();
         } else {
             player1Turn = !player1Turn;
         }
@@ -114,21 +125,27 @@ class GameEngine {
     }
 
     private void player1Wins() {
+        player1Wins = true;
+        player2Wins = false;
         player1Points++;
-        Toast.makeText(context, context.getResources().getString(R.string.player_1_wins), Toast.LENGTH_SHORT).show();
+       // Toast.makeText(context, context.getResources().getString(R.string.player_1_wins), Toast.LENGTH_SHORT).show();
         updatePointsText();
         resetBoard();
     }
 
     private void player2Wins() {
+        player1Wins = false;
+        player2Wins = true;
         player2Points++;
-        Toast.makeText(context, context.getResources().getString(R.string.player_2_wins), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, context.getResources().getString(R.string.player_2_wins), Toast.LENGTH_SHORT).show();
         updatePointsText();
         resetBoard();
     }
 
     private void draw() {
-        Toast.makeText(context, context.getResources().getString(R.string.draw), Toast.LENGTH_SHORT).show();
+        player1Wins = false;
+        player2Wins = false;
+        //Toast.makeText(context, context.getResources().getString(R.string.draw), Toast.LENGTH_SHORT).show();
         resetBoard();
     }
 
@@ -153,6 +170,22 @@ class GameEngine {
         player2Points = 0;
         updatePointsText();
         resetBoard();
+    }
+
+    boolean getPlayer1Wins() {
+        return player1Wins;
+    }
+
+    boolean getPlayer2Wins() {
+        return player2Wins;
+    }
+
+    int getRoundCount() {
+        return roundCount;
+    }
+
+    boolean getPlayer1Turn() {
+        return player1Turn;
     }
 
     void setUpGame() {
@@ -180,5 +213,19 @@ class GameEngine {
                 resetGame();
             }
         });
+    }
+
+    void completion() {
+        if (gameCompletionListener != null) {
+            gameCompletionListener.onCompletion();
+        }
+    }
+
+    void setCompletionListener(GameCompletionListener gameCompletionListener) {
+        this.gameCompletionListener = gameCompletionListener;
+    }
+
+    void updateRoundCount() {
+        roundCount++;
     }
 }
