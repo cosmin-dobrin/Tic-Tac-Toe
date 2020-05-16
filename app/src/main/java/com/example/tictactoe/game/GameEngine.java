@@ -26,8 +26,6 @@ class GameEngine {
     private GameStateRepository gameStateRepository = new GameStateRepository(gameState);
     private GameCompletionListener gameCompletionListener;
 
-    GameEngine() {}
-
     GameEngine(Context context, Activity activity) {
         this.context = context;
         this.activity = activity;
@@ -128,7 +126,6 @@ class GameEngine {
         player1Wins = true;
         player2Wins = false;
         player1Points++;
-       // Toast.makeText(context, context.getResources().getString(R.string.player_1_wins), Toast.LENGTH_SHORT).show();
         updatePointsText();
         resetBoard();
     }
@@ -137,7 +134,6 @@ class GameEngine {
         player1Wins = false;
         player2Wins = true;
         player2Points++;
-        //Toast.makeText(context, context.getResources().getString(R.string.player_2_wins), Toast.LENGTH_SHORT).show();
         updatePointsText();
         resetBoard();
     }
@@ -145,7 +141,6 @@ class GameEngine {
     private void draw() {
         player1Wins = false;
         player2Wins = false;
-        //Toast.makeText(context, context.getResources().getString(R.string.draw), Toast.LENGTH_SHORT).show();
         resetBoard();
     }
 
@@ -215,7 +210,7 @@ class GameEngine {
         });
     }
 
-    void completion() {
+    private void completion() {
         if (gameCompletionListener != null) {
             gameCompletionListener.onCompletion();
         }
@@ -225,7 +220,7 @@ class GameEngine {
         this.gameCompletionListener = gameCompletionListener;
     }
 
-    void updateRoundCount() {
+    private void updateRoundCount() {
         roundCount++;
     }
 }
