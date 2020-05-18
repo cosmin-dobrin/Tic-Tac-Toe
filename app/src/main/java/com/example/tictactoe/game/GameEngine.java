@@ -138,6 +138,10 @@ class GameEngine {
         return player2Points;
     }
 
+    void updateRoundCount() {
+        roundCount++;
+    }
+
     private void completion() {
         if (gameCompletionListener != null) {
             gameCompletionListener.onCompletion();
@@ -146,9 +150,5 @@ class GameEngine {
 
     void setCompletionListener(GameCompletionListener gameCompletionListener) {
         this.gameCompletionListener = gameCompletionListener;
-    }
-
-    void updateRoundCount() {
-        roundCount++;
     }
 }
