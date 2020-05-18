@@ -1,32 +1,16 @@
 package com.example.tictactoe.game;
 
-import android.app.Activity;
-import android.content.Context;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.tictactoe.R;
-
 class GameEngine {
 
-    private Button[][] buttons = new Button[3][3];
     private boolean player1Turn = true;
     private int roundCount;
     private int player1Points;
     private int player2Points;
-    private TextView textViewPlayer1;
-    private TextView textViewPlayer2;
-    private Context context;
-    private Activity activity;
+    private boolean player1Wins = false;
+    private boolean player2Wins = false;
     private GameState gameState = new GameState();
     private GameStateRepository gameStateRepository = new GameStateRepository(gameState);
-
-    GameEngine(Context context, Activity activity) {
-        this.context = context;
-        this.activity = activity;
-    }
+    private GameCompletionListener gameCompletionListener;
 
     void saveGameState() {
 
@@ -48,19 +32,8 @@ class GameEngine {
         player2Points = gameState.getPlayer2Points();
     }
 
-    private void gameButtonClicked(View v) {
-        if (!((Button) v).getText().toString().equals("")) {
-            return;
-        }
-
-        if (player1Turn) {
-            ((Button) v).setText("X");
-        } else {
-            ((Button) v).setText("O");
-        }
-        roundCount++;
-
-        if (checkForWin()) {
+    void roundResult(String[][] field) {
+        if (checkForWin(field)) {
             if (player1Turn) {
                 player1Wins();
             } else {
@@ -73,14 +46,7 @@ class GameEngine {
         }
     }
 
-    private boolean checkForWin() {
-        String[][] field = new String[3][3];
-
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 3; j++) {
-                field[i][j] = buttons[i][j].getText().toString();
-            }
-        }
+    private boolean checkForWin(String[][] field) {
 
         for (int i = 0; i < 3; i++) {
             if (field[i][0].equals(field[i][1])
@@ -114,71 +80,75 @@ class GameEngine {
     }
 
     private void player1Wins() {
+        player1Wins = true;
+        player2Wins = false;
         player1Points++;
-        Toast.makeText(context, context.getResources().getString(R.string.player_1_wins), Toast.LENGTH_SHORT).show();
-        updatePointsText();
-        resetBoard();
+        completion();
+        restartGame();
     }
 
     private void player2Wins() {
+        player1Wins = false;
+        player2Wins = true;
         player2Points++;
-        Toast.makeText(context, context.getResources().getString(R.string.player_2_wins), Toast.LENGTH_SHORT).show();
-        updatePointsText();
-        resetBoard();
+        completion();
+        restartGame();
     }
 
     private void draw() {
-        Toast.makeText(context, context.getResources().getString(R.string.draw), Toast.LENGTH_SHORT).show();
-        resetBoard();
+        player1Wins = false;
+        player2Wins = false;
+        completion();
+        restartGame();
     }
 
-    private void updatePointsText() {
-        textViewPlayer1.setText(context.getResources().getString(R.string.player_1_updatePointsText, player1Points)); // String resources + placeholders
-        textViewPlayer2.setText(context.getResources().getString(R.string.player_2_updatePointsText, player2Points));
-    }
-
-    private void resetBoard() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                buttons[i][j].setText("");
-            }
-        }
-
+    private void restartGame() {
         roundCount = 0;
         player1Turn = true;
     }
 
-    private void resetGame() {
+    void resetGame() {
         player1Points = 0;
         player2Points = 0;
-        updatePointsText();
-        resetBoard();
+        restartGame();
+        completion();
     }
 
-    void setUpGame() {
-        Button buttonReset = activity.findViewById(R.id.button_reset);
-        this.textViewPlayer1 = activity.findViewById(R.id.text_view_p2);
-        this.textViewPlayer2 = activity.findViewById(R.id.text_view_p1);
+    boolean getPlayer1Wins() {
+        return player1Wins;
+    }
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                String buttonId = "button_" + i + j;
-                int resId = context.getResources().getIdentifier(buttonId, "id", context.getPackageName());
-                buttons[i][j] = activity.findViewById(resId);
-                buttons[i][j].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        gameButtonClicked(v);
-                    }
-                });
-            }
+    boolean getPlayer2Wins() {
+        return player2Wins;
+    }
+
+    int getRoundCount() {
+        return roundCount;
+    }
+
+    boolean getPlayer1Turn() {
+        return player1Turn;
+    }
+
+    int getPlayer1Points() {
+        return player1Points;
+    }
+
+    int getPlayer2Points() {
+        return player2Points;
+    }
+
+    void updateRoundCount() {
+        roundCount++;
+    }
+
+    private void completion() {
+        if (gameCompletionListener != null) {
+            gameCompletionListener.onCompletion();
         }
+    }
 
-        buttonReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetGame();
-            }
-        });
+    void setCompletionListener(GameCompletionListener gameCompletionListener) {
+        this.gameCompletionListener = gameCompletionListener;
     }
 }
