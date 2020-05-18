@@ -12,25 +12,88 @@ import com.example.tictactoe.R;
 
 public class GameActivity extends AppCompatActivity {
 
-    GameEngine gameEngine = new GameEngine(this, this);
+    GameEngine gameEngine = new GameEngine();
 
-    TextView textViewPlayer1 = findViewById(R.id.text_view_p2);
-    TextView textViewPlayer2 = findViewById(R.id.text_view_p1);
+    TextView textViewPlayer1;
+    TextView textViewPlayer2;
+    private Button[][] buttons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gameEngine.loadGameState();
         setContentView(R.layout.activity_game);
-        gameEngine.setUpGame();
+        gameEngine.loadGameState();
+        textViewPlayer1 = findViewById(R.id.text_view_p2);
+        textViewPlayer2 = findViewById(R.id.text_view_p1);
+        buttons = new Button[3][3];
+        setUpGame();
+
+
 
         gameEngine.setCompletionListener(new GameCompletionListener() {
             @Override
             public void onCompletion() {
-                showToast();
                 updatePointsText();
+                showToast();
+                cleanBoard();
             }
         });
+    }
+
+    void setUpGame() {
+        Button buttonReset = findViewById(R.id.button_reset);
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                String buttonId = "button_" + i + j;
+                int resId = getResources().getIdentifier(buttonId, "id", getPackageName());
+                buttons[i][j] = findViewById(resId);
+                buttons[i][j].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gameButtonClicked(v);
+                    }
+                });
+            }
+        }
+
+        buttonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gameEngine.resetGame();
+            }
+        });
+    }
+
+    private void gameButtonClicked(View v) {
+        if (!((Button) v).getText().toString().equals("")) {
+            return;
+        }
+
+        if (gameEngine.getPlayer1Turn()) {
+            ((Button) v).setText("X");
+        } else {
+            ((Button) v).setText("O");
+        }
+
+        String[][] field = new String[3][3];
+
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                field[i][j] = buttons[i][j].getText().toString();
+            }
+        }
+
+        gameEngine.updateRoundCount();
+        gameEngine.roundResult(field);
+    }
+
+    private void cleanBoard() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                buttons[i][j].setText("");
+            }
+        }
     }
 
     private void updatePointsText() {
