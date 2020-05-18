@@ -14,8 +14,8 @@ public class GameActivity extends AppCompatActivity {
 
     GameEngine gameEngine = new GameEngine();
 
-    TextView textViewPlayer1;
-    TextView textViewPlayer2;
+    private TextView textViewPlayer1;
+    private TextView textViewPlayer2;
     private Button[][] buttons;
 
     @Override
@@ -27,8 +27,6 @@ public class GameActivity extends AppCompatActivity {
         textViewPlayer2 = findViewById(R.id.text_view_p1);
         buttons = new Button[3][3];
         setUpGame();
-
-
 
         gameEngine.setCompletionListener(new GameCompletionListener() {
             @Override

@@ -1,8 +1,5 @@
 package com.example.tictactoe.game;
 
-import android.app.Activity;
-import android.content.Context;
-
 class GameEngine {
 
     private boolean player1Turn = true;
@@ -34,20 +31,6 @@ class GameEngine {
         player1Points = gameState.getPlayer1Points();
         player2Points = gameState.getPlayer2Points();
     }
-/*
-    private void gameButtonClicked(View v) {
-        if (!((Button) v).getText().toString().equals("")) {
-            return;
-        }
-
-        if (player1Turn) {
-            ((Button) v).setText("X");
-        } else {
-            ((Button) v).setText("O");
-        }
-        updateRoundCount();
-        roundResult();
-    }*/
 
     void roundResult(String[][] field) {
         if (checkForWin(field)) {
@@ -64,13 +47,6 @@ class GameEngine {
     }
 
     private boolean checkForWin(String[][] field) {
-        //String[][] field = new String[3][3];
-/*
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 3; j++) {
-                field[i][j] = buttons[i][j].getText().toString();
-            }
-        }*/
 
         for (int i = 0; i < 3; i++) {
             if (field[i][0].equals(field[i][1])
@@ -125,25 +101,8 @@ class GameEngine {
         completion();
         restartGame();
     }
-/*
-    private void updatePointsText() {
-        textViewPlayer1.setText(context.getResources().getString(R.string.player_1_updatePointsText, player1Points)); // String resources + placeholders
-        textViewPlayer2.setText(context.getResources().getString(R.string.player_2_updatePointsText, player2Points));
-    }
-*/
-/*
-    private void resetBoard() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                buttons[i][j].setText("");
-            }
-        }
 
-        roundCount = 0;
-        player1Turn = true;
-    }*/
-
-    void restartGame() {
+    private void restartGame() {
         roundCount = 0;
         player1Turn = true;
     }
@@ -178,31 +137,6 @@ class GameEngine {
     int getPlayer2Points() {
         return player2Points;
     }
-/*
-    void setUpGame() {
-        Button buttonReset = activity.findViewById(R.id.button_reset);
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                String buttonId = "button_" + i + j;
-                int resId = context.getResources().getIdentifier(buttonId, "id", context.getPackageName());
-                buttons[i][j] = activity.findViewById(resId);
-                buttons[i][j].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        gameButtonClicked(v);
-                    }
-                });
-            }
-        }
-
-        buttonReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetGame();
-            }
-        });
-    }*/
 
     private void completion() {
         if (gameCompletionListener != null) {
