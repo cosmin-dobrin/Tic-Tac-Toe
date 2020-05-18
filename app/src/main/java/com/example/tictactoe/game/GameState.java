@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 class GameState implements Serializable {
 
-    private boolean player1Turn;
+    private boolean player1Turn = true;
     private int roundCount;
     private int player1Points;
     private int player2Points;
