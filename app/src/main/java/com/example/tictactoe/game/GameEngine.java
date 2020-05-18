@@ -69,14 +69,11 @@ class GameEngine {
         if (checkForWin()) {
             if (player1Turn) {
                 player1Wins();
-                completion();
             } else {
                 player2Wins();
-                completion();
             }
         } else if (roundCount == 9) {
             draw();
-            completion();
         } else {
             player1Turn = !player1Turn;
         }
@@ -126,6 +123,7 @@ class GameEngine {
         player1Wins = true;
         player2Wins = false;
         player1Points++;
+        completion();
         updatePointsText();
         resetBoard();
     }
@@ -134,6 +132,7 @@ class GameEngine {
         player1Wins = false;
         player2Wins = true;
         player2Points++;
+        completion();
         updatePointsText();
         resetBoard();
     }
@@ -141,6 +140,7 @@ class GameEngine {
     private void draw() {
         player1Wins = false;
         player2Wins = false;
+        completion();
         resetBoard();
     }
 
