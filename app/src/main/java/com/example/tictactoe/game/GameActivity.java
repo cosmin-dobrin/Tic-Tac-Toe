@@ -27,15 +27,6 @@ public class GameActivity extends AppCompatActivity {
         textViewPlayer2 = findViewById(R.id.text_view_p1);
         buttons = new Button[3][3];
         setUpGame();
-
-        gameEngine.setCompletionListener(new GameCompletionListener() {
-            @Override
-            public void onCompletion() {
-                updatePointsText();
-                showToast();
-                cleanBoard();
-            }
-        });
     }
 
     void setUpGame() {
@@ -61,6 +52,15 @@ public class GameActivity extends AppCompatActivity {
                 gameEngine.resetGame();
             }
         });
+
+        gameEngine.setCompletionListener(new GameCompletionListener() {
+            @Override
+            public void onCompletion() {
+                updatePointsText();
+                showToast();
+                cleanBoard();
+            }
+        });
     }
 
     private void gameButtonClicked(View v) {
@@ -75,15 +75,17 @@ public class GameActivity extends AppCompatActivity {
         }
 
         String[][] field = new String[3][3];
+        loadButtonsText(field);
+        gameEngine.updateRoundCount();
+        gameEngine.roundResult(field);
+    }
 
+    private void loadButtonsText(String[][] field) {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 field[i][j] = buttons[i][j].getText().toString();
             }
         }
-
-        gameEngine.updateRoundCount();
-        gameEngine.roundResult(field);
     }
 
     private void cleanBoard() {
