@@ -23,18 +23,22 @@ public class GameActivity extends AppCompatActivity {
         gameEngine.setCompletionListener(new GameCompletionListener() {
             @Override
             public void onCompletion() {
-                if (gameEngine.getPlayer1Wins()) {
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.player_1_wins), Toast.LENGTH_SHORT).show();
-                } else if(gameEngine.getPlayer2Wins()) {
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.player_2_wins), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.draw), Toast.LENGTH_SHORT).show();
-                }
+                showToast();
             }
         });
+    }
+
+    private void showToast() {
+        if (gameEngine.getPlayer1Wins()) {
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.player_1_wins), Toast.LENGTH_SHORT).show();
+        } else if(gameEngine.getPlayer2Wins()) {
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.player_2_wins), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.draw), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
