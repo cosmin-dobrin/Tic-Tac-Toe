@@ -15,8 +15,6 @@ class GameEngine {
     private int roundCount;
     private int player1Points;
     private int player2Points;
-    private TextView textViewPlayer1;
-    private TextView textViewPlayer2;
     private boolean player1Wins = false;
     private boolean player2Wins = false;
     private Context context;
@@ -188,18 +186,8 @@ class GameEngine {
         return player2Points;
     }
 
-    TextView getTextViewPlayer1() {
-        return textViewPlayer1;
-    }
-
-    TextView getTextViewPlayer2() {
-        return textViewPlayer2;
-    }
-
     void setUpGame() {
         Button buttonReset = activity.findViewById(R.id.button_reset);
-        this.textViewPlayer1 = activity.findViewById(R.id.text_view_p2);
-        this.textViewPlayer2 = activity.findViewById(R.id.text_view_p1);
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {

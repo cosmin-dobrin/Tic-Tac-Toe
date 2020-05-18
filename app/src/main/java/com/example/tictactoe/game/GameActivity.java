@@ -14,6 +14,9 @@ public class GameActivity extends AppCompatActivity {
 
     GameEngine gameEngine = new GameEngine(this, this);
 
+    TextView textViewPlayer1 = findViewById(R.id.text_view_p2);
+    TextView textViewPlayer2 = findViewById(R.id.text_view_p1);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +34,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void updatePointsText() {
-        gameEngine.getTextViewPlayer1().setText(getResources().getString(R.string.player_1_updatePointsText, gameEngine.getPlayer1Points())); // String resources + placeholders
-        gameEngine.getTextViewPlayer2().setText(getResources().getString(R.string.player_2_updatePointsText, gameEngine.getPlayer2Points()));
+        textViewPlayer1.setText(getResources().getString(R.string.player_1_updatePointsText, gameEngine.getPlayer1Points())); // String resources + placeholders
+        textViewPlayer2.setText(getResources().getString(R.string.player_2_updatePointsText, gameEngine.getPlayer2Points()));
     }
 
     private void showToast() {
