@@ -123,7 +123,6 @@ class GameEngine {
         player2Wins = false;
         player1Points++;
         completion();
-        updatePointsText();
         resetBoard();
     }
 
@@ -132,7 +131,6 @@ class GameEngine {
         player2Wins = true;
         player2Points++;
         completion();
-        updatePointsText();
         resetBoard();
     }
 
@@ -142,12 +140,12 @@ class GameEngine {
         completion();
         resetBoard();
     }
-
+/*
     private void updatePointsText() {
         textViewPlayer1.setText(context.getResources().getString(R.string.player_1_updatePointsText, player1Points)); // String resources + placeholders
         textViewPlayer2.setText(context.getResources().getString(R.string.player_2_updatePointsText, player2Points));
     }
-
+*/
     private void resetBoard() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -162,8 +160,8 @@ class GameEngine {
     private void resetGame() {
         player1Points = 0;
         player2Points = 0;
-        updatePointsText();
         resetBoard();
+        completion();
     }
 
     boolean getPlayer1Wins() {
@@ -180,6 +178,22 @@ class GameEngine {
 
     boolean getPlayer1Turn() {
         return player1Turn;
+    }
+
+    int getPlayer1Points() {
+        return player1Points;
+    }
+
+    int getPlayer2Points() {
+        return player2Points;
+    }
+
+    TextView getTextViewPlayer1() {
+        return textViewPlayer1;
+    }
+
+    TextView getTextViewPlayer2() {
+        return textViewPlayer2;
     }
 
     void setUpGame() {
