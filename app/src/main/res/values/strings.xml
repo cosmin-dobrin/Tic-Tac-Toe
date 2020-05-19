@@ -1,11 +1,18 @@
 <resources>
     <string name="app_name">Tic Tac Toe</string>
+    <string name="reset_button">reset</string>
     <string name="player_1_pointsText">Player 1: %1$d</string>
     <string name="player_2_pointsText">Player 2: %1$d</string>
-    <string name="reset_button">reset</string>
+    <string name="draw">Draw!</string>
     <string name="player_1_wins">Player 1 wins!</string>
     <string name="player_2_wins">Player 2 wins!</string>
-    <string name="draw">Draw!</string>
     <string name="language">Language</string>
     <string name="start_game">Start Game</string>
+    <string name="english">English</string>
+    <string name="german">German</string>
+    <string name="french">French</string>
+    <string name="spanish">Spanish</string>
+    <string name="italian">Italian</string>
+    <string name="romanian">Romanian</string>
+
 </resources>

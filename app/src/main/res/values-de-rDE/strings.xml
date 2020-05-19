@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tic Tac Toe</string>
+    <string name="reset_button">Zurücksetzen</string>
+    <string name="player_1_pointsText">Spieler 1: %1$d</string>
+    <string name="player_2_pointsText">Spieler 2: %1$d</string>
+    <string name="player_1_wins">Spieler 1 gewinnt!</string>
+    <string name="player_2_wins">Spieler 2 gewinnt!</string>
+    <string name="draw">Zeichnen!</string>
+    <string name="language">Sprache</string>
+    <string name="start_game">Spiel starten</string>
+    <string name="english">Englisch</string>
+    <string name="german">Deutsche</string>
+    <string name="french">Französisch</string>
+    <string name="spanish">Spanisch</string>
+    <string name="italian">Italienisch</string>
+    <string name="romanian">rumänisch</string>
+</resources>
