@@ -30,7 +30,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     void setUpGame() {
-        Button buttonReset = findViewById(R.id.button_reset);
+        updatePointsText();
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -46,6 +46,7 @@ public class GameActivity extends AppCompatActivity {
             }
         }
 
+        Button buttonReset = findViewById(R.id.button_reset);
         buttonReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,8 +98,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void updatePointsText() {
-        textViewPlayer1.setText(getResources().getString(R.string.player_1_updatePointsText, gameEngine.getPlayer1Points())); // String resources + placeholders
-        textViewPlayer2.setText(getResources().getString(R.string.player_2_updatePointsText, gameEngine.getPlayer2Points()));
+        textViewPlayer1.setText(getResources().getString(R.string.player_1_pointsText, gameEngine.getPlayer1Points())); // String resources + placeholders
+        textViewPlayer2.setText(getResources().getString(R.string.player_2_pointsText, gameEngine.getPlayer2Points()));
     }
 
     private void showToast() {

@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">Tic Tac Toe</string>
-    <string name="player_1_text">Player 1: 0</string>
-    <string name="player_2_text">Player 2: 0</string>
+    <string name="player_1_pointsText">Player 1: %1$d</string>
+    <string name="player_2_pointsText">Player 2: %1$d</string>
     <string name="reset_button">reset</string>
-    <string name="player_1_updatePointsText">Player 1: %1$d</string>
-    <string name="player_2_updatePointsText">Player 2: %1$d</string>
     <string name="player_1_wins">Player 1 wins!</string>
     <string name="player_2_wins">Player 2 wins!</string>
     <string name="draw">Draw!</string>
