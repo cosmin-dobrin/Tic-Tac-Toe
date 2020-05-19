@@ -15,4 +15,5 @@
     <string name="spanish">Spanisch</string>
     <string name="italian">Italienisch</string>
     <string name="romanian">rumänisch</string>
+    <string name="choose_language">Sprache wählen:</string>
 </resources>
