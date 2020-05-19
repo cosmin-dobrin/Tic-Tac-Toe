@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tic Tac Toe</string>
-    <string name="reset_button">reset</string>
+    <string name="reset_button">Reset</string>
     <string name="player_1_pointsText">Player 1: %1$d</string>
     <string name="player_2_pointsText">Player 2: %1$d</string>
     <string name="draw">Draw!</string>
