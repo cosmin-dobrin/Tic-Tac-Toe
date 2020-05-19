@@ -16,6 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/player_1_pointsText"
+            android:layout_below="@id/text_view_p2"
             android:textSize="30sp"
             android:freezesText="true" />
 
@@ -24,7 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/player_2_pointsText"
-            android:layout_below="@+id/text_view_p1"
             android:textSize="30sp"
             android:freezesText="true" />
 

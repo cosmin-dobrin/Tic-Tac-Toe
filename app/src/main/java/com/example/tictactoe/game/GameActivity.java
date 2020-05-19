@@ -30,7 +30,13 @@ public class GameActivity extends AppCompatActivity {
     }
 
     void setUpGame() {
-        updatePointsText();
+        Button buttonReset = findViewById(R.id.button_reset);
+        buttonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gameEngine.resetGame();
+            }
+        });
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -46,14 +52,6 @@ public class GameActivity extends AppCompatActivity {
             }
         }
 
-        Button buttonReset = findViewById(R.id.button_reset);
-        buttonReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gameEngine.resetGame();
-            }
-        });
-
         gameEngine.setCompletionListener(new GameCompletionListener() {
             @Override
             public void onCompletion() {
@@ -62,6 +60,8 @@ public class GameActivity extends AppCompatActivity {
                 cleanBoard();
             }
         });
+
+        updatePointsText();
     }
 
     private void gameButtonClicked(View v) {
