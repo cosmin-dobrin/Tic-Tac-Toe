@@ -4,8 +4,8 @@ class GameEngine {
 
     private boolean player1Turn = true;
     private int roundCount;
-    private int player1Points;
-    private int player2Points;
+    private int player1Points = 0;
+    private int player2Points = 0;
     private boolean player1Wins = false;
     private boolean player2Wins = false;
     private GameState gameState = new GameState();
