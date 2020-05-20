@@ -8,12 +8,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tictactoe.LocaleManager;
 import com.example.tictactoe.R;
 
 public class GameActivity extends AppCompatActivity {
 
     GameEngine gameEngine = new GameEngine();
-
+    LocaleManager localeManager = new LocaleManager(this, this);
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
     private Button[][] buttons;
@@ -21,6 +22,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        localeManager.loadLocale();
         setContentView(R.layout.activity_game);
         gameEngine.loadGameState();
         textViewPlayer1 = findViewById(R.id.text_view_p2);

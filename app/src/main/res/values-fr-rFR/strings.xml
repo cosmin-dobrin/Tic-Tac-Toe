@@ -3,7 +3,7 @@
     <string name="app_name">Tic Tac Toe</string>
     <string name="reset_button">Réinitialiser</string>
     <string name="player_1_pointsText">Joueur 1: %1$d</string>
-    <string name="player_2_pointsText">Joueur 1: %1$d</string>
+    <string name="player_2_pointsText">Joueur 2: %1$d</string>
     <string name="player_1_wins">Le joueur 1 gagne!</string>
     <string name="player_2_wins">Le joueur 2 gagne!</string>
     <string name="draw">Dessiner!</string>

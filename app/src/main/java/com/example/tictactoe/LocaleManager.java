@@ -10,12 +10,12 @@ import androidx.appcompat.app.AlertDialog;
 
 import java.util.Locale;
 
-class LocaleManager {
+public class LocaleManager {
 
     private Context context;
     private Activity activity;
 
-    LocaleManager(Context context, Activity activity) {
+    public LocaleManager(Context context, Activity activity) {
         this.context = context;
         this.activity = activity;
     }
@@ -32,7 +32,7 @@ class LocaleManager {
         editor.apply();
     }
 
-    void loadLocale() {
+    public void loadLocale() {
         SharedPreferences prefs = context.getSharedPreferences("Settings", Context.MODE_PRIVATE);
         String language = prefs.getString("My_Lang", "");
         setLocale(language);
