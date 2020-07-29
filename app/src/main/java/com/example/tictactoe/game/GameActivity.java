@@ -1,6 +1,7 @@
 package com.example.tictactoe.game;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.TextViewCompat;
 
 import android.os.Bundle;
 import android.view.View;
@@ -51,6 +52,11 @@ public class GameActivity extends AppCompatActivity {
                         gameButtonClicked(v);
                     }
                 });
+
+                int autoSizeMaxTextSize = getResources().getInteger(R.integer.size);
+
+                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(buttons[i][j],
+                        12, autoSizeMaxTextSize,1, 1);
             }
         }
 

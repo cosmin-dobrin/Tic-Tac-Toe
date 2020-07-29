@@ -27,6 +27,9 @@ public class MenuActivity extends AppCompatActivity {
         Button buttonLaunch = findViewById(R.id.button_start);
         Button buttonLanguage = findViewById(R.id.button_language);
 
+        buttonLaunch.setTextSize(getResources().getInteger(R.integer.menu_button_text_size));
+        buttonLanguage.setTextSize(getResources().getInteger(R.integer.menu_button_text_size));
+
         buttonLaunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
