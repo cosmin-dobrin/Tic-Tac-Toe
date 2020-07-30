@@ -151,4 +151,8 @@ class GameEngine {
     void setCompletionListener(GameCompletionListener gameCompletionListener) {
         this.gameCompletionListener = gameCompletionListener;
     }
+
+    void setPlayer1Turn(Boolean isPlayer1Turn) {
+        player1Turn = isPlayer1Turn;
+    }
 }

@@ -1,7 +1,9 @@
 package com.example.tictactoe;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,8 +15,10 @@ import java.util.Locale;
 
 public class MenuActivity extends AppCompatActivity {
 
+    public static final String EXTRA_SYMBOL = "com.example.tictactoe.SYMBOL";
     LocaleManager localeManager = new LocaleManager(this, this);
     private View decorView;
+    private String symbolPlayer1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,7 @@ public class MenuActivity extends AppCompatActivity {
         buttonLaunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchGame();
+                createChooser();
             }
         });
 
@@ -66,7 +70,32 @@ public class MenuActivity extends AppCompatActivity {
 
     private void launchGame() {
         Intent intent = new Intent(this, GameActivity.class);
-        startActivity(intent);
+        intent.putExtra(EXTRA_SYMBOL, symbolPlayer1);
+        if (symbolPlayer1 != null) {
+            startActivity(intent);
+        }
+    }
+
+    private void createChooser() {
+        final String[] itemList = {"X" , "O"};
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Choose a symbol for player 1: ");
+        dialogBuilder.setSingleChoiceItems(itemList, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    symbolPlayer1 = "X";
+                } else if (which == 1) {
+                    symbolPlayer1 = "O";
+                }
+                dialog.dismiss();
+                launchGame();
+            }
+        });
+
+
+        AlertDialog mDialog = dialogBuilder.create();
+        mDialog.show();
     }
 
     private int hideSystemBars() {

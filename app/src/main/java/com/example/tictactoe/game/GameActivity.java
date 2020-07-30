@@ -3,6 +3,7 @@ package com.example.tictactoe.game;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.TextViewCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tictactoe.LocaleManager;
+import com.example.tictactoe.MenuActivity;
 import com.example.tictactoe.R;
 
 public class GameActivity extends AppCompatActivity {
@@ -20,6 +22,7 @@ public class GameActivity extends AppCompatActivity {
     private TextView textViewPlayer2;
     private Button[][] buttons;
     private View decorView;
+    String symbolPlayer1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,8 @@ public class GameActivity extends AppCompatActivity {
         textViewPlayer1 = findViewById(R.id.text_view_p2);
         textViewPlayer2 = findViewById(R.id.text_view_p1);
         buttons = new Button[3][3];
+        Intent symbolIntent = getIntent();
+        symbolPlayer1 = symbolIntent.getStringExtra(MenuActivity.EXTRA_SYMBOL);
         setUpGame();
     }
 
@@ -96,10 +101,20 @@ public class GameActivity extends AppCompatActivity {
             return;
         }
 
-        if (gameEngine.getPlayer1Turn()) {
-            ((Button) v).setText("X");
+        if (gameEngine.getRoundCount() == 0) {
+            if (symbolPlayer1.equals("X")) {
+                ((Button) v).setText("X");
+                gameEngine.setPlayer1Turn(true);
+            } else {
+                ((Button) v).setText("O");
+                gameEngine.setPlayer1Turn(false);
+            }
         } else {
-            ((Button) v).setText("O");
+            if (gameEngine.getPlayer1Turn()) {
+                ((Button) v).setText("X");
+            } else {
+                ((Button) v).setText("O");
+            }
         }
 
         String[][] field = new String[3][3];
