@@ -26,11 +26,11 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         localeManager.loadLocale();
         setContentView(R.layout.activity_game);
+        decorView = getWindow().getDecorView();
         gameEngine.loadGameState();
         textViewPlayer1 = findViewById(R.id.text_view_p2);
         textViewPlayer2 = findViewById(R.id.text_view_p1);
         buttons = new Button[3][3];
-        decorView = getWindow().getDecorView();
         setUpGame();
     }
 
@@ -51,14 +51,14 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-            decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-                @Override
-                public void onSystemUiVisibilityChange(int visibility) {
-                    if (visibility == 0) {
-                        decorView.setSystemUiVisibility(hideSystemBars());
-                    }
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                if (visibility == 0) {
+                    decorView.setSystemUiVisibility(hideSystemBars());
                 }
-            });
+            }
+        });
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
