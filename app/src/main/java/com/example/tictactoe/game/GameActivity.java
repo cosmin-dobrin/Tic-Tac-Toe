@@ -19,6 +19,7 @@ public class GameActivity extends AppCompatActivity {
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
     private Button[][] buttons;
+    private View decorView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,16 @@ public class GameActivity extends AppCompatActivity {
         textViewPlayer1 = findViewById(R.id.text_view_p2);
         textViewPlayer2 = findViewById(R.id.text_view_p1);
         buttons = new Button[3][3];
+        decorView = getWindow().getDecorView();
         setUpGame();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            decorView.setSystemUiVisibility(hideSystemBars());
+        }
     }
 
     void setUpGame() {
@@ -40,6 +50,15 @@ public class GameActivity extends AppCompatActivity {
                 gameEngine.resetGame();
             }
         });
+
+            decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+                @Override
+                public void onSystemUiVisibilityChange(int visibility) {
+                    if (visibility == 0) {
+                        decorView.setSystemUiVisibility(hideSystemBars());
+                    }
+                }
+            });
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -121,6 +140,15 @@ public class GameActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.draw), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private int hideSystemBars() {
+        return View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
     }
 
     @Override
