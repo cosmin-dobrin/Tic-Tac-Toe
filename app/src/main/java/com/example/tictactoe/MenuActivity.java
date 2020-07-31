@@ -40,6 +40,7 @@ public class MenuActivity extends AppCompatActivity {
     private void setUpMenu() {
         Button buttonLaunch = findViewById(R.id.button_start);
         Button buttonLanguage = findViewById(R.id.button_language);
+        Button buttonSettings = findViewById(R.id.button_settings);
 
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
@@ -52,6 +53,7 @@ public class MenuActivity extends AppCompatActivity {
 
         buttonLaunch.setTextSize(getResources().getInteger(R.integer.menu_button_text_size));
         buttonLanguage.setTextSize(getResources().getInteger(R.integer.menu_button_text_size));
+        buttonSettings.setTextSize(getResources().getInteger(R.integer.menu_button_text_size));
 
         buttonLaunch.setOnClickListener(new View.OnClickListener() {
             @Override

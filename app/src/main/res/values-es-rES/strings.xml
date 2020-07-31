@@ -7,8 +7,6 @@
     <string name="player_1_wins">¡El jugador 1 gana!</string>
     <string name="player_2_wins">¡El jugador 2 gana!</string>
     <string name="draw">¡Dibujar!</string>
-    <string name="language">Idioma</string>
-    <string name="start_game">Empezar juego</string>
     <string name="english">Inglés</string>
     <string name="german">alemán</string>
     <string name="french">francés</string>
@@ -18,4 +16,7 @@
     <string name="choose_language">Elige lengua:</string>
     <string name="player_1_starts">El jugador 1 comienza</string>
     <string name="player_2_starts">El jugador 2 comienza</string>
+    <string name="button_label_language">Idioma</string>
+    <string name="button_label_start">Empezar juego</string>
+    <string name="button_label_settings">Configuraciones</string>
 </resources>

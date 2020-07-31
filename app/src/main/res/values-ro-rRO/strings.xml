@@ -7,8 +7,6 @@
     <string name="player_1_wins">Jucătorul 1 a câștigat!</string>
     <string name="player_2_wins">Jucătorul 2 a câștigat!</string>
     <string name="draw">Remiză!</string>
-    <string name="language">Limbă</string>
-    <string name="start_game">Incepe jocul!</string>
     <string name="english">Engleză</string>
     <string name="german">Germană</string>
     <string name="french">Franceză</string>
@@ -18,4 +16,7 @@
     <string name="choose_language">Alegeti limba:</string>
     <string name="player_1_starts">Jucătorul 1 începe</string>
     <string name="player_2_starts">Jucătorul 2 începe</string>
+    <string name="button_label_language">Limbă</string>
+    <string name="button_label_start">Incepe jocul!</string>
+    <string name="button_label_settings">Setări</string>
 </resources>
