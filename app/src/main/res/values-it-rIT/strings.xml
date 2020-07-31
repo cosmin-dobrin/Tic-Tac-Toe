@@ -16,4 +16,6 @@
     <string name="italian">italiano</string>
     <string name="romanian">rumeno</string>
     <string name="choose_language">Scegli la lingua:</string>
+    <string name="player_1_starts">Il giocatore 1 inizia</string>
+    <string name="player_2_starts">Il giocatore 2 inizia</string>
 </resources>

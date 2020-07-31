@@ -93,7 +93,18 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+        showWhoStarts();
         updatePointsText();
+    }
+
+    private void showWhoStarts() {
+        if (gameEngine.getPlayer1Turn()) {
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.player_1_starts), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.player_2_starts), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void gameButtonClicked(View v) {

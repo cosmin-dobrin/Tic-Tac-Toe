@@ -79,7 +79,7 @@ public class MenuActivity extends AppCompatActivity {
     private void createChooser() {
         final String[] itemList = {"X" , "O"};
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        dialogBuilder.setTitle("Choose a symbol for player 1: ");
+        dialogBuilder.setTitle("Choose a symbol for Player 1: ");
         dialogBuilder.setSingleChoiceItems(itemList, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -92,7 +92,6 @@ public class MenuActivity extends AppCompatActivity {
                 launchGame();
             }
         });
-
 
         AlertDialog mDialog = dialogBuilder.create();
         mDialog.show();

@@ -16,4 +16,6 @@
     <string name="italian">Italiană</string>
     <string name="romanian">Română</string>
     <string name="choose_language">Alegeti limba:</string>
+    <string name="player_1_starts">Jucătorul 1 începe</string>
+    <string name="player_2_starts">Jucătorul 2 începe</string>
 </resources>
