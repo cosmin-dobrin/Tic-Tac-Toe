@@ -8,26 +8,26 @@
     tools:context=".SettingsActivity">
 
     <TextView
-        android:id="@+id/title_radio"
+        android:id="@+id/title_radio_who_starts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/title_radio_text"
+        android:text="@string/text_radio_who_starts"
         android:textColor="@android:color/background_dark"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-        android:id="@+id/radio_group"
+        android:id="@+id/radio_group_who_starts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_radio">
+        app:layout_constraintTop_toBottomOf="@id/title_radio_who_starts">
 
         <RadioButton
             android:id="@+id/radio_button_winner"
@@ -40,12 +40,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/radio_button_different_text" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/title_radio_who_starts_case_draw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/text_radio_who_starts_case_draw"
+        android:textSize="18sp"
+        android:textColor="@android:color/background_dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radio_group_who_starts" />
+
+    <RadioGroup
+        android:id="@+id/radio_group_who_starts_case_draw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_radio_who_starts_case_draw">
 
         <RadioButton
-            android:id="@+id/radio_button_same"
+            android:id="@+id/radio_button_draw_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/radio_button_same_text" />
+            android:text="@string/radio_button_text_other" />
+
+        <RadioButton
+            android:id="@+id/radio_button_draw_same"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_button_text_same" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,8 +21,10 @@
     <string name="button_label_settings">Settings</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_radio_text">Choose who starts after each round:</string>
+    <string name="text_radio_who_starts">Choose who starts after each round:</string>
     <string name="radio_button_winner_text">The winner of the previous round starts</string>
     <string name="radio_button_different_text">A different player starts each round</string>
-    <string name="radio_button_same_text">Player 1 always starts</string>
+    <string name="text_radio_who_starts_case_draw">Choose who starts after a draw:</string>
+    <string name="radio_button_text_other">The other player starts</string>
+    <string name="radio_button_text_same">The same player starts</string>
 </resources>

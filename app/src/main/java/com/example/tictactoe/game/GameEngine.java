@@ -1,6 +1,8 @@
 package com.example.tictactoe.game;
 
-class GameEngine {
+import com.example.tictactoe.SettingsUtility;
+
+public class GameEngine {
 
     private boolean player1Turn = true;
     private int roundCount;
@@ -8,6 +10,8 @@ class GameEngine {
     private int player2Points = 0;
     private boolean player1Wins = false;
     private boolean player2Wins = false;
+    private int whoStarts = 0;
+    private int whoStartsDraw = 0;
     private GameState gameState = new GameState();
     private GameStateRepository gameStateRepository = new GameStateRepository(gameState);
     private GameCompletionListener gameCompletionListener;
@@ -104,7 +108,7 @@ class GameEngine {
 
     private void restartGame() {
         roundCount = 0;
-        player1Turn = true;
+        whoStarts();
     }
 
     void resetGame() {
@@ -114,28 +118,63 @@ class GameEngine {
         completion();
     }
 
-    boolean getPlayer1Wins() {
+    void whoStarts() {
+
+        if ((!getPlayer1Wins()) & (!getPlayer2Wins())) {
+
+            if (getWhoStartsDraw() == SettingsUtility.DRAW_OTHER_PLAYER_STARTS) {
+                setPlayer1Turn(!getPlayer1Turn());
+            } else if (getWhoStartsDraw() == SettingsUtility.DRAW_SAME_PLAYER_STARTS) {
+                setPlayer1Turn(getPlayer1Turn());
+            }
+
+        } else if (getPlayer1Wins()){
+
+            if (getWhoStarts() == SettingsUtility.WINNER_STARTS) {
+                setPlayer1Turn(true);
+            } else if (getWhoStarts() == SettingsUtility.DIFFERENT_PLAYER_STARTS) {
+                setPlayer1Turn(false);
+            }
+
+        } else {
+            if (getWhoStarts() == SettingsUtility.WINNER_STARTS) {
+                setPlayer1Turn(false);
+            } else if (getWhoStarts() == SettingsUtility.DIFFERENT_PLAYER_STARTS) {
+                setPlayer1Turn(true);
+            }
+        }
+    }
+
+    public boolean getPlayer1Wins() {
         return player1Wins;
     }
 
-    boolean getPlayer2Wins() {
+    public boolean getPlayer2Wins() {
         return player2Wins;
     }
 
-    int getRoundCount() {
+    public int getRoundCount() {
         return roundCount;
     }
 
-    boolean getPlayer1Turn() {
+    public boolean getPlayer1Turn() {
         return player1Turn;
     }
 
-    int getPlayer1Points() {
+    public int getPlayer1Points() {
         return player1Points;
     }
 
-    int getPlayer2Points() {
+    public int getPlayer2Points() {
         return player2Points;
+    }
+
+    public int getWhoStarts() {
+        return  this.whoStarts;
+    }
+
+    public int getWhoStartsDraw() {
+        return this.whoStartsDraw;
     }
 
     void updateRoundCount() {
@@ -148,11 +187,19 @@ class GameEngine {
         }
     }
 
-    void setCompletionListener(GameCompletionListener gameCompletionListener) {
+    public void setCompletionListener(GameCompletionListener gameCompletionListener) {
         this.gameCompletionListener = gameCompletionListener;
     }
 
-    void setPlayer1Turn(Boolean isPlayer1Turn) {
+    public void setPlayer1Turn(Boolean isPlayer1Turn) {
         player1Turn = isPlayer1Turn;
+    }
+
+    public void setWhoStarts(int whoStarts) {
+        this.whoStarts = whoStarts;
+    }
+
+    public void setWhoStartsDraw(int whoStartsDraw) {
+        this.whoStartsDraw = whoStartsDraw;
     }
 }

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.tictactoe.LocaleManager;
 import com.example.tictactoe.MenuActivity;
 import com.example.tictactoe.R;
+import com.example.tictactoe.SettingsUtility;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -93,6 +94,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+        firstRound();
         showWhoStarts();
         updatePointsText();
     }
@@ -107,11 +109,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void gameButtonClicked(View v) {
-        if (!((Button) v).getText().toString().equals("")) {
-            return;
-        }
-
+    private void firstRound() {
         if (gameEngine.getRoundCount() == 0) {
             if (symbolPlayer1.equals("X")) {
                 gameEngine.setPlayer1Turn(true);
@@ -119,13 +117,18 @@ public class GameActivity extends AppCompatActivity {
                 gameEngine.setPlayer1Turn(false);
             }
         }
+    }
+
+    private void gameButtonClicked(View v) {
+        if (!((Button) v).getText().toString().equals("")) {
+            return;
+        }
 
         if (gameEngine.getPlayer1Turn()) {
             ((Button) v).setText("X");
         } else {
             ((Button) v).setText("O");
         }
-
 
         String[][] field = new String[3][3];
         loadButtonsText(field);

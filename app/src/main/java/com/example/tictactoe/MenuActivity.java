@@ -51,10 +51,6 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        buttonLaunch.setTextSize(getResources().getInteger(R.integer.menu_button_text_size));
-        buttonLanguage.setTextSize(getResources().getInteger(R.integer.menu_button_text_size));
-        buttonSettings.setTextSize(getResources().getInteger(R.integer.menu_button_text_size));
-
         buttonLaunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +64,18 @@ public class MenuActivity extends AppCompatActivity {
                 localeManager.showChangeLanguageDialog();
             }
         });
+
+        buttonSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchSettingsActivity();
+            }
+        });
+    }
+
+    private void launchSettingsActivity() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     private void launchGame() {

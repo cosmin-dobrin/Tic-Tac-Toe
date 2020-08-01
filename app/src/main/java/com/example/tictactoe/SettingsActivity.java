@@ -2,6 +2,9 @@ package com.example.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.media.audiofx.BassBoost;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -9,9 +12,14 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.example.tictactoe.game.GameEngine;
+
 public class SettingsActivity extends AppCompatActivity {
 
-    LocaleManager localeManager = new LocaleManager(this, this);
+    RadioGroup radioGroupDraw;
+    RadioGroup radioGroupStart;
+    private LocaleManager localeManager = new LocaleManager(this, this);
+    private GameEngine gameEngine = new GameEngine();
     private View decorView;
 
     @Override
@@ -20,7 +28,6 @@ public class SettingsActivity extends AppCompatActivity {
         localeManager.loadLocale();
         setContentView(R.layout.activity_settings);
         decorView = getWindow().getDecorView();
-
         setUpSettings();
     }
 
@@ -35,25 +42,61 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        RadioGroup radioGroup = findViewById(R.id.radio_group);
+        radioGroupStart = findViewById(R.id.radio_group_who_starts);
+        radioGroupDraw = findViewById(R.id.radio_group_who_starts_case_draw);
+        loadSettings();
+        if ((radioGroupStart.getCheckedRadioButtonId() == 0) | (radioGroupDraw.getCheckedRadioButtonId() == 0)) {
+            radioGroupStart.check(R.id.radio_button_winner);
+            radioGroupDraw.check(R.id.radio_button_draw_other);
+        }
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        radioGroupStart.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case 0:
+                        gameEngine.setWhoStarts(SettingsUtility.WINNER_STARTS);
                         break;
                     case 1:
+                        gameEngine.setWhoStarts(SettingsUtility.DIFFERENT_PLAYER_STARTS);
                         break;
-                    case 2:
-                        break;
-                    default:
                 }
+                saveSettings();
             }
         });
 
+        radioGroupDraw.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case 0:
+                        gameEngine.setWhoStarts(SettingsUtility.DRAW_OTHER_PLAYER_STARTS);
+                        break;
+                    case 1:
+                        gameEngine.setWhoStarts(SettingsUtility.DRAW_SAME_PLAYER_STARTS);
+                        break;
+                }
+                saveSettings();
+            }
+        });
 
+    }
 
+    void saveSettings() {
+        int radioButtonStartId = radioGroupStart.getCheckedRadioButtonId();
+        int radioButtonDrawId = radioGroupDraw.getCheckedRadioButtonId();
+        SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
+        editor.putInt("who_starts_setting", radioButtonStartId);
+        editor.putInt("who_starts_draw_setting", radioButtonDrawId);
+        editor.apply();
+    }
+
+    void loadSettings() {
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        int radioButtonStartId = prefs.getInt("who_starts_setting", 0);
+        int radioButtonDrawId = prefs.getInt("who_starts_draw_setting", 0);
+        radioGroupStart.check(radioButtonStartId);
+        radioGroupDraw.check(radioButtonDrawId);
     }
 
     @Override
