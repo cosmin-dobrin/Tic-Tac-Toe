@@ -114,19 +114,18 @@ public class GameActivity extends AppCompatActivity {
 
         if (gameEngine.getRoundCount() == 0) {
             if (symbolPlayer1.equals("X")) {
-                ((Button) v).setText("X");
                 gameEngine.setPlayer1Turn(true);
             } else {
-                ((Button) v).setText("O");
                 gameEngine.setPlayer1Turn(false);
             }
-        } else {
-            if (gameEngine.getPlayer1Turn()) {
-                ((Button) v).setText("X");
-            } else {
-                ((Button) v).setText("O");
-            }
         }
+
+        if (gameEngine.getPlayer1Turn()) {
+            ((Button) v).setText("X");
+        } else {
+            ((Button) v).setText("O");
+        }
+
 
         String[][] field = new String[3][3];
         loadButtonsText(field);

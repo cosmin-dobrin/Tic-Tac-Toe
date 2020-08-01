@@ -19,4 +19,10 @@
     <string name="player_1_starts">Player 1 starts</string>
     <string name="player_2_starts">Player 2 starts</string>
     <string name="button_label_settings">Settings</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_radio_text">Choose who starts after each round:</string>
+    <string name="radio_button_winner_text">The winner of the previous round starts</string>
+    <string name="radio_button_different_text">A different player starts each round</string>
+    <string name="radio_button_same_text">Player 1 always starts</string>
 </resources>
