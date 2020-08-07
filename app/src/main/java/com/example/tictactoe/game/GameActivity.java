@@ -97,7 +97,6 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        firstRound();
         showWhoStarts();
         updatePointsText();
     }
@@ -112,25 +111,23 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void firstRound() {
-        if (gameEngine.getRoundCount() == 0) {
-            if (symbolPlayer1.equals("X")) {
-                gameEngine.setPlayer1Turn(true);
-            } else {
-                gameEngine.setPlayer1Turn(false);
-            }
-        }
-    }
-
     private void gameButtonClicked(View v) {
         if (!((Button) v).getText().toString().equals("")) {
             return;
         }
 
-        if (gameEngine.getPlayer1Turn()) {
-            ((Button) v).setText("X");
-        } else {
-            ((Button) v).setText("O");
+        if (symbolPlayer1.equals("X")) {
+            if (gameEngine.getPlayer1Turn()) {
+                ((Button) v).setText("X");
+            } else {
+                ((Button) v).setText("O");
+            }
+        } else if (symbolPlayer1.equals("O")) {
+            if (gameEngine.getPlayer1Turn()) {
+                ((Button) v).setText("O");
+            } else {
+                ((Button) v).setText("X");
+            }
         }
 
         String[][] field = new String[3][3];
