@@ -16,7 +16,7 @@ class GameStateRepository {
     void save() {
 
         try {
-            FileOutputStream fos = new FileOutputStream("State.ser");
+            FileOutputStream fos = new FileOutputStream("GameState.ser");
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(gameState);
             os.close();
@@ -28,7 +28,7 @@ class GameStateRepository {
     void load() {
 
         try {
-            FileInputStream fis = new FileInputStream("State.ser");
+            FileInputStream fis = new FileInputStream("GameState.ser");
             ObjectInputStream os = new ObjectInputStream(fis);
             gameState = (GameState) os.readObject();
             os.close();

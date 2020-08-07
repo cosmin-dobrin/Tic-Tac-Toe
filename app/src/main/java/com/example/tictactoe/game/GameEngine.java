@@ -1,5 +1,8 @@
 package com.example.tictactoe.game;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.example.tictactoe.SettingsUtility;
 
 public class GameEngine {
@@ -120,15 +123,15 @@ public class GameEngine {
 
     void whoStarts() {
 
-        if ((!getPlayer1Wins()) & (!getPlayer2Wins())) {
+        if ((!getPlayer1Wins()) && (!getPlayer2Wins())) {
 
             if (getWhoStartsDraw() == SettingsUtility.DRAW_OTHER_PLAYER_STARTS) {
-                setPlayer1Turn(!getPlayer1Turn());
+                setPlayer1Turn((!getPlayer1Turn()));
             } else if (getWhoStartsDraw() == SettingsUtility.DRAW_SAME_PLAYER_STARTS) {
                 setPlayer1Turn(getPlayer1Turn());
             }
 
-        } else if (getPlayer1Wins()){
+        } else if (getPlayer1Wins()) {
 
             if (getWhoStarts() == SettingsUtility.WINNER_STARTS) {
                 setPlayer1Turn(true);
@@ -170,11 +173,11 @@ public class GameEngine {
     }
 
     public int getWhoStarts() {
-        return  this.whoStarts;
+        return  whoStarts;
     }
 
     public int getWhoStartsDraw() {
-        return this.whoStartsDraw;
+        return whoStartsDraw;
     }
 
     void updateRoundCount() {

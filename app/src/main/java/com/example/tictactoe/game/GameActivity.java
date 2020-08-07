@@ -3,8 +3,11 @@ package com.example.tictactoe.game;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.TextViewCompat;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,17 +16,16 @@ import android.widget.Toast;
 import com.example.tictactoe.LocaleManager;
 import com.example.tictactoe.MenuActivity;
 import com.example.tictactoe.R;
-import com.example.tictactoe.SettingsUtility;
 
 public class GameActivity extends AppCompatActivity {
 
-    GameEngine gameEngine = new GameEngine();
-    LocaleManager localeManager = new LocaleManager(this, this);
+    private GameEngine gameEngine = new GameEngine();
+    private LocaleManager localeManager = new LocaleManager(this, this);
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
     private Button[][] buttons;
     private View decorView;
-    String symbolPlayer1;
+    private String symbolPlayer1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class GameActivity extends AppCompatActivity {
         localeManager.loadLocale();
         setContentView(R.layout.activity_game);
         decorView = getWindow().getDecorView();
+        loadSettings();
         gameEngine.loadGameState();
         textViewPlayer1 = findViewById(R.id.text_view_p2);
         textViewPlayer2 = findViewById(R.id.text_view_p1);
@@ -170,6 +173,12 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    private void loadSettings() {
+        SharedPreferences preferences = this.getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        gameEngine.setWhoStarts(preferences.getInt("who_starts_value", 0));
+        gameEngine.setWhoStartsDraw(preferences.getInt("who_starts_draw_value", 0));
+    }
+
     private int hideSystemBars() {
         return View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
@@ -180,8 +189,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         gameEngine.saveGameState();
     }
 }

@@ -16,7 +16,7 @@ import java.util.Locale;
 public class MenuActivity extends AppCompatActivity {
 
     public static final String EXTRA_SYMBOL = "com.example.tictactoe.SYMBOL";
-    LocaleManager localeManager = new LocaleManager(this, this);
+    private LocaleManager localeManager = new LocaleManager(this, this);
     private View decorView;
     private String symbolPlayer1;
 

@@ -4,23 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.audiofx.BassBoost;
 import android.os.Bundle;
-import android.provider.MediaStore;
+
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.tictactoe.game.GameEngine;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    RadioGroup radioGroupDraw;
-    RadioGroup radioGroupStart;
     private LocaleManager localeManager = new LocaleManager(this, this);
     private GameEngine gameEngine = new GameEngine();
     private View decorView;
+    private RadioGroup radioGroupStart;
+    private RadioGroup radioGroupDraw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,24 +41,18 @@ public class SettingsActivity extends AppCompatActivity {
 
         radioGroupStart = findViewById(R.id.radio_group_who_starts);
         radioGroupDraw = findViewById(R.id.radio_group_who_starts_case_draw);
-        loadSettings();
-        if ((radioGroupStart.getCheckedRadioButtonId() == 0) | (radioGroupDraw.getCheckedRadioButtonId() == 0)) {
-            radioGroupStart.check(R.id.radio_button_winner);
-            radioGroupDraw.check(R.id.radio_button_draw_other);
-        }
 
         radioGroupStart.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
-                    case 0:
+                    case R.id.radio_button_winner:
                         gameEngine.setWhoStarts(SettingsUtility.WINNER_STARTS);
                         break;
-                    case 1:
+                    case R.id.radio_button_different:
                         gameEngine.setWhoStarts(SettingsUtility.DIFFERENT_PLAYER_STARTS);
                         break;
                 }
-                saveSettings();
             }
         });
 
@@ -69,34 +60,45 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
-                    case 0:
-                        gameEngine.setWhoStarts(SettingsUtility.DRAW_OTHER_PLAYER_STARTS);
+                    case R.id.radio_button_draw_other:
+                        gameEngine.setWhoStartsDraw(SettingsUtility.DRAW_OTHER_PLAYER_STARTS);
                         break;
-                    case 1:
-                        gameEngine.setWhoStarts(SettingsUtility.DRAW_SAME_PLAYER_STARTS);
+                    case R.id.radio_button_draw_same:
+                        gameEngine.setWhoStartsDraw(SettingsUtility.DRAW_SAME_PLAYER_STARTS);
                         break;
                 }
-                saveSettings();
             }
         });
 
+        loadSettings();
+
+        if (radioGroupStart.getCheckedRadioButtonId() == 0) {
+            radioGroupStart.check(R.id.radio_button_winner);
+        }
+        if (radioGroupDraw.getCheckedRadioButtonId() == 0) {
+            radioGroupDraw.check(R.id.radio_button_draw_other);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveSettings();
     }
 
     void saveSettings() {
-        int radioButtonStartId = radioGroupStart.getCheckedRadioButtonId();
-        int radioButtonDrawId = radioGroupDraw.getCheckedRadioButtonId();
-        SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
-        editor.putInt("who_starts_setting", radioButtonStartId);
-        editor.putInt("who_starts_draw_setting", radioButtonDrawId);
+        SharedPreferences.Editor editor = this.getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
+        editor.putInt("start_button_id", radioGroupStart.getCheckedRadioButtonId());
+        editor.putInt("draw_button_id", radioGroupDraw.getCheckedRadioButtonId());
+        editor.putInt("who_starts_value", gameEngine.getWhoStarts());
+        editor.putInt("who_starts_draw_value", gameEngine.getWhoStartsDraw());
         editor.apply();
     }
 
-    void loadSettings() {
-        SharedPreferences prefs = getApplicationContext().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        int radioButtonStartId = prefs.getInt("who_starts_setting", 0);
-        int radioButtonDrawId = prefs.getInt("who_starts_draw_setting", 0);
-        radioGroupStart.check(radioButtonStartId);
-        radioGroupDraw.check(radioButtonDrawId);
+    public void loadSettings() {
+        SharedPreferences prefs = this.getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        radioGroupStart.check(prefs.getInt("start_button_id", 0));
+        radioGroupDraw.check(prefs.getInt("draw_button_id", 0));
     }
 
     @Override
