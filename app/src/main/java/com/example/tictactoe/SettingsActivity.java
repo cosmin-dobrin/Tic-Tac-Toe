@@ -6,8 +6,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 
 import com.example.tictactoe.game.GameEngine;
 
@@ -18,6 +21,8 @@ public class SettingsActivity extends AppCompatActivity {
     private View decorView;
     private RadioGroup radioGroupStart;
     private RadioGroup radioGroupDraw;
+    private Switch mSwitchSystemBars;
+    private int mHideSystemBars = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +38,17 @@ public class SettingsActivity extends AppCompatActivity {
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
             public void onSystemUiVisibilityChange(int visibility) {
-                if (visibility == 0) {
-                    decorView.setSystemUiVisibility(hideSystemBars());
+                if (mHideSystemBars == SettingsUtility.HIDE_SYSTEM_BARS) {
+                    if (visibility == 0) {
+                        decorView.setSystemUiVisibility(hideSystemBars());
+                    }
                 }
             }
         });
 
         radioGroupStart = findViewById(R.id.radio_group_who_starts);
         radioGroupDraw = findViewById(R.id.radio_group_who_starts_case_draw);
+        mSwitchSystemBars = findViewById(R.id.switch_show_system_bars);
 
         radioGroupStart.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -70,6 +78,17 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        mSwitchSystemBars.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mHideSystemBars = SettingsUtility.HIDE_SYSTEM_BARS;
+                } else {
+                    mHideSystemBars = SettingsUtility.SHOW_SYSTEM_BARS;
+                }
+            }
+        });
+
         loadSettings();
 
         if (radioGroupStart.getCheckedRadioButtonId() == 0) {
@@ -92,6 +111,8 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putInt("draw_button_id", radioGroupDraw.getCheckedRadioButtonId());
         editor.putInt("who_starts_value", gameEngine.getWhoStarts());
         editor.putInt("who_starts_draw_value", gameEngine.getWhoStartsDraw());
+        editor.putBoolean("switch_state", mSwitchSystemBars.isChecked());
+        editor.putInt("hide_system_bars_value", mHideSystemBars);
         editor.apply();
     }
 
@@ -99,13 +120,21 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences("Settings", Context.MODE_PRIVATE);
         radioGroupStart.check(prefs.getInt("start_button_id", 0));
         radioGroupDraw.check(prefs.getInt("draw_button_id", 0));
+        mHideSystemBars = prefs.getInt("hide_system_bars_value", 0);
+        mSwitchSystemBars.setChecked(prefs.getBoolean("switch_state", false));
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            decorView.setSystemUiVisibility(hideSystemBars());
+        if (mHideSystemBars == SettingsUtility.HIDE_SYSTEM_BARS) {
+            if (hasFocus) {
+                decorView.setSystemUiVisibility(hideSystemBars());
+            } else {
+                if (hasFocus) {
+                    decorView.setSystemUiVisibility(showSystemBars());
+                }
+            }
         }
     }
 
@@ -116,5 +145,9 @@ public class SettingsActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+    }
+
+    private int showSystemBars() {
+        return View.SYSTEM_UI_FLAG_VISIBLE;
     }
 }

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.tictactoe.LocaleManager;
 import com.example.tictactoe.MenuActivity;
 import com.example.tictactoe.R;
+import com.example.tictactoe.SettingsUtility;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -26,6 +27,7 @@ public class GameActivity extends AppCompatActivity {
     private Button[][] buttons;
     private View decorView;
     private String symbolPlayer1;
+    private int mHideSystemBars = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +48,14 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            decorView.setSystemUiVisibility(hideSystemBars());
+        if (mHideSystemBars == SettingsUtility.HIDE_SYSTEM_BARS) {
+            if (hasFocus) {
+                decorView.setSystemUiVisibility(hideSystemBars());
+            } else {
+                if (hasFocus) {
+                    decorView.setSystemUiVisibility(showSystemBars());
+                }
+            }
         }
     }
 
@@ -63,8 +71,10 @@ public class GameActivity extends AppCompatActivity {
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
             public void onSystemUiVisibilityChange(int visibility) {
-                if (visibility == 0) {
-                    decorView.setSystemUiVisibility(hideSystemBars());
+                if (mHideSystemBars == SettingsUtility.HIDE_SYSTEM_BARS) {
+                    if (visibility == 0) {
+                        decorView.setSystemUiVisibility(hideSystemBars());
+                    }
                 }
             }
         });
@@ -174,6 +184,7 @@ public class GameActivity extends AppCompatActivity {
         SharedPreferences preferences = this.getSharedPreferences("Settings", Context.MODE_PRIVATE);
         gameEngine.setWhoStarts(preferences.getInt("who_starts_value", 0));
         gameEngine.setWhoStartsDraw(preferences.getInt("who_starts_draw_value", 0));
+        mHideSystemBars = preferences.getInt("hide_system_bars_value", 0);
     }
 
     private int hideSystemBars() {
@@ -183,6 +194,10 @@ public class GameActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+    }
+
+    private int showSystemBars() {
+        return View.SYSTEM_UI_FLAG_VISIBLE;
     }
 
     @Override

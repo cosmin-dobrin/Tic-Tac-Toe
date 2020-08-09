@@ -27,4 +27,5 @@
     <string name="text_radio_who_starts_case_draw">Choose who starts after a draw:</string>
     <string name="radio_button_text_other">The other player starts</string>
     <string name="radio_button_text_same">The same player starts</string>
+    <string name="switch_text_hide_system_bars">Hide system bars:</string>
 </resources>

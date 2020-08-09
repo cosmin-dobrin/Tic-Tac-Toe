@@ -8,7 +8,7 @@
     tools:context=".SettingsActivity">
 
     <TextView
-        android:id="@+id/title_radio_who_starts"
+        android:id="@+id/radio_who_starts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -27,7 +27,7 @@
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_radio_who_starts">
+        app:layout_constraintTop_toBottomOf="@id/radio_who_starts">
 
         <RadioButton
             android:id="@+id/radio_button_winner"
@@ -43,7 +43,7 @@
     </RadioGroup>
 
     <TextView
-        android:id="@+id/title_radio_who_starts_case_draw"
+        android:id="@+id/radio_who_starts_case_draw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -62,7 +62,7 @@
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_radio_who_starts_case_draw">
+        app:layout_constraintTop_toBottomOf="@id/radio_who_starts_case_draw">
 
         <RadioButton
             android:id="@+id/radio_button_draw_other"
@@ -76,5 +76,17 @@
             android:layout_height="wrap_content"
             android:text="@string/radio_button_text_same" />
     </RadioGroup>
+
+    <Switch
+        android:id="@+id/switch_show_system_bars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/switch_text_hide_system_bars"
+        android:textColor="@android:color/background_dark"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radio_group_who_starts_case_draw" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
