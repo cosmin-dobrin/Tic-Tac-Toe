@@ -1,11 +1,13 @@
 package com.example.tictactoe.game;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.ColorUtils;
 import androidx.core.widget.TextViewCompat;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +26,8 @@ public class GameActivity extends AppCompatActivity {
     private LocaleManager localeManager = new LocaleManager(this, this);
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
+    private TextView textViewSymbolPlayer1;
+    private TextView textViewSymbolPlayer2;
     private Button[][] buttons;
     private View decorView;
     private String symbolPlayer1;
@@ -37,9 +41,6 @@ public class GameActivity extends AppCompatActivity {
         decorView = getWindow().getDecorView();
         loadSettings();
         gameEngine.loadGameState();
-        textViewPlayer1 = findViewById(R.id.text_view_p2);
-        textViewPlayer2 = findViewById(R.id.text_view_p1);
-        buttons = new Button[3][3];
         Intent symbolIntent = getIntent();
         symbolPlayer1 = symbolIntent.getStringExtra(MenuActivity.EXTRA_SYMBOL);
         setUpGame();
@@ -59,7 +60,12 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    void setUpGame() {
+    private void setUpGame() {
+        textViewPlayer1 = findViewById(R.id.text_view_p2);
+        textViewPlayer2 = findViewById(R.id.text_view_p1);
+        textViewSymbolPlayer1 = findViewById(R.id.text_view_symbol_1);
+        textViewSymbolPlayer2 = findViewById(R.id.text_view_symbol_2);
+        buttons = new Button[3][3];
         Button buttonReset = findViewById(R.id.button_reset);
         buttonReset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,9 +110,11 @@ public class GameActivity extends AppCompatActivity {
                 updatePointsText();
                 showToast();
                 cleanBoard();
+                highlightWhoStarts();
             }
         });
 
+        showPlayerSymbol();
         showWhoStarts();
         updatePointsText();
     }
@@ -129,14 +137,22 @@ public class GameActivity extends AppCompatActivity {
         if (symbolPlayer1.equals("X")) {
             if (gameEngine.getPlayer1Turn()) {
                 ((Button) v).setText("X");
+                textViewSymbolPlayer2.setTextColor(Color.BLACK);
+                textViewSymbolPlayer1.setTextColor(Color.GRAY);
             } else {
                 ((Button) v).setText("O");
+                textViewSymbolPlayer1.setTextColor(Color.BLACK);
+                textViewSymbolPlayer2.setTextColor(Color.GRAY);
             }
         } else if (symbolPlayer1.equals("O")) {
             if (gameEngine.getPlayer1Turn()) {
                 ((Button) v).setText("O");
+                textViewSymbolPlayer2.setTextColor(Color.BLACK);
+                textViewSymbolPlayer1.setTextColor(Color.GRAY);
             } else {
                 ((Button) v).setText("X");
+                textViewSymbolPlayer1.setTextColor(Color.BLACK);
+                textViewSymbolPlayer2.setTextColor(Color.GRAY);
             }
         }
 
@@ -178,6 +194,24 @@ public class GameActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.draw), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void highlightWhoStarts() {
+        if (gameEngine.getPlayer1Turn()) {
+            textViewSymbolPlayer2.setTextColor(Color.BLACK);
+            textViewSymbolPlayer1.setTextColor(Color.GRAY);
+        }
+    }
+
+    private void showPlayerSymbol() {
+        if (symbolPlayer1.equals("X")) {
+            textViewSymbolPlayer1.setText("X");
+            textViewSymbolPlayer2.setText("O");
+        } else if (symbolPlayer1.equals("O")) {
+            textViewSymbolPlayer1.setText("O");
+            textViewSymbolPlayer2.setText("X");
+        }
+        textViewSymbolPlayer1.setTextColor(Color.BLACK);
     }
 
     private void loadSettings() {
