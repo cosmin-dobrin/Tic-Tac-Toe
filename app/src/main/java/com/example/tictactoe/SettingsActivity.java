@@ -83,8 +83,10 @@ public class SettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     mHideSystemBars = SettingsUtility.HIDE_SYSTEM_BARS;
+                    decorView.setSystemUiVisibility(hideSystemBars());
                 } else {
                     mHideSystemBars = SettingsUtility.SHOW_SYSTEM_BARS;
+                    decorView.setSystemUiVisibility(showSystemBars());
                 }
             }
         });
