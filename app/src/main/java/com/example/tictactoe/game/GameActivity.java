@@ -71,6 +71,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 gameEngine.resetGame();
+                showPlayerSymbol();
             }
         });
 
@@ -110,7 +111,6 @@ public class GameActivity extends AppCompatActivity {
                 updatePointsText();
                 showToast();
                 cleanBoard();
-                highlightWhoStarts();
             }
         });
 
@@ -137,22 +137,22 @@ public class GameActivity extends AppCompatActivity {
         if (symbolPlayer1.equals("X")) {
             if (gameEngine.getPlayer1Turn()) {
                 ((Button) v).setText("X");
-                textViewSymbolPlayer2.setTextColor(Color.BLACK);
-                textViewSymbolPlayer1.setTextColor(Color.GRAY);
+               // textViewSymbolPlayer2.setTextColor(Color.BLACK);
+                //textViewSymbolPlayer1.setTextColor(Color.GRAY);
             } else {
                 ((Button) v).setText("O");
-                textViewSymbolPlayer1.setTextColor(Color.BLACK);
-                textViewSymbolPlayer2.setTextColor(Color.GRAY);
+                //textViewSymbolPlayer1.setTextColor(Color.BLACK);
+                //textViewSymbolPlayer2.setTextColor(Color.GRAY);
             }
         } else if (symbolPlayer1.equals("O")) {
             if (gameEngine.getPlayer1Turn()) {
                 ((Button) v).setText("O");
-                textViewSymbolPlayer2.setTextColor(Color.BLACK);
-                textViewSymbolPlayer1.setTextColor(Color.GRAY);
+                //textViewSymbolPlayer2.setTextColor(Color.BLACK);
+                //textViewSymbolPlayer1.setTextColor(Color.GRAY);
             } else {
                 ((Button) v).setText("X");
-                textViewSymbolPlayer1.setTextColor(Color.BLACK);
-                textViewSymbolPlayer2.setTextColor(Color.GRAY);
+                //textViewSymbolPlayer1.setTextColor(Color.BLACK);
+                //textViewSymbolPlayer2.setTextColor(Color.GRAY);
             }
         }
 
@@ -160,6 +160,7 @@ public class GameActivity extends AppCompatActivity {
         loadButtonsText(field);
         gameEngine.updateRoundCount();
         gameEngine.roundResult(field);
+        highlightWhoStarts();
     }
 
     private void loadButtonsText(String[][] field) {
@@ -179,8 +180,10 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void updatePointsText() {
-        textViewPlayer1.setText(getResources().getString(R.string.player_1_pointsText, gameEngine.getPlayer1Points())); // String resources + placeholders
-        textViewPlayer2.setText(getResources().getString(R.string.player_2_pointsText, gameEngine.getPlayer2Points()));
+        textViewPlayer1.setText(getResources().getString(R.string.player_1_pointsText,
+                gameEngine.getPlayer1Points())); // String resources + placeholders
+        textViewPlayer2.setText(getResources().getString(R.string.player_2_pointsText,
+                gameEngine.getPlayer2Points()));
     }
 
     private void showToast() {
@@ -198,20 +201,25 @@ public class GameActivity extends AppCompatActivity {
 
     private void highlightWhoStarts() {
         if (gameEngine.getPlayer1Turn()) {
-            textViewSymbolPlayer2.setTextColor(Color.BLACK);
+            Log.d("PLAYER 1 TURN: ", String.valueOf(gameEngine.getPlayer1Turn()));
+            textViewSymbolPlayer1.setTextColor(Color.BLACK);
+            textViewSymbolPlayer2.setTextColor(Color.GRAY);
+        } else {
             textViewSymbolPlayer1.setTextColor(Color.GRAY);
+            textViewSymbolPlayer2.setTextColor(Color.BLACK);
         }
     }
 
     private void showPlayerSymbol() {
-        if (symbolPlayer1.equals("X")) {
-            textViewSymbolPlayer1.setText("X");
-            textViewSymbolPlayer2.setText("O");
-        } else if (symbolPlayer1.equals("O")) {
-            textViewSymbolPlayer1.setText("O");
-            textViewSymbolPlayer2.setText("X");
-        }
-        textViewSymbolPlayer1.setTextColor(Color.BLACK);
+            if (symbolPlayer1.equals("X")) {
+                textViewSymbolPlayer1.setText("X");
+                textViewSymbolPlayer2.setText("O");
+            } else if (symbolPlayer1.equals("O")) {
+                textViewSymbolPlayer1.setText("O");
+                textViewSymbolPlayer2.setText("X");
+            }
+            textViewSymbolPlayer1.setTextColor(Color.BLACK);
+            textViewSymbolPlayer2.setTextColor(Color.GRAY);
     }
 
     private void loadSettings() {
