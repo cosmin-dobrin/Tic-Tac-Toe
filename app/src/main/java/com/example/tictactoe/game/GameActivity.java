@@ -137,22 +137,14 @@ public class GameActivity extends AppCompatActivity {
         if (symbolPlayer1.equals("X")) {
             if (gameEngine.getPlayer1Turn()) {
                 ((Button) v).setText("X");
-               // textViewSymbolPlayer2.setTextColor(Color.BLACK);
-                //textViewSymbolPlayer1.setTextColor(Color.GRAY);
             } else {
                 ((Button) v).setText("O");
-                //textViewSymbolPlayer1.setTextColor(Color.BLACK);
-                //textViewSymbolPlayer2.setTextColor(Color.GRAY);
             }
         } else if (symbolPlayer1.equals("O")) {
             if (gameEngine.getPlayer1Turn()) {
                 ((Button) v).setText("O");
-                //textViewSymbolPlayer2.setTextColor(Color.BLACK);
-                //textViewSymbolPlayer1.setTextColor(Color.GRAY);
             } else {
                 ((Button) v).setText("X");
-                //textViewSymbolPlayer1.setTextColor(Color.BLACK);
-                //textViewSymbolPlayer2.setTextColor(Color.GRAY);
             }
         }
 
@@ -201,7 +193,6 @@ public class GameActivity extends AppCompatActivity {
 
     private void highlightWhoStarts() {
         if (gameEngine.getPlayer1Turn()) {
-            Log.d("PLAYER 1 TURN: ", String.valueOf(gameEngine.getPlayer1Turn()));
             textViewSymbolPlayer1.setTextColor(Color.BLACK);
             textViewSymbolPlayer2.setTextColor(Color.GRAY);
         } else {

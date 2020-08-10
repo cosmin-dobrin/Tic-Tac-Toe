@@ -135,15 +135,19 @@ public class GameEngine {
 
             if (getWhoStarts() == SettingsUtility.WINNER_STARTS) {
                 setPlayer1Turn(true);
-            } else if (getWhoStarts() == SettingsUtility.DIFFERENT_PLAYER_STARTS) {
-                setPlayer1Turn(false);
+            } else if ((getWhoStarts() == SettingsUtility.DIFFERENT_PLAYER_STARTS) ) {
+                    setPlayer1Turn(false);
             }
 
         } else {
             if (getWhoStarts() == SettingsUtility.WINNER_STARTS) {
                 setPlayer1Turn(false);
             } else if (getWhoStarts() == SettingsUtility.DIFFERENT_PLAYER_STARTS) {
-                setPlayer1Turn(true);
+                if ((getPlayer1Points() == 0) && (getPlayer2Points() == 1)) {
+                    setPlayer1Turn(false);
+                } else {
+                    setPlayer1Turn(true);
+                }
             }
         }
     }
