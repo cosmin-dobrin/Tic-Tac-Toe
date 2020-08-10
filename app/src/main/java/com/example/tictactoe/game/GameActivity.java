@@ -30,7 +30,7 @@ public class GameActivity extends AppCompatActivity {
     private TextView textViewSymbolPlayer2;
     private Button[][] buttons;
     private View decorView;
-    private String symbolPlayer1;
+    private String mSymbolPlayer1;
     private int mHideSystemBars = 0;
 
     @Override
@@ -41,8 +41,6 @@ public class GameActivity extends AppCompatActivity {
         decorView = getWindow().getDecorView();
         loadSettings();
         gameEngine.loadGameState();
-        Intent symbolIntent = getIntent();
-        symbolPlayer1 = symbolIntent.getStringExtra(MenuActivity.EXTRA_SYMBOL);
         setUpGame();
     }
 
@@ -67,7 +65,7 @@ public class GameActivity extends AppCompatActivity {
         textViewSymbolPlayer2 = findViewById(R.id.text_view_symbol_2);
         buttons = new Button[3][3];
         Button buttonReset = findViewById(R.id.button_reset);
-        buttonReset.setOnClickListener(new View.OnClickListener() {
+        buttonReset.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 gameEngine.resetGame();
@@ -117,16 +115,11 @@ public class GameActivity extends AppCompatActivity {
         showPlayerSymbol();
         showWhoStarts();
         updatePointsText();
+
     }
 
-    private void showWhoStarts() {
-        if (gameEngine.getPlayer1Turn()) {
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.player_1_starts), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.player_2_starts), Toast.LENGTH_SHORT).show();
-        }
+    private void botHardMove() {
+
     }
 
     private void gameButtonClicked(View v) {
@@ -134,13 +127,13 @@ public class GameActivity extends AppCompatActivity {
             return;
         }
 
-        if (symbolPlayer1.equals("X")) {
+        if (mSymbolPlayer1.equals("X")) {
             if (gameEngine.getPlayer1Turn()) {
                 ((Button) v).setText("X");
             } else {
                 ((Button) v).setText("O");
             }
-        } else if (symbolPlayer1.equals("O")) {
+        } else if (mSymbolPlayer1.equals("O")) {
             if (gameEngine.getPlayer1Turn()) {
                 ((Button) v).setText("O");
             } else {
@@ -168,6 +161,16 @@ public class GameActivity extends AppCompatActivity {
             for (int j = 0; j < 3; j++) {
                 buttons[i][j].setText("");
             }
+        }
+    }
+
+    private void showWhoStarts() {
+        if (gameEngine.getPlayer1Turn()) {
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.player_1_starts), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.player_2_starts), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -202,10 +205,10 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showPlayerSymbol() {
-            if (symbolPlayer1.equals("X")) {
+            if (mSymbolPlayer1.equals("X")) {
                 textViewSymbolPlayer1.setText("X");
                 textViewSymbolPlayer2.setText("O");
-            } else if (symbolPlayer1.equals("O")) {
+            } else if (mSymbolPlayer1.equals("O")) {
                 textViewSymbolPlayer1.setText("O");
                 textViewSymbolPlayer2.setText("X");
             }
@@ -218,6 +221,7 @@ public class GameActivity extends AppCompatActivity {
         gameEngine.setWhoStarts(preferences.getInt("who_starts_value", 0));
         gameEngine.setWhoStartsDraw(preferences.getInt("who_starts_draw_value", 0));
         mHideSystemBars = preferences.getInt("hide_system_bars_value", 0);
+        mSymbolPlayer1 = preferences.getString("symbol_value", "X");
     }
 
     private int hideSystemBars() {

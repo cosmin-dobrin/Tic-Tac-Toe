@@ -17,6 +17,6 @@
     <string name="player_1_starts">Player 1 starts</string>
     <string name="player_2_starts">Player 2 starts</string>
     <string name="button_label_language">Language</string>
-    <string name="button_label_start">Start Game</string>
+    <string name="button_label_start">Two Players</string>
     <string name="button_label_settings">Settings</string>
 </resources>

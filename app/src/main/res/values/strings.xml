@@ -29,4 +29,7 @@
     <string name="radio_button_text_same">The same player starts</string>
     <string name="switch_text_hide_system_bars">Hide system bars:</string>
     <string name="button_label_robot">Single player</string>
+    <string name="textView_text_symbol_chooser">Choose a symbol for Player 1:</string>
+    <string name="x">X</string>
+    <string name="o">O</string>
 </resources>

@@ -12,6 +12,7 @@ public class GameEngine {
     private boolean player2Wins = false;
     private int whoStarts = 0;
     private int whoStartsDraw = 0;
+    private String player1Symbol = null;
     private GameState gameState = new GameState();
     private GameStateRepository gameStateRepository = new GameStateRepository(gameState);
     private GameCompletionListener gameCompletionListener;
@@ -149,6 +150,10 @@ public class GameEngine {
         }
     }
 
+    private void botHardMove() {
+
+    }
+
     public boolean getPlayer1Wins() {
         return player1Wins;
     }
@@ -181,6 +186,10 @@ public class GameEngine {
         return whoStartsDraw;
     }
 
+    public String getPlayer1Symbol() {
+        return player1Symbol;
+    }
+
     void updateRoundCount() {
         roundCount++;
     }
@@ -205,5 +214,9 @@ public class GameEngine {
 
     public void setWhoStartsDraw(int whoStartsDraw) {
         this.whoStartsDraw = whoStartsDraw;
+    }
+
+    public void setPlayer1Symbol(String symbol) {
+        this.player1Symbol = symbol;
     }
 }
