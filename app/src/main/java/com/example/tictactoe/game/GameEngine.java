@@ -1,8 +1,5 @@
 package com.example.tictactoe.game;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.example.tictactoe.SettingsUtility;
 
 public class GameEngine {
