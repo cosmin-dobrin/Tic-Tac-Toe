@@ -93,10 +93,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         loadSettings();
 
-        if (radioGroupStart.getCheckedRadioButtonId() == 0) {
+        if ((radioGroupStart.getCheckedRadioButtonId() != R.id.radio_button_winner)
+                && (radioGroupStart.getCheckedRadioButtonId() != R.id.radio_button_different)) {
             radioGroupStart.check(R.id.radio_button_winner);
         }
-        if (radioGroupDraw.getCheckedRadioButtonId() == 0) {
+        if ((radioGroupDraw.getCheckedRadioButtonId() != R.id.radio_button_draw_other)
+                && (radioGroupDraw.getCheckedRadioButtonId() != R.id.radio_button_draw_same)) {
             radioGroupDraw.check(R.id.radio_button_draw_other);
         }
     }
