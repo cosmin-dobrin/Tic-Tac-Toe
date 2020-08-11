@@ -68,11 +68,11 @@ public class MenuActivity extends AppCompatActivity {
         buttonLaunchTwoPlayers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                launchGame();
             }
         });
 
-        buttonLaunchTwoPlayers.setOnClickListener(new View.OnClickListener() {
+        buttonLaunchSinglePlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchGame();
