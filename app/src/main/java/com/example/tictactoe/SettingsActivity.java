@@ -108,19 +108,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         loadSettings();
-
-        if ((mRadioGroupStart.getCheckedRadioButtonId() != R.id.radio_button_winner) &&
-                (mRadioGroupStart.getCheckedRadioButtonId() != R.id.radio_button_different)) {
-            mRadioGroupStart.check(R.id.radio_button_winner);
-        }
-        if ((mRadioGroupDraw.getCheckedRadioButtonId() != R.id.radio_button_draw_other) &&
-                (mRadioGroupDraw.getCheckedRadioButtonId() != R.id.radio_button_draw_other)) {
-            mRadioGroupDraw.check(R.id.radio_button_draw_other);
-        }
-        if ((mRadioGroupSymbol.getCheckedRadioButtonId() != R.id.radio_button_symbol_X)
-                && (mRadioGroupSymbol.getCheckedRadioButtonId() != R.id.radio_button_symbol_O)) {
-            mRadioGroupSymbol.check(R.id.radio_button_symbol_X);
-        }
     }
 
     @Override
@@ -145,9 +132,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void loadSettings() {
         SharedPreferences prefs = this.getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        mRadioGroupStart.check(prefs.getInt("start_button_id", 0));
-        mRadioGroupDraw.check(prefs.getInt("draw_button_id", 0));
-        mRadioGroupSymbol.check(prefs.getInt("symbol_button_id", 0));
+        mRadioGroupStart.check(prefs.getInt("start_button_id", R.id.radio_button_winner));
+        mRadioGroupDraw.check(prefs.getInt("draw_button_id", R.id.radio_button_draw_other));
+        mRadioGroupSymbol.check(prefs.getInt("symbol_button_id", R.id.radio_button_symbol_X));
         mHideSystemBars = prefs.getInt("hide_system_bars_value", 0);
         mSwitchSystemBars.setChecked(prefs.getBoolean("switch_state", false));
     }
