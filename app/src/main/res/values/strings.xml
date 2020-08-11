@@ -32,4 +32,11 @@
     <string name="textView_text_symbol_chooser">Choose a symbol for Player 1:</string>
     <string name="x">X</string>
     <string name="o">O</string>
+    <string name="textView_text_player1_chooser">Choose who is Player 1:</string>
+    <string name="radio_button_text_you">You</string>
+    <string name="radio_button_text_robot">The robot</string>
+    <string name="textView_text_difficulty_chooser">Choose the difficulty:</string>
+    <string name="radio_button_text_easy">Easy</string>
+    <string name="radio_button_text_medium">Medium</string>
+    <string name="radio_button_text_hard">Hard</string>
 </resources>
