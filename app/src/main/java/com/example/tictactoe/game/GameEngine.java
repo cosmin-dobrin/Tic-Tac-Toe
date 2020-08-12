@@ -12,7 +12,9 @@ public class GameEngine {
     private boolean player2Wins = false;
     private int whoStarts = 0;
     private int whoStartsDraw = 0;
-    private String player1Symbol = null;
+    private int player1Symbol = 0;
+    private int mWhoIsPlayer1 = 0;
+    private int mDifficultyLevel = 0;
     private GameState gameState = new GameState();
     private GameStateRepository gameStateRepository = new GameStateRepository(gameState);
     private GameCompletionListener gameCompletionListener;
@@ -88,23 +90,23 @@ public class GameEngine {
         player1Wins = true;
         player2Wins = false;
         player1Points++;
-        completion();
         restartGame();
+        completion();
     }
 
     private void player2Wins() {
         player1Wins = false;
         player2Wins = true;
         player2Points++;
-        completion();
         restartGame();
+        completion();
     }
 
     private void draw() {
         player1Wins = false;
         player2Wins = false;
-        completion();
         restartGame();
+        completion();
     }
 
     private void restartGame() {
@@ -115,7 +117,8 @@ public class GameEngine {
     void resetGame() {
         player1Points = 0;
         player2Points = 0;
-        restartGame();
+        roundCount = 0;
+        player1Turn = true;
         completion();
     }
 
@@ -186,7 +189,7 @@ public class GameEngine {
         return whoStartsDraw;
     }
 
-    public String getPlayer1Symbol() {
+    public int getPlayer1Symbol() {
         return player1Symbol;
     }
 
@@ -216,7 +219,23 @@ public class GameEngine {
         this.whoStartsDraw = whoStartsDraw;
     }
 
-    public void setPlayer1Symbol(String symbol) {
+    public void setPlayer1Symbol(int symbol) {
         this.player1Symbol = symbol;
+    }
+
+    public int getWhoIsPlayer1() {
+        return mWhoIsPlayer1;
+    }
+
+    public void setWhoIsPlayer1(int mWhoIsPlayer1) {
+        this.mWhoIsPlayer1 = mWhoIsPlayer1;
+    }
+
+    public int getDifficultyLevel() {
+        return mDifficultyLevel;
+    }
+
+    public void setDifficultyLevel(int mDifficultyLevel) {
+        this.mDifficultyLevel = mDifficultyLevel;
     }
 }

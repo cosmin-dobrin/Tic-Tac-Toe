@@ -11,8 +11,12 @@ import android.widget.Button;
 
 import com.example.tictactoe.game.GameActivity;
 
+import java.util.Set;
+
 public class MenuActivity extends AppCompatActivity {
 
+    public static final String EXTRA_SINGLE_PLAYER_MODE = "com.example.tictactoe.extra.SINGLE_PLAYER_MODE";
+    public static final String EXTRA_TWO_PLAYERS_MODE = "com.example.tictactoe.extra.TWO_PLAYERS_MODE";
     private LocaleManager localeManager = new LocaleManager(this, this);
     private View decorView;
     private int mHideSystemBars = 0;
@@ -68,14 +72,14 @@ public class MenuActivity extends AppCompatActivity {
         buttonLaunchTwoPlayers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchGame();
+                launchTwoPlayers();
             }
         });
 
         buttonLaunchSinglePlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchGame();
+                launchSinglePlayer();
             }
         });
 
@@ -99,14 +103,21 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void launchGame() {
+    private void launchTwoPlayers() {
         Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra(EXTRA_SINGLE_PLAYER_MODE, SettingsUtility.SINGLE_PLAYER_MODE_OFF);
+        startActivity(intent);
+    }
+
+    private void launchSinglePlayer() {
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra(EXTRA_SINGLE_PLAYER_MODE , SettingsUtility.SINGLE_PLAYER_MODE_ON);
         startActivity(intent);
     }
 
     private void loadSettings() {
-        SharedPreferences preferences = getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        mHideSystemBars = preferences.getInt("hide_system_bars_value", 0);
+        SharedPreferences preferences = getSharedPreferences(SettingsUtility.PREFS_FILE_SETTINGS, Context.MODE_PRIVATE);
+        mHideSystemBars = preferences.getInt(SettingsUtility.PREFS_HIDE_SYSTEM_BARS_VALUE, 0);
     }
 
     private int hideSystemBars() {

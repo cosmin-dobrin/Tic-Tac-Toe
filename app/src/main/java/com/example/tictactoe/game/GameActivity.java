@@ -30,8 +30,9 @@ public class GameActivity extends AppCompatActivity {
     private TextView textViewSymbolPlayer2;
     private Button[][] buttons;
     private View decorView;
-    private String mSymbolPlayer1;
+    private int mSymbolPlayer1;
     private int mHideSystemBars = 0;
+    private boolean mSinglePlayerMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,8 @@ public class GameActivity extends AppCompatActivity {
         decorView = getWindow().getDecorView();
         loadSettings();
         gameEngine.loadGameState();
+        Intent intent = getIntent();
+        mSinglePlayerMode = intent.getBooleanExtra(MenuActivity.EXTRA_SINGLE_PLAYER_MODE, false);
         setUpGame();
     }
 
@@ -69,7 +72,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 gameEngine.resetGame();
-                showPlayerSymbol();
+                highlightWhoStarts();
             }
         });
 
@@ -92,7 +95,7 @@ public class GameActivity extends AppCompatActivity {
                 buttons[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        gameButtonClicked(v);
+                         gameButtonClicked(v);
                     }
                 });
 
@@ -109,17 +112,288 @@ public class GameActivity extends AppCompatActivity {
                 updatePointsText();
                 showToast();
                 cleanBoard();
+                botMove();
             }
         });
 
         showPlayerSymbol();
-        showWhoStarts();
         updatePointsText();
-
+        botMove();
+        highlightWhoStarts();
     }
 
-    private void botHardMove() {
+    private void botMove() {
+        if (mSinglePlayerMode) {
+            if ((gameEngine.getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1)
+                    && (gameEngine.getPlayer1Turn())) {
+                if (gameEngine.getDifficultyLevel() == SettingsUtility.DIFFICULTY_LEVEL_HARD) {
+                    //first move
+                    check(0, 0);
 
+                    //second move
+                    if (gameEngine.getRoundCount() == 2) {
+                        if (!(isChecked(2, 2))) {
+                            check(2, 2);
+                        } else {
+                            check(2, 0);
+                        }
+                    }
+
+                    //third move
+                    if (gameEngine.getRoundCount() == 4) {
+                        if (isChecked(1, 1)) {
+                            if (isChecked(0, 1)) {
+                                check(2, 1);
+                            } else if (isChecked(2, 1)) {
+                                check(0, 1);
+                            } else if (isChecked(1, 0)) {
+                                check(1, 2);
+                            } else if (isChecked(1, 2)) {
+                                check(1, 0);
+                            } else if (isChecked(0, 2)) {
+                                check(2, 0);
+                            } else {
+                                check(0, 2);
+                            }
+                        } else if (match(2, 2, 0, 0)) {
+                            if (isChecked(2, 0) && isChecked(0, 2)) {
+                                check(1, 1);
+                            } else if (!(isChecked(2, 0))) {
+                                check(2, 0);
+                            } else {
+                                check(0, 2);
+                            }
+                        } else {
+                            if (isChecked(0, 2)) {
+                                check(1, 0);
+                            } else {
+                                check(0, 2);
+                            }
+                        }
+                    }
+
+                    //fourth move
+                    if (gameEngine.getRoundCount() == 6) {
+                        goForWin();
+                        if (gameEngine.getRoundCount() == 6) {
+                            block();
+                        }
+                    }
+
+                    //fifth move
+                    if (gameEngine.getRoundCount() == 8) {
+                        for (int i = 0; i < 3; i++) {
+                            for (int j = 0; j < 3; j++) {
+                                if (!isChecked(i, j)) {
+                                    check(i, j);
+                                }
+                            }
+                        }
+                    }
+
+                    String[][] field = new String[3][3];
+                    loadButtonsText(field);
+                    gameEngine.updateRoundCount();
+                    gameEngine.roundResult(field);
+                    highlightWhoStarts();
+                }
+            }
+        }
+    }
+
+    private boolean isEnemySymbol(int row, int column) {
+        if (gameEngine.getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
+            if (gameEngine.getPlayer1Symbol() == SettingsUtility.X) {
+                if (getSymbolAt(row, column).equals("O")) {
+                    return true;
+                }
+            } else if (gameEngine.getPlayer1Symbol() == SettingsUtility.O) {
+                if (getSymbolAt(row, column).equals("X")) {
+                    return true;
+                }
+            }
+        } else if (gameEngine.getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
+            if (gameEngine.getPlayer1Symbol() == SettingsUtility.X) {
+                if (getSymbolAt(row, column).equals("X")) {
+                    return true;
+                }
+            } else if (gameEngine.getPlayer1Symbol() == SettingsUtility.O) {
+                if (getSymbolAt(row, column).equals("O")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void goForWin() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!isEnemySymbol(i, j)) {
+                    //Check vertically
+                    if ((i == 0) || (i == 1)) {
+                        if (match(i, j, i + 1, j)) {
+                            if (i == 0) {
+                                check(i + 2, j);
+                            } else {
+                                check(i - 1, j);
+                            }
+                        } else if (i == 0) {
+                            if (match(i, j, i + 2, j)) {
+                                check(i + 1, j);
+                            }
+                        }
+                    }
+                    //Check horizontally
+                    if ((j == 0) || (j == 1)) {
+                        if (match(i, j, i, j + 1)) {
+                            if (j == 0) {
+                                check(i, j + 2);
+                            } else {
+                                check(i, j - 1);
+                            }
+                        } else if (j == 0) {
+                            if (match(i, j, i, j + 2)) {
+                                check(i, j + 1);
+                            }
+                        }
+                    }
+                    //Check the principal diagonal
+                    if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
+                        if (match(i, j, i + 1, j + 1)) {
+                            if (i == 0) {
+                                check(i + 1, j + 1);
+                            } else {
+                                check(i - 1, j - 1);
+                            }
+                        } else if (i == 0) {
+                            if (match(i, j, i + 2, j + 2)) {
+                                check(i + 1, j + 1);
+                            }
+                        }
+                    }
+                    //Check the secondary diagonal
+                    if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
+                        if (match(i, j, i + 1, j - 1)) {
+                            if (i == 0) {
+                                check(i + 2, j - 2);
+                            } else {
+                                check(i - 1, j + 1);
+                            }
+                        } else if (i == 0) {
+                            if (match(i, j, i + 2, j - 2)) {
+                                check(i + 1, j - 1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void block() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (isEnemySymbol(i, j)) {
+                    //Check vertically
+                    if ((i == 0) || (i == 1)) {
+                        if (match(i, j, i + 1, j)) {
+                            if (i == 0) {
+                                check(i + 2, j);
+                            } else {
+                                check(i - 1, j);
+                            }
+                        } else if (i == 0) {
+                            if (match(i, j, i + 2, j)) {
+                                check(i + 1, j);
+                            }
+                        }
+                    }
+                    //Check horizontally
+                    if ((j == 0) || (j == 1)) {
+                        if (match(i, j, i, j + 1)) {
+                            if (j == 0) {
+                                check(i, j + 2);
+                            } else {
+                                check(i, j - 1);
+                            }
+                        } else if (j == 0) {
+                            if (match(i, j, i, j + 2)) {
+                                check(i, j + 1);
+                            }
+                        }
+                    }
+                    //Check the principal diagonal
+                    if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
+                        if (match(i, j, i + 1, j + 1)) {
+                            if (i == 0) {
+                                check(i + 1, j + 1);
+                            } else {
+                                check(i - 1, j - 1);
+                            }
+                        } else if (i == 0) {
+                            if (match(i, j, i + 2, j + 2)) {
+                                check(i + 1, j + 1);
+                            }
+                        }
+                    }
+                    //Check the secondary diagonal
+                    if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
+                        if (match(i, j, i + 1, j - 1)) {
+                            if (i == 0) {
+                                check(i + 2, j - 2);
+                            } else {
+                                check(i - 1, j + 1);
+                            }
+                        } else if (i == 0) {
+                            if (match(i, j, i + 2, j - 2)) {
+                                check(i + 1, j - 1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean match(int row1, int column1, int row2, int column2) {
+        if (getSymbolAt(row1,column1).equals(getSymbolAt(row2,column2))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private String getSymbolAt(int row, int column) {
+        return buttons[row][column].getText().toString();
+    }
+
+    private boolean isChecked(int row, int column) {
+        if (!(buttons[row][column].getText().toString().equals(""))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void check(int row, int column) {
+        if (!(buttons[row][column].getText().toString().equals(""))) {
+            return;
+        }
+
+        if (gameEngine.getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
+            if (mSymbolPlayer1 == SettingsUtility.X) {
+                buttons[row][column].setText("X");
+            } else if (mSymbolPlayer1 == SettingsUtility.O) {
+                buttons[row][column].setText("O");
+            }
+        } else if (gameEngine.getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
+            if (mSymbolPlayer1 == SettingsUtility.X) {
+                buttons[row][column].setText("O");
+            } else if (mSymbolPlayer1 == SettingsUtility.O) {
+                buttons[row][column].setText("X");
+            }
+        }
     }
 
     private void gameButtonClicked(View v) {
@@ -127,13 +401,13 @@ public class GameActivity extends AppCompatActivity {
             return;
         }
 
-        if (mSymbolPlayer1.equals("X")) {
+        if (mSymbolPlayer1 == SettingsUtility.X) {
             if (gameEngine.getPlayer1Turn()) {
                 ((Button) v).setText("X");
             } else {
                 ((Button) v).setText("O");
             }
-        } else if (mSymbolPlayer1.equals("O")) {
+        } else if (mSymbolPlayer1 == SettingsUtility.O) {
             if (gameEngine.getPlayer1Turn()) {
                 ((Button) v).setText("O");
             } else {
@@ -146,6 +420,8 @@ public class GameActivity extends AppCompatActivity {
         gameEngine.updateRoundCount();
         gameEngine.roundResult(field);
         highlightWhoStarts();
+
+        botMove();
     }
 
     private void loadButtonsText(String[][] field) {
@@ -161,16 +437,6 @@ public class GameActivity extends AppCompatActivity {
             for (int j = 0; j < 3; j++) {
                 buttons[i][j].setText("");
             }
-        }
-    }
-
-    private void showWhoStarts() {
-        if (gameEngine.getPlayer1Turn()) {
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.player_1_starts), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.player_2_starts), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -205,10 +471,10 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showPlayerSymbol() {
-            if (mSymbolPlayer1.equals("X")) {
+            if (mSymbolPlayer1 == SettingsUtility.X) {
                 textViewSymbolPlayer1.setText("X");
                 textViewSymbolPlayer2.setText("O");
-            } else if (mSymbolPlayer1.equals("O")) {
+            } else if (mSymbolPlayer1 == SettingsUtility.O) {
                 textViewSymbolPlayer1.setText("O");
                 textViewSymbolPlayer2.setText("X");
             }
@@ -217,11 +483,13 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void loadSettings() {
-        SharedPreferences preferences = this.getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        gameEngine.setWhoStarts(preferences.getInt("who_starts_value", 0));
-        gameEngine.setWhoStartsDraw(preferences.getInt("who_starts_draw_value", 0));
-        mHideSystemBars = preferences.getInt("hide_system_bars_value", 0);
-        mSymbolPlayer1 = preferences.getString("symbol_value", "X");
+        SharedPreferences preferences = this.getSharedPreferences(SettingsUtility.PREFS_FILE_SETTINGS, Context.MODE_PRIVATE);
+        gameEngine.setWhoStarts(preferences.getInt(SettingsUtility.PREFS_WHO_STARTS_VALUE, SettingsUtility.WINNER_STARTS));
+        gameEngine.setWhoStartsDraw(preferences.getInt(SettingsUtility.PREFS_WHO_STARTS_DRAW_VALUE, SettingsUtility.DRAW_OTHER_PLAYER_STARTS));
+        gameEngine.setWhoIsPlayer1(preferences.getInt(SettingsUtility.PREFS_PLAYER1_VALUE, SettingsUtility.BOT_IS_PLAYER_1));
+        gameEngine.setDifficultyLevel(preferences.getInt(SettingsUtility.PREFS_DIFFICULTY_VALUE, SettingsUtility.DIFFICULTY_LEVEL_HARD));
+        mHideSystemBars = preferences.getInt(SettingsUtility.PREFS_HIDE_SYSTEM_BARS_VALUE, 0);
+        mSymbolPlayer1 = preferences.getInt(SettingsUtility.PREFS_SYMBOL_VALUE, SettingsUtility.X );
     }
 
     private int hideSystemBars() {
