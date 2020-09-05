@@ -16,7 +16,6 @@ import java.util.Set;
 public class MenuActivity extends AppCompatActivity {
 
     public static final String EXTRA_SINGLE_PLAYER_MODE = "com.example.tictactoe.extra.SINGLE_PLAYER_MODE";
-    public static final String EXTRA_TWO_PLAYERS_MODE = "com.example.tictactoe.extra.TWO_PLAYERS_MODE";
     private LocaleManager localeManager = new LocaleManager(this, this);
     private View decorView;
     private int mHideSystemBars = 0;

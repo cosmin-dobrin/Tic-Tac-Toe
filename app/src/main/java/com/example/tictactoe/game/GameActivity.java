@@ -118,86 +118,198 @@ public class GameActivity extends AppCompatActivity {
 
         showPlayerSymbol();
         updatePointsText();
-        botMove();
         highlightWhoStarts();
+        botMove();
     }
 
     private void botMove() {
         if (mSinglePlayerMode) {
-            if ((gameEngine.getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1)
-                    && (gameEngine.getPlayer1Turn())) {
-                if (gameEngine.getDifficultyLevel() == SettingsUtility.DIFFICULTY_LEVEL_HARD) {
-                    //first move
-                    check(0, 0);
+            if (gameEngine.getDifficultyLevel() == SettingsUtility.DIFFICULTY_LEVEL_HARD) {
+                if (gameEngine.getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
+                        if (gameEngine.getPlayer1Turn()) {
+                            botP1HardFirstMove();
+                            botP1HardSecondMove();
+                            botP1HardThirdMove();
+                            botP1HardFourthMove();
+                            botP1HardFifthMove();
 
-                    //second move
-                    if (gameEngine.getRoundCount() == 2) {
-                        if (!(isChecked(2, 2))) {
-                            check(2, 2);
-                        } else {
-                            check(2, 0);
+                            String[][] field = new String[3][3];
+                            loadButtonsText(field);
+                            gameEngine.updateRoundCount();
+                            gameEngine.roundResult(field);
+                            highlightWhoStarts();
+                        }
+                    } else if (gameEngine.getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
+                        if (!gameEngine.getPlayer1Turn()) {
+                            botP2HardFirstMove();
+                            botP2HardSecondMove();
+                            botP2HardThirdMove();
+                            botP2HardFourthMove();
+
+                            String[][] field = new String[3][3];
+                            loadButtonsText(field);
+                            gameEngine.updateRoundCount();
+                            gameEngine.roundResult(field);  //Only at this point player1Turn becomes false
+                            highlightWhoStarts();
                         }
                     }
-
-                    //third move
-                    if (gameEngine.getRoundCount() == 4) {
-                        if (isChecked(1, 1)) {
-                            if (isChecked(0, 1)) {
-                                check(2, 1);
-                            } else if (isChecked(2, 1)) {
-                                check(0, 1);
-                            } else if (isChecked(1, 0)) {
-                                check(1, 2);
-                            } else if (isChecked(1, 2)) {
-                                check(1, 0);
-                            } else if (isChecked(0, 2)) {
-                                check(2, 0);
-                            } else {
-                                check(0, 2);
-                            }
-                        } else if (match(2, 2, 0, 0)) {
-                            if (isChecked(2, 0) && isChecked(0, 2)) {
-                                check(1, 1);
-                            } else if (!(isChecked(2, 0))) {
-                                check(2, 0);
-                            } else {
-                                check(0, 2);
-                            }
-                        } else {
-                            if (isChecked(0, 2)) {
-                                check(1, 0);
-                            } else {
-                                check(0, 2);
-                            }
-                        }
-                    }
-
-                    //fourth move
-                    if (gameEngine.getRoundCount() == 6) {
-                        goForWin();
-                        if (gameEngine.getRoundCount() == 6) {
-                            block();
-                        }
-                    }
-
-                    //fifth move
-                    if (gameEngine.getRoundCount() == 8) {
-                        for (int i = 0; i < 3; i++) {
-                            for (int j = 0; j < 3; j++) {
-                                if (!isChecked(i, j)) {
-                                    check(i, j);
-                                }
-                            }
-                        }
-                    }
-
-                    String[][] field = new String[3][3];
-                    loadButtonsText(field);
-                    gameEngine.updateRoundCount();
-                    gameEngine.roundResult(field);
-                    highlightWhoStarts();
                 }
             }
+        }
+
+    private void botP2HardFirstMove() {
+        if (gameEngine.getRoundCount() == 1) {
+            if (isEnemySymbol(0,0) || isEnemySymbol(0,2) ||
+                    isEnemySymbol(2,0) || isEnemySymbol(2,2)) {
+                check(1,1);
+            } else if (isEnemySymbol(1,1)) {
+                check(0,0);
+            } else {
+                check(1,1);
+            }
+        }
+    }
+
+    private void botP2HardSecondMove() {
+        if (gameEngine.getRoundCount() == 3) {
+            if (match(1, 1, 2, 2) && isChecked(0,0)) {
+                check(2,0);
+            } else if (!isEnemySymbol(1,1)) {
+                if (isEnemySymbol(0,0) || isEnemySymbol(0,2) ||
+                        isEnemySymbol(2,0) || isEnemySymbol(2,2)) {
+                    block();
+                    if (gameEngine.getRoundCount() == 3) {
+                        checkEdge();
+                    }
+                }
+            } else if (isEnemySymbol(1,1)) {
+                block();
+            } else if (findSymbolsOnOppositeEdges()) {
+                check(0,0);
+            }
+        }
+    }
+
+    private void botP2HardThirdMove() {
+        if (gameEngine.getRoundCount() == 5) {
+            if (match(1,1,0,1) ||
+                    match(1,1,1,0) ||
+            match(1,1,1,2) ||
+                    match(1,1,2,1)) {
+                goForWin();
+                if (gameEngine.getRoundCount() == 5) {
+                    block();
+                }
+            } else if (isEnemySymbol(1,1)) {
+                goForWin();
+                if (gameEngine.getRoundCount() == 5) {
+                    block();
+                }
+            }
+        }
+    }
+
+    private void botP2HardFourthMove() {
+        if (gameEngine.getRoundCount() == 7) {
+            goForWin();
+            if (gameEngine.getRoundCount() == 7) {
+                block();
+            }
+        }
+    }
+
+    private void botP1HardFirstMove() {
+        check(0, 0);
+    }
+
+    private void botP1HardSecondMove() {
+        if (gameEngine.getRoundCount() == 2) {
+            if (!(isChecked(2, 2))) {
+                check(2, 2);
+            } else {
+                check(2, 0);
+            }
+        }
+    }
+
+    private void botP1HardThirdMove() {
+        if (gameEngine.getRoundCount() == 4) {
+            if (isChecked(1, 1)) {
+                if (isChecked(0, 1)) {
+                    check(2, 1);
+                } else if (isChecked(2, 1)) {
+                    check(0, 1);
+                } else if (isChecked(1, 0)) {
+                    check(1, 2);
+                } else if (isChecked(1, 2)) {
+                    check(1, 0);
+                } else if (isChecked(0, 2)) {
+                    check(2, 0);
+                } else {
+                    check(0, 2);
+                }
+            } else if (match(2, 2, 0, 0)) {
+                if (isChecked(2, 0) && isChecked(0, 2)) {
+                    check(1, 1);
+                } else if (!(isChecked(2, 0))) {
+                    check(2, 0);
+                } else {
+                    check(0, 2);
+                }
+            } else {
+                if (isChecked(0, 2)) {
+                    check(1, 0);
+                } else {
+                    check(0, 2);
+                }
+            }
+        }
+    }
+
+    private void botP1HardFourthMove() {
+        if (gameEngine.getRoundCount() == 6) {
+            goForWin();
+            if (gameEngine.getRoundCount() == 6) {
+                block();
+            }
+        }
+    }
+
+    private void botP1HardFifthMove() {
+        if (gameEngine.getRoundCount() == 8) {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (!isChecked(i, j)) {
+                        check(i, j);
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean findSymbolsOnOppositeEdges() {
+        if ((isChecked(0,1)) && (isChecked(2,1))) {
+            return true;
+        } else if ((isChecked(1,0)) && (isChecked(1,2))) {
+            return true;
+        } else if ((isChecked(2,1)) && (isChecked(0,1))) {
+            return true;
+        } else if ((isChecked(1,2)) && (isChecked(1,0))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void checkEdge() {
+        if ((!isChecked(0,1)) && (!isChecked(2,1))) {
+            check(0,1);
+        } else if ((!isChecked(1,0)) && (!isChecked(1,2))) {
+            check(1,0);
+        } else if ((!isChecked(2,1)) && (!isChecked(0,1))) {
+            check(2,1);
+        } else if ((!isChecked(1,2)) && (!isChecked(1,0))) {
+            check(1,2);
         }
     }
 
