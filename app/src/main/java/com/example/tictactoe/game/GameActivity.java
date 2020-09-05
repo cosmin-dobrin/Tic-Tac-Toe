@@ -159,10 +159,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void botP2HardFirstMove() {
         if (gameEngine.getRoundCount() == 1) {
-            if (isEnemySymbol(0,0) || isEnemySymbol(0,2) ||
-                    isEnemySymbol(2,0) || isEnemySymbol(2,2)) {
-                check(1,1);
-            } else if (isEnemySymbol(1,1)) {
+            if (isEnemySymbol(1,1)) {
                 check(0,0);
             } else {
                 check(1,1);
@@ -178,9 +175,8 @@ public class GameActivity extends AppCompatActivity {
                 if (isEnemySymbol(0,0) || isEnemySymbol(0,2) ||
                         isEnemySymbol(2,0) || isEnemySymbol(2,2)) {
                     block();
-                    if (gameEngine.getRoundCount() == 3) {
-                        checkEdge();
-                    }
+                } else {
+                    checkEdge();
                 }
             } else if (isEnemySymbol(1,1)) {
                 block();
