@@ -174,9 +174,11 @@ public class GameActivity extends AppCompatActivity {
             } else if (!isEnemySymbol(1,1)) {
                 if (isEnemySymbol(0,0) || isEnemySymbol(0,2) ||
                         isEnemySymbol(2,0) || isEnemySymbol(2,2)) {
-                    block();
-                } else {
-                    checkEdge();
+                    if (canBlock()) {
+                        block();
+                    } else {
+                        checkEdge();
+                    }
                 }
             } else if (isEnemySymbol(1,1)) {
                 block();
@@ -188,28 +190,22 @@ public class GameActivity extends AppCompatActivity {
 
     private void botP2HardThirdMove() {
         if (gameEngine.getRoundCount() == 5) {
-            if (match(1,1,0,1) ||
-                    match(1,1,1,0) ||
-            match(1,1,1,2) ||
-                    match(1,1,2,1)) {
+            if (canWin()) {
                 goForWin();
-                if (gameEngine.getRoundCount() == 5) {
-                    block();
-                }
-            } else if (isEnemySymbol(1,1)) {
-                goForWin();
-                if (gameEngine.getRoundCount() == 5) {
-                    block();
-                }
+            } else if (canBlock()) {
+                block();
             }
         }
     }
 
     private void botP2HardFourthMove() {
         if (gameEngine.getRoundCount() == 7) {
-            goForWin();
-            if (gameEngine.getRoundCount() == 7) {
+            if (canWin()) {
+                goForWin();
+            } else if (canBlock()) {
                 block();
+            } else {
+                checkWhatIsLeft();
             }
         }
     }
@@ -273,11 +269,16 @@ public class GameActivity extends AppCompatActivity {
 
     private void botP1HardFifthMove() {
         if (gameEngine.getRoundCount() == 8) {
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    if (!isChecked(i, j)) {
-                        check(i, j);
-                    }
+            checkWhatIsLeft();
+        }
+    }
+
+    private void checkWhatIsLeft() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!isChecked(i, j)) {
+                    check(i, j);
+                    return;
                 }
             }
         }
@@ -399,6 +400,74 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    private boolean canWin() {
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+
+                if (!isEnemySymbol(i, j)) {
+                    //Check vertically
+                    if ((i == 0) || (i == 1)) {
+                        if (match(i, j, i + 1, j)) {
+                            if (i == 0) {
+                                return (!isChecked(2, j));
+                            } else {
+                                return (!isChecked(0, j));
+                            }
+                        } else if (i == 0) {
+                            if (match(i, j, i + 2, j)) {
+                                return (!isChecked(1, j));
+                            }
+                        }
+                    }
+                    //Check horizontally
+                    if ((j == 0) || (j == 1)) {
+                        if (match(i, j, i, j + 1)) {
+                            if (j == 0) {
+                                return (!isChecked(i, 2));
+                            } else {
+                                return (!isChecked(i, 0));
+                            }
+                        } else if (j == 0) {
+                            if (match(i, j, i, j + 2)) {
+                                return (!isChecked(i, 1));
+                            }
+                        }
+                    }
+                    //Check the principal diagonal
+                    if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
+                        if (match(i, j, i + 1, j + 1)) {
+                            if (i == 0) {
+                                return (!isChecked(2, 2));
+                            } else {
+                                return (!isChecked(0, 0));
+                            }
+                        } else if (i == 0) {
+                            if (match(i, j, i + 2, j + 2)) {
+                                return (!isChecked(1, 1));
+                            }
+                        }
+                    }
+                    //Check the secondary diagonal
+                    if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
+                        if (match(i, j, i + 1, j - 1)) {
+                            if (i == 0) {
+                                return (!isChecked(2, 0));
+                            } else {
+                                return (!isChecked(0, 2));
+                            }
+                        } else if (i == 0) {
+                            if (match(i, j, i + 2, j - 2)) {
+                                return (!isChecked(1, 1));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     private void block() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -462,6 +531,74 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private boolean canBlock() {
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+
+                if (isEnemySymbol(i, j)) {
+                    //Check vertically
+                    if ((i == 0) || (i == 1)) {
+                        if (match(i, j, i + 1, j)) {
+                            if (i == 0) {
+                                return (!isChecked(2, j));
+                            } else {
+                                return (!isChecked(0, j));
+                            }
+                        } else if (i == 0) {
+                            if (match(i, j, i + 2, j)) {
+                                return (!isChecked(1, j));
+                            }
+                        }
+                    }
+                    //Check horizontally
+                    if ((j == 0) || (j == 1)) {
+                        if (match(i, j, i, j + 1)) {
+                            if (j == 0) {
+                                return (!isChecked(i, 2));
+                            } else {
+                                return (!isChecked(i, 0));
+                            }
+                        } else if (j == 0) {
+                            if (match(i, j, i, j + 2)) {
+                                return (!isChecked(i, 1));
+                            }
+                        }
+                    }
+                    //Check the principal diagonal
+                    if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
+                        if (match(i, j, i + 1, j + 1)) {
+                            if (i == 0) {
+                                return (!isChecked(2, 2));
+                            } else {
+                                return (!isChecked(0, 0));
+                            }
+                        } else if (i == 0) {
+                            if (match(i, j, i + 2, j + 2)) {
+                                return (!isChecked(1, 1));
+                            }
+                        }
+                    }
+                    //Check the secondary diagonal
+                    if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
+                        if (match(i, j, i + 1, j - 1)) {
+                            if (i == 0) {
+                                return (!isChecked(2, 0));
+                            } else {
+                                return (!isChecked(0, 2));
+                            }
+                        } else if (i == 0) {
+                            if (match(i, j, i + 2, j - 2)) {
+                                return (!isChecked(1, 1));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private boolean match(int row1, int column1, int row2, int column2) {
