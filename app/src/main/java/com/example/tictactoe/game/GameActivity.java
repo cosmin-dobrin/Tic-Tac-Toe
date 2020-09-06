@@ -179,11 +179,12 @@ public class GameActivity extends AppCompatActivity {
                     } else {
                         checkEdge();
                     }
+                } else if (findSymbolsOnOppositeEdges()) {
+                    check(0,0);
                 }
             } else if (isEnemySymbol(1,1)) {
-                block();
-            } else if (findSymbolsOnOppositeEdges()) {
-                check(0,0);
+                if (canBlock())
+                    block();
             }
         }
     }
@@ -194,6 +195,8 @@ public class GameActivity extends AppCompatActivity {
                 goForWin();
             } else if (canBlock()) {
                 block();
+            } else {
+                checkWhatIsLeft();
             }
         }
     }
@@ -410,13 +413,16 @@ public class GameActivity extends AppCompatActivity {
                     if ((i == 0) || (i == 1)) {
                         if (match(i, j, i + 1, j)) {
                             if (i == 0) {
-                                return (!isChecked(2, j));
+                                if (!isChecked(2, j))
+                                    return true;
                             } else {
-                                return (!isChecked(0, j));
+                                if (!isChecked(0, j))
+                                    return true;
                             }
                         } else if (i == 0) {
                             if (match(i, j, i + 2, j)) {
-                                return (!isChecked(1, j));
+                                if (!isChecked(1, j))
+                                    return true;
                             }
                         }
                     }
@@ -424,13 +430,16 @@ public class GameActivity extends AppCompatActivity {
                     if ((j == 0) || (j == 1)) {
                         if (match(i, j, i, j + 1)) {
                             if (j == 0) {
-                                return (!isChecked(i, 2));
+                                if (!isChecked(i, 2))
+                                    return true;
                             } else {
-                                return (!isChecked(i, 0));
+                                if (!isChecked(i, 0))
+                                    return true;
                             }
                         } else if (j == 0) {
                             if (match(i, j, i, j + 2)) {
-                                return (!isChecked(i, 1));
+                                if (!isChecked(i, 1))
+                                    return true;
                             }
                         }
                     }
@@ -438,13 +447,16 @@ public class GameActivity extends AppCompatActivity {
                     if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
                         if (match(i, j, i + 1, j + 1)) {
                             if (i == 0) {
-                                return (!isChecked(2, 2));
+                                if (!isChecked(2, 2))
+                                    return true;
                             } else {
-                                return (!isChecked(0, 0));
+                                if (!isChecked(0, 0))
+                                    return true;
                             }
                         } else if (i == 0) {
                             if (match(i, j, i + 2, j + 2)) {
-                                return (!isChecked(1, 1));
+                                if (!isChecked(1, 1))
+                                    return true;
                             }
                         }
                     }
@@ -452,13 +464,16 @@ public class GameActivity extends AppCompatActivity {
                     if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
                         if (match(i, j, i + 1, j - 1)) {
                             if (i == 0) {
-                                return (!isChecked(2, 0));
+                                if (!isChecked(2, 0))
+                                    return true;
                             } else {
-                                return (!isChecked(0, 2));
+                                if (!isChecked(0, 2))
+                                    return true;
                             }
                         } else if (i == 0) {
                             if (match(i, j, i + 2, j - 2)) {
-                                return (!isChecked(1, 1));
+                                if (!isChecked(1, 1))
+                                    return true;
                             }
                         }
                     }
@@ -543,13 +558,16 @@ public class GameActivity extends AppCompatActivity {
                     if ((i == 0) || (i == 1)) {
                         if (match(i, j, i + 1, j)) {
                             if (i == 0) {
-                                return (!isChecked(2, j));
+                                if (!isChecked(2, j))
+                                    return true;
                             } else {
-                                return (!isChecked(0, j));
+                                if (!isChecked(0, j))
+                                    return true;
                             }
                         } else if (i == 0) {
                             if (match(i, j, i + 2, j)) {
-                                return (!isChecked(1, j));
+                                if (!isChecked(1, j))
+                                    return true;
                             }
                         }
                     }
@@ -557,13 +575,16 @@ public class GameActivity extends AppCompatActivity {
                     if ((j == 0) || (j == 1)) {
                         if (match(i, j, i, j + 1)) {
                             if (j == 0) {
-                                return (!isChecked(i, 2));
+                                if (!isChecked(i, 2))
+                                    return true;
                             } else {
-                                return (!isChecked(i, 0));
+                                if (!isChecked(i, 0))
+                                    return true;
                             }
                         } else if (j == 0) {
                             if (match(i, j, i, j + 2)) {
-                                return (!isChecked(i, 1));
+                                if (!isChecked(i, 1))
+                                    return true;
                             }
                         }
                     }
@@ -571,13 +592,16 @@ public class GameActivity extends AppCompatActivity {
                     if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
                         if (match(i, j, i + 1, j + 1)) {
                             if (i == 0) {
-                                return (!isChecked(2, 2));
+                                if (!isChecked(2, 2))
+                                    return true;
                             } else {
-                                return (!isChecked(0, 0));
+                                if (!isChecked(0, 0))
+                                    return true;
                             }
                         } else if (i == 0) {
                             if (match(i, j, i + 2, j + 2)) {
-                                return (!isChecked(1, 1));
+                                if (!isChecked(1, 1))
+                                    return true;
                             }
                         }
                     }
@@ -585,13 +609,16 @@ public class GameActivity extends AppCompatActivity {
                     if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
                         if (match(i, j, i + 1, j - 1)) {
                             if (i == 0) {
-                                return (!isChecked(2, 0));
+                                if (!isChecked(2, 0))
+                                    return true;
                             } else {
-                                return (!isChecked(0, 2));
+                                if (!isChecked(0, 2))
+                                    return true;
                             }
                         } else if (i == 0) {
                             if (match(i, j, i + 2, j - 2)) {
-                                return (!isChecked(1, 1));
+                                if (!isChecked(1, 1))
+                                    return true;
                             }
                         }
                     }
