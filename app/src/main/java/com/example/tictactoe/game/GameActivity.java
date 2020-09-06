@@ -226,7 +226,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void botP1HardFirstMove() {
         if (gameEngine.getRoundCount() == 0)
-        check(0, 0);
+            check(0, 0);
     }
 
     private void botP1HardSecondMove() {
@@ -275,9 +275,12 @@ public class GameActivity extends AppCompatActivity {
 
     private void botP1HardFourthMove() {
         if (gameEngine.getRoundCount() == 6) {
-            goForWin();
-            if (gameEngine.getRoundCount() == 6) {
+            if (canWin()) {
+                goForWin();
+            } else if (canBlock()) {
                 block();
+            } else {
+                checkWhatIsLeft();
             }
         }
     }
@@ -328,23 +331,32 @@ public class GameActivity extends AppCompatActivity {
     private boolean isEnemySymbol(int row, int column) {
         if (gameEngine.getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
             if (gameEngine.getPlayer1Symbol() == SettingsUtility.X) {
-                if (getSymbolAt(row, column).equals("O")) {
-                    return true;
-                }
+                return getSymbolAt(row, column).equals("O");
             } else if (gameEngine.getPlayer1Symbol() == SettingsUtility.O) {
-                if (getSymbolAt(row, column).equals("X")) {
-                    return true;
-                }
+                return getSymbolAt(row, column).equals("X");
             }
         } else if (gameEngine.getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
             if (gameEngine.getPlayer1Symbol() == SettingsUtility.X) {
-                if (getSymbolAt(row, column).equals("X")) {
-                    return true;
-                }
+                return getSymbolAt(row, column).equals("X");
             } else if (gameEngine.getPlayer1Symbol() == SettingsUtility.O) {
-                if (getSymbolAt(row, column).equals("O")) {
-                    return true;
-                }
+                return getSymbolAt(row, column).equals("O");
+            }
+        }
+        return false;
+    }
+
+    private boolean isOwnSymbol(int row, int column) {
+        if (gameEngine.getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
+            if (gameEngine.getPlayer1Symbol() == SettingsUtility.X) {
+                return getSymbolAt(row, column).equals("X");
+            } else if (gameEngine.getPlayer1Symbol() == SettingsUtility.O) {
+                return getSymbolAt(row, column).equals("O");
+            }
+        } else if (gameEngine.getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
+            if (gameEngine.getPlayer1Symbol() == SettingsUtility.X) {
+                return getSymbolAt(row, column).equals("O");
+            } else if (gameEngine.getPlayer1Symbol() == SettingsUtility.O) {
+                return getSymbolAt(row, column).equals("X");
             }
         }
         return false;
@@ -353,18 +365,21 @@ public class GameActivity extends AppCompatActivity {
     private void goForWin() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (!isEnemySymbol(i, j)) {
+                if (isOwnSymbol(i, j)) {
                     //Check vertically
                     if ((i == 0) || (i == 1)) {
                         if (match(i, j, i + 1, j)) {
                             if (i == 0) {
                                 check(i + 2, j);
+                                return;
                             } else {
                                 check(i - 1, j);
+                                return;
                             }
                         } else if (i == 0) {
                             if (match(i, j, i + 2, j)) {
                                 check(i + 1, j);
+                                return;
                             }
                         }
                     }
@@ -373,12 +388,15 @@ public class GameActivity extends AppCompatActivity {
                         if (match(i, j, i, j + 1)) {
                             if (j == 0) {
                                 check(i, j + 2);
+                                return;
                             } else {
                                 check(i, j - 1);
+                                return;
                             }
                         } else if (j == 0) {
                             if (match(i, j, i, j + 2)) {
                                 check(i, j + 1);
+                                return;
                             }
                         }
                     }
@@ -387,12 +405,15 @@ public class GameActivity extends AppCompatActivity {
                         if (match(i, j, i + 1, j + 1)) {
                             if (i == 0) {
                                 check(i + 1, j + 1);
+                                return;
                             } else {
                                 check(i - 1, j - 1);
+                                return;
                             }
                         } else if (i == 0) {
                             if (match(i, j, i + 2, j + 2)) {
                                 check(i + 1, j + 1);
+                                return;
                             }
                         }
                     }
@@ -401,12 +422,15 @@ public class GameActivity extends AppCompatActivity {
                         if (match(i, j, i + 1, j - 1)) {
                             if (i == 0) {
                                 check(i + 2, j - 2);
+                                return;
                             } else {
                                 check(i - 1, j + 1);
+                                return;
                             }
                         } else if (i == 0) {
                             if (match(i, j, i + 2, j - 2)) {
                                 check(i + 1, j - 1);
+                                return;
                             }
                         }
                     }
@@ -420,7 +444,7 @@ public class GameActivity extends AppCompatActivity {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
 
-                if (!isEnemySymbol(i, j)) {
+                if (isOwnSymbol(i, j)) {
                     //Check vertically
                     if ((i == 0) || (i == 1)) {
                         if (match(i, j, i + 1, j)) {
@@ -504,12 +528,15 @@ public class GameActivity extends AppCompatActivity {
                         if (match(i, j, i + 1, j)) {
                             if (i == 0) {
                                 check(i + 2, j);
+                                return;
                             } else {
                                 check(i - 1, j);
+                                return;
                             }
                         } else if (i == 0) {
                             if (match(i, j, i + 2, j)) {
                                 check(i + 1, j);
+                                return;
                             }
                         }
                     }
@@ -518,12 +545,15 @@ public class GameActivity extends AppCompatActivity {
                         if (match(i, j, i, j + 1)) {
                             if (j == 0) {
                                 check(i, j + 2);
+                                return;
                             } else {
                                 check(i, j - 1);
+                                return;
                             }
                         } else if (j == 0) {
                             if (match(i, j, i, j + 2)) {
                                 check(i, j + 1);
+                                return;
                             }
                         }
                     }
@@ -532,12 +562,15 @@ public class GameActivity extends AppCompatActivity {
                         if (match(i, j, i + 1, j + 1)) {
                             if (i == 0) {
                                 check(i + 1, j + 1);
+                                return;
                             } else {
                                 check(i - 1, j - 1);
+                                return;
                             }
                         } else if (i == 0) {
                             if (match(i, j, i + 2, j + 2)) {
                                 check(i + 1, j + 1);
+                                return;
                             }
                         }
                     }
@@ -546,12 +579,15 @@ public class GameActivity extends AppCompatActivity {
                         if (match(i, j, i + 1, j - 1)) {
                             if (i == 0) {
                                 check(i + 2, j - 2);
+                                return;
                             } else {
                                 check(i - 1, j + 1);
+                                return;
                             }
                         } else if (i == 0) {
                             if (match(i, j, i + 2, j - 2)) {
                                 check(i + 1, j - 1);
+                                return;
                             }
                         }
                     }
