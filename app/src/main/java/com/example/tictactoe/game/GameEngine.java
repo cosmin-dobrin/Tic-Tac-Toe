@@ -140,7 +140,7 @@ public class GameEngine {
                     setPlayer1Turn(false);
             }
 
-        } else {
+        } else if (getPlayer2Wins()) {
             if (getWhoStarts() == SettingsUtility.WINNER_STARTS) {
                 setPlayer1Turn(false);
             } else if (getWhoStarts() == SettingsUtility.DIFFERENT_PLAYER_STARTS) {

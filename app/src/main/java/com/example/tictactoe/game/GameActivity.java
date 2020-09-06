@@ -133,6 +133,11 @@ public class GameActivity extends AppCompatActivity {
                             botP1HardFourthMove();
                             botP1HardFifthMove();
 
+                            botP2HardFirstMove();
+                            botP2HardSecondMove();
+                            botP2HardThirdMove();
+                            botP2HardFourthMove();
+
                             String[][] field = new String[3][3];
                             loadButtonsText(field);
                             gameEngine.updateRoundCount();
@@ -146,10 +151,16 @@ public class GameActivity extends AppCompatActivity {
                             botP2HardThirdMove();
                             botP2HardFourthMove();
 
+                            botP1HardFirstMove();
+                            botP1HardSecondMove();
+                            botP1HardThirdMove();
+                            botP1HardFourthMove();
+                            botP1HardFifthMove();
+
                             String[][] field = new String[3][3];
                             loadButtonsText(field);
                             gameEngine.updateRoundCount();
-                            gameEngine.roundResult(field);  //Only at this point player1Turn becomes false
+                            gameEngine.roundResult(field);
                             highlightWhoStarts();
                         }
                     }
@@ -214,6 +225,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void botP1HardFirstMove() {
+        if (gameEngine.getRoundCount() == 0)
         check(0, 0);
     }
 
