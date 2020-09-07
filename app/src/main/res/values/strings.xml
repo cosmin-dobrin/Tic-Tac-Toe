@@ -8,7 +8,7 @@
     <string name="player_1_wins">Player 1 wins!</string>
     <string name="player_2_wins">Player 2 wins!</string>
     <string name="button_label_language">Language</string>
-    <string name="button_label_start">Start Game</string>
+    <string name="button_label_start">Two players</string>
     <string name="english">English</string>
     <string name="german">German</string>
     <string name="french">French</string>
@@ -28,4 +28,15 @@
     <string name="radio_button_text_other">The other player starts</string>
     <string name="radio_button_text_same">The same player starts</string>
     <string name="switch_text_hide_system_bars">Hide system bars:</string>
+    <string name="button_label_robot">Single player</string>
+    <string name="textView_text_symbol_chooser">Choose a symbol for Player 1:</string>
+    <string name="x">X</string>
+    <string name="o">O</string>
+    <string name="textView_text_player1_chooser">Choose who is Player 1:</string>
+    <string name="radio_button_text_you">You</string>
+    <string name="radio_button_text_robot">The robot</string>
+    <string name="textView_text_difficulty_chooser">Choose the difficulty:</string>
+    <string name="radio_button_text_easy">Easy</string>
+    <string name="radio_button_text_medium">Medium</string>
+    <string name="radio_button_text_hard">Hard</string>
 </resources>

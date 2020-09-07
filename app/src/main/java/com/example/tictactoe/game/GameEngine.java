@@ -12,6 +12,9 @@ public class GameEngine {
     private boolean player2Wins = false;
     private int whoStarts = 0;
     private int whoStartsDraw = 0;
+    private int player1Symbol = 0;
+    private int mWhoIsPlayer1 = 0;
+    private int mDifficultyLevel = 0;
     private GameState gameState = new GameState();
     private GameStateRepository gameStateRepository = new GameStateRepository(gameState);
     private GameCompletionListener gameCompletionListener;
@@ -87,23 +90,23 @@ public class GameEngine {
         player1Wins = true;
         player2Wins = false;
         player1Points++;
-        completion();
         restartGame();
+        completion();
     }
 
     private void player2Wins() {
         player1Wins = false;
         player2Wins = true;
         player2Points++;
-        completion();
         restartGame();
+        completion();
     }
 
     private void draw() {
         player1Wins = false;
         player2Wins = false;
-        completion();
         restartGame();
+        completion();
     }
 
     private void restartGame() {
@@ -114,7 +117,8 @@ public class GameEngine {
     void resetGame() {
         player1Points = 0;
         player2Points = 0;
-        restartGame();
+        roundCount = 0;
+        player1Turn = true;
         completion();
     }
 
@@ -136,7 +140,7 @@ public class GameEngine {
                     setPlayer1Turn(false);
             }
 
-        } else {
+        } else if (getPlayer2Wins()) {
             if (getWhoStarts() == SettingsUtility.WINNER_STARTS) {
                 setPlayer1Turn(false);
             } else if (getWhoStarts() == SettingsUtility.DIFFERENT_PLAYER_STARTS) {
@@ -147,6 +151,10 @@ public class GameEngine {
                 }
             }
         }
+    }
+
+    private void botHardMove() {
+
     }
 
     public boolean getPlayer1Wins() {
@@ -181,6 +189,10 @@ public class GameEngine {
         return whoStartsDraw;
     }
 
+    public int getPlayer1Symbol() {
+        return player1Symbol;
+    }
+
     void updateRoundCount() {
         roundCount++;
     }
@@ -205,5 +217,25 @@ public class GameEngine {
 
     public void setWhoStartsDraw(int whoStartsDraw) {
         this.whoStartsDraw = whoStartsDraw;
+    }
+
+    public void setPlayer1Symbol(int symbol) {
+        this.player1Symbol = symbol;
+    }
+
+    public int getWhoIsPlayer1() {
+        return mWhoIsPlayer1;
+    }
+
+    public void setWhoIsPlayer1(int mWhoIsPlayer1) {
+        this.mWhoIsPlayer1 = mWhoIsPlayer1;
+    }
+
+    public int getDifficultyLevel() {
+        return mDifficultyLevel;
+    }
+
+    public void setDifficultyLevel(int mDifficultyLevel) {
+        this.mDifficultyLevel = mDifficultyLevel;
     }
 }

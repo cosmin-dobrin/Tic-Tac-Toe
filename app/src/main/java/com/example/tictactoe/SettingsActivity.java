@@ -19,8 +19,11 @@ public class SettingsActivity extends AppCompatActivity {
     private LocaleManager localeManager = new LocaleManager(this, this);
     private GameEngine gameEngine = new GameEngine();
     private View decorView;
-    private RadioGroup radioGroupStart;
-    private RadioGroup radioGroupDraw;
+    private RadioGroup mRadioGroupStart;
+    private RadioGroup mRadioGroupDraw;
+    private RadioGroup mRadioGroupSymbol;
+    private RadioGroup mRadioGroupPlayer1;
+    private RadioGroup mRadioGroupDifficulty;
     private Switch mSwitchSystemBars;
     private int mHideSystemBars = 0;
 
@@ -46,11 +49,14 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        radioGroupStart = findViewById(R.id.radio_group_who_starts);
-        radioGroupDraw = findViewById(R.id.radio_group_who_starts_case_draw);
+        mRadioGroupStart = findViewById(R.id.radio_group_who_starts);
+        mRadioGroupDraw = findViewById(R.id.radio_group_who_starts_case_draw);
+        mRadioGroupSymbol = findViewById(R.id.radio_group_symbol_chooser);
+        mRadioGroupPlayer1 = findViewById(R.id.radio_group_player1_chooser);
+        mRadioGroupDifficulty = findViewById(R.id.radio_group_difficulty_chooser);
         mSwitchSystemBars = findViewById(R.id.switch_show_system_bars);
 
-        radioGroupStart.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        mRadioGroupStart.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
@@ -64,7 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        radioGroupDraw.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        mRadioGroupDraw.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
@@ -73,6 +79,51 @@ public class SettingsActivity extends AppCompatActivity {
                         break;
                     case R.id.radio_button_draw_same:
                         gameEngine.setWhoStartsDraw(SettingsUtility.DRAW_SAME_PLAYER_STARTS);
+                        break;
+                }
+            }
+        });
+
+        mRadioGroupSymbol.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radio_button_symbol_X:
+                        gameEngine.setPlayer1Symbol(SettingsUtility.X);
+                        break;
+                    case R.id.radio_button_symbol_O:
+                        gameEngine.setPlayer1Symbol(SettingsUtility.O);
+                        break;
+                }
+            }
+        });
+
+        mRadioGroupPlayer1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radio_button_you:
+                        gameEngine.setWhoIsPlayer1(SettingsUtility.YOU_ARE_PLAYER_1);
+                        break;
+                    case R.id.radio_button_robot:
+                        gameEngine.setWhoIsPlayer1(SettingsUtility.BOT_IS_PLAYER_1);
+                        break;
+                }
+            }
+        });
+
+        mRadioGroupDifficulty.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radio_button_easy:
+                        gameEngine.setDifficultyLevel(SettingsUtility.DIFFICULTY_LEVEL_EASY);
+                        break;
+                    case R.id.radio_button_medium:
+                        gameEngine.setDifficultyLevel(SettingsUtility.DIFFICULTY_LEVEL_MEDIUM);
+                        break;
+                    case R.id.radio_button_hard:
+                        gameEngine.setDifficultyLevel(SettingsUtility.DIFFICULTY_LEVEL_HARD);
                         break;
                 }
             }
@@ -92,15 +143,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         loadSettings();
-
-        if ((radioGroupStart.getCheckedRadioButtonId() != R.id.radio_button_winner)
-                && (radioGroupStart.getCheckedRadioButtonId() != R.id.radio_button_different)) {
-            radioGroupStart.check(R.id.radio_button_winner);
-        }
-        if ((radioGroupDraw.getCheckedRadioButtonId() != R.id.radio_button_draw_other)
-                && (radioGroupDraw.getCheckedRadioButtonId() != R.id.radio_button_draw_same)) {
-            radioGroupDraw.check(R.id.radio_button_draw_other);
-        }
     }
 
     @Override
@@ -109,23 +151,34 @@ public class SettingsActivity extends AppCompatActivity {
         saveSettings();
     }
 
-    void saveSettings() {
-        SharedPreferences.Editor editor = this.getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
-        editor.putInt("start_button_id", radioGroupStart.getCheckedRadioButtonId());
-        editor.putInt("draw_button_id", radioGroupDraw.getCheckedRadioButtonId());
-        editor.putInt("who_starts_value", gameEngine.getWhoStarts());
-        editor.putInt("who_starts_draw_value", gameEngine.getWhoStartsDraw());
-        editor.putBoolean("switch_state", mSwitchSystemBars.isChecked());
-        editor.putInt("hide_system_bars_value", mHideSystemBars);
+    private void saveSettings() {
+        SharedPreferences.Editor editor = this.getSharedPreferences(SettingsUtility.PREFS_FILE_SETTINGS, Context.MODE_PRIVATE).edit();
+        editor.putInt(SettingsUtility.PREFS_START_BUTTON_ID, mRadioGroupStart.getCheckedRadioButtonId());
+        editor.putInt(SettingsUtility.PREFS_DRAW_BUTTON_ID, mRadioGroupDraw.getCheckedRadioButtonId());
+        editor.putInt(SettingsUtility.PREFS_SYMBOL_BUTTON_ID, mRadioGroupSymbol.getCheckedRadioButtonId());
+        editor.putInt(SettingsUtility.PREFS_PLAYER1_BUTTON_ID, mRadioGroupPlayer1.getCheckedRadioButtonId());
+        editor.putInt(SettingsUtility.PREFS_DIFFICULTY_BUTTON_ID, mRadioGroupDifficulty.getCheckedRadioButtonId());
+
+        editor.putInt(SettingsUtility.PREFS_WHO_STARTS_VALUE, gameEngine.getWhoStarts());
+        editor.putInt(SettingsUtility.PREFS_WHO_STARTS_DRAW_VALUE, gameEngine.getWhoStartsDraw());
+        editor.putInt(SettingsUtility.PREFS_SYMBOL_VALUE, gameEngine.getPlayer1Symbol());
+        editor.putInt(SettingsUtility.PREFS_PLAYER1_VALUE, gameEngine.getWhoIsPlayer1());
+        editor.putInt(SettingsUtility.PREFS_DIFFICULTY_VALUE, gameEngine.getDifficultyLevel());
+        editor.putBoolean(SettingsUtility.PREFS_SWITCH_VALUE, mSwitchSystemBars.isChecked());
+        editor.putInt(SettingsUtility.PREFS_HIDE_SYSTEM_BARS_VALUE, mHideSystemBars);
         editor.apply();
     }
 
-    public void loadSettings() {
-        SharedPreferences prefs = this.getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        radioGroupStart.check(prefs.getInt("start_button_id", 0));
-        radioGroupDraw.check(prefs.getInt("draw_button_id", 0));
-        mHideSystemBars = prefs.getInt("hide_system_bars_value", 0);
-        mSwitchSystemBars.setChecked(prefs.getBoolean("switch_state", false));
+    private void loadSettings() {
+        SharedPreferences preferences = this.getSharedPreferences(SettingsUtility.PREFS_FILE_SETTINGS, Context.MODE_PRIVATE);
+        mRadioGroupStart.check(preferences.getInt(SettingsUtility.PREFS_START_BUTTON_ID, R.id.radio_button_winner));
+        mRadioGroupDraw.check(preferences.getInt(SettingsUtility.PREFS_DRAW_BUTTON_ID, R.id.radio_button_draw_other));
+        mRadioGroupSymbol.check(preferences.getInt(SettingsUtility.PREFS_SYMBOL_BUTTON_ID, R.id.radio_button_symbol_X));
+        mRadioGroupPlayer1.check(preferences.getInt(SettingsUtility.PREFS_PLAYER1_BUTTON_ID, R.id.radio_button_you));
+        mRadioGroupDifficulty.check(preferences.getInt(SettingsUtility.PREFS_DIFFICULTY_BUTTON_ID, R.id.radio_button_easy));
+
+        mHideSystemBars = preferences.getInt(SettingsUtility.PREFS_HIDE_SYSTEM_BARS_VALUE, 0);
+        mSwitchSystemBars.setChecked(preferences.getBoolean(SettingsUtility.PREFS_SWITCH_VALUE, false));
     }
 
     @Override
