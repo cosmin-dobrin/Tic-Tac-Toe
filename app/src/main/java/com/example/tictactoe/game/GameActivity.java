@@ -205,7 +205,7 @@ public class GameActivity extends AppCompatActivity {
             if (canWin()) {
                 goForWin();
             } else if (canBlock()) {
-                block();
+                block();        // If there is one possible block and one fake block the block will be allowed but might block the fake one
             } else {
                 checkWhatIsLeft();
             }
@@ -369,15 +369,17 @@ public class GameActivity extends AppCompatActivity {
                     //Check vertically
                     if ((i == 0) || (i == 1)) {
                         if (match(i, j, i + 1, j)) {
-                            if (i == 0) {
+                            if ((i == 0) && (!isChecked(i + 2, j))) {
                                 check(i + 2, j);
                                 return;
-                            } else {
+                            } else if ((i == 1) && (!isChecked(i - 1, j))) {
                                 check(i - 1, j);
                                 return;
                             }
                         } else if (i == 0) {
-                            if (match(i, j, i + 2, j)) {
+                            if (match(i, j, i + 2, j) &&
+                                    (!isChecked(i + 1, j))) {
+
                                 check(i + 1, j);
                                 return;
                             }
@@ -386,15 +388,17 @@ public class GameActivity extends AppCompatActivity {
                     //Check horizontally
                     if ((j == 0) || (j == 1)) {
                         if (match(i, j, i, j + 1)) {
-                            if (j == 0) {
+                            if ((j == 0) && (!isChecked(i, j + 2))) {
                                 check(i, j + 2);
                                 return;
-                            } else {
+                            } else if ((j == 1) && (!isChecked(i, j - 1))) {
                                 check(i, j - 1);
                                 return;
                             }
                         } else if (j == 0) {
-                            if (match(i, j, i, j + 2)) {
+                            if (match(i, j, i, j + 2) &&
+                                    (!isChecked(i, j + 1))) {
+
                                 check(i, j + 1);
                                 return;
                             }
@@ -403,15 +407,17 @@ public class GameActivity extends AppCompatActivity {
                     //Check the principal diagonal
                     if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
                         if (match(i, j, i + 1, j + 1)) {
-                            if (i == 0) {
-                                check(i + 1, j + 1);
+                            if ((i == 0) && (!isChecked(i + 2, j + 2))) {
+                                check(i + 2, j + 2);
                                 return;
-                            } else {
+                            } else if ((i == 1) && (!isChecked(i - 1, j - 1))) {
                                 check(i - 1, j - 1);
                                 return;
                             }
                         } else if (i == 0) {
-                            if (match(i, j, i + 2, j + 2)) {
+                            if (match(i, j, i + 2, j + 2) &&
+                                    (!isChecked(i + 1, j + 1))) {
+
                                 check(i + 1, j + 1);
                                 return;
                             }
@@ -420,15 +426,17 @@ public class GameActivity extends AppCompatActivity {
                     //Check the secondary diagonal
                     if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
                         if (match(i, j, i + 1, j - 1)) {
-                            if (i == 0) {
+                            if ((i == 0) && (!isChecked(i + 2, j - 2))) {
                                 check(i + 2, j - 2);
                                 return;
-                            } else {
+                            } else if ((i == 1) && (!isChecked(i - 1, j + 1))) {
                                 check(i - 1, j + 1);
                                 return;
                             }
                         } else if (i == 0) {
-                            if (match(i, j, i + 2, j - 2)) {
+                            if (match(i, j, i + 2, j - 2) &&
+                                    (!isChecked(i + 1, j - 1))) {
+
                                 check(i + 1, j - 1);
                                 return;
                             }
@@ -526,15 +534,17 @@ public class GameActivity extends AppCompatActivity {
                     //Check vertically
                     if ((i == 0) || (i == 1)) {
                         if (match(i, j, i + 1, j)) {
-                            if (i == 0) {
+                            if ((i == 0) && (!isChecked(i + 2, j))) {
                                 check(i + 2, j);
                                 return;
-                            } else {
+                            } else if ((i == 1) && (!isChecked(i - 1, j))) {
                                 check(i - 1, j);
                                 return;
                             }
                         } else if (i == 0) {
-                            if (match(i, j, i + 2, j)) {
+                            if (match(i, j, i + 2, j) &&
+                                    (!isChecked(i + 1, j))) {
+
                                 check(i + 1, j);
                                 return;
                             }
@@ -543,15 +553,17 @@ public class GameActivity extends AppCompatActivity {
                     //Check horizontally
                     if ((j == 0) || (j == 1)) {
                         if (match(i, j, i, j + 1)) {
-                            if (j == 0) {
+                            if ((j == 0) && (!isChecked(i, j + 2))) {
                                 check(i, j + 2);
                                 return;
-                            } else {
+                            } else if ((j == 1) && (!isChecked(i, j - 1))) {
                                 check(i, j - 1);
                                 return;
                             }
                         } else if (j == 0) {
-                            if (match(i, j, i, j + 2)) {
+                            if (match(i, j, i, j + 2) &&
+                                    (!isChecked(i, j + 1))) {
+
                                 check(i, j + 1);
                                 return;
                             }
@@ -560,15 +572,17 @@ public class GameActivity extends AppCompatActivity {
                     //Check the principal diagonal
                     if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
                         if (match(i, j, i + 1, j + 1)) {
-                            if (i == 0) {
-                                check(i + 1, j + 1);
+                            if ((i == 0) && (!isChecked(i + 2, j + 2))) {
+                                check(i + 2, j + 2);
                                 return;
-                            } else {
+                            } else if ((i == 1) && (!isChecked(i - 1, j - 1))) {
                                 check(i - 1, j - 1);
                                 return;
                             }
                         } else if (i == 0) {
-                            if (match(i, j, i + 2, j + 2)) {
+                            if (match(i, j, i + 2, j + 2) &&
+                                    (!isChecked(i + 1, j + 1))) {
+
                                 check(i + 1, j + 1);
                                 return;
                             }
@@ -577,15 +591,17 @@ public class GameActivity extends AppCompatActivity {
                     //Check the secondary diagonal
                     if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
                         if (match(i, j, i + 1, j - 1)) {
-                            if (i == 0) {
+                            if ((i == 0) && (!isChecked(i + 2, j - 2))) {
                                 check(i + 2, j - 2);
                                 return;
-                            } else {
+                            } else if ((i == 1) && (!isChecked( i - 1, j + 1))) {
                                 check(i - 1, j + 1);
                                 return;
                             }
                         } else if (i == 0) {
-                            if (match(i, j, i + 2, j - 2)) {
+                            if (match(i, j, i + 2, j - 2) &&
+                                    (!isChecked(i + 1, j - 1))) {
+
                                 check(i + 1, j - 1);
                                 return;
                             }
