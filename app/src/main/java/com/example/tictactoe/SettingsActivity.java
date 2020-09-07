@@ -89,10 +89,10 @@ public class SettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.radio_button_symbol_X:
-                        gameEngine.setPlayer1Symbol(SettingsUtility.X);
+                        gameEngine.setSymbolPlayer1(SettingsUtility.X);
                         break;
                     case R.id.radio_button_symbol_O:
-                        gameEngine.setPlayer1Symbol(SettingsUtility.O);
+                        gameEngine.setSymbolPlayer1(SettingsUtility.O);
                         break;
                 }
             }
@@ -161,7 +161,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         editor.putInt(SettingsUtility.PREFS_WHO_STARTS_VALUE, gameEngine.getWhoStarts());
         editor.putInt(SettingsUtility.PREFS_WHO_STARTS_DRAW_VALUE, gameEngine.getWhoStartsDraw());
-        editor.putInt(SettingsUtility.PREFS_SYMBOL_VALUE, gameEngine.getPlayer1Symbol());
+        editor.putInt(SettingsUtility.PREFS_SYMBOL_VALUE, gameEngine.getSymbolPlayer1());
         editor.putInt(SettingsUtility.PREFS_PLAYER1_VALUE, gameEngine.getWhoIsPlayer1());
         editor.putInt(SettingsUtility.PREFS_DIFFICULTY_VALUE, gameEngine.getDifficultyLevel());
         editor.putBoolean(SettingsUtility.PREFS_SWITCH_VALUE, mSwitchSystemBars.isChecked());

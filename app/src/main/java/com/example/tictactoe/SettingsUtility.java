@@ -1,8 +1,5 @@
 package com.example.tictactoe;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 public class SettingsUtility {
 
     public static final int WINNER_STARTS = 0;

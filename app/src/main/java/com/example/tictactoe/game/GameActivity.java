@@ -30,7 +30,6 @@ public class GameActivity extends AppCompatActivity {
     private TextView textViewSymbolPlayer2;
     private Button[][] buttons;
     private View decorView;
-    private int mSymbolPlayer1;
     private int mHideSystemBars = 0;
     private boolean mSinglePlayerMode;
 
@@ -127,623 +126,41 @@ public class GameActivity extends AppCompatActivity {
             if (gameEngine.getDifficultyLevel() == SettingsUtility.DIFFICULTY_LEVEL_HARD) {
                 if (gameEngine.getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
                         if (gameEngine.getPlayer1Turn()) {
-                            botP1HardFirstMove();
-                            botP1HardSecondMove();
-                            botP1HardThirdMove();
-                            botP1HardFourthMove();
-                            botP1HardFifthMove();
 
-                            botP2HardFirstMove();
-                            botP2HardSecondMove();
-                            botP2HardThirdMove();
-                            botP2HardFourthMove();
+                            updateButtonsText(gameEngine.botP1HardMoves(loadButtonsText()));
+                            updateButtonsText(gameEngine.botP2HardMoves(loadButtonsText()));
 
-                            String[][] field = new String[3][3];
-                            loadButtonsText(field);
                             gameEngine.updateRoundCount();
-                            gameEngine.roundResult(field);
+                            gameEngine.roundResult(loadButtonsText());
                             highlightWhoStarts();
                         }
                     } else if (gameEngine.getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
                         if (!gameEngine.getPlayer1Turn()) {
-                            botP2HardFirstMove();
-                            botP2HardSecondMove();
-                            botP2HardThirdMove();
-                            botP2HardFourthMove();
 
-                            botP1HardFirstMove();
-                            botP1HardSecondMove();
-                            botP1HardThirdMove();
-                            botP1HardFourthMove();
-                            botP1HardFifthMove();
+                            updateButtonsText(gameEngine.botP2HardMoves(loadButtonsText()));
+                            updateButtonsText(gameEngine.botP1HardMoves(loadButtonsText()));
 
-                            String[][] field = new String[3][3];
-                            loadButtonsText(field);
                             gameEngine.updateRoundCount();
-                            gameEngine.roundResult(field);
+                            gameEngine.roundResult(loadButtonsText());
                             highlightWhoStarts();
                         }
                     }
                 }
             }
         }
-
-    private void botP2HardFirstMove() {
-        if (gameEngine.getRoundCount() == 1) {
-            if (isEnemySymbol(1,1)) {
-                check(0,0);
-            } else {
-                check(1,1);
-            }
-        }
-    }
-
-    private void botP2HardSecondMove() {
-        if (gameEngine.getRoundCount() == 3) {
-            if (match(1, 1, 2, 2) && isChecked(0,0)) {
-                check(2,0);
-            } else if (!isEnemySymbol(1,1)) {
-                if (isEnemySymbol(0,0) || isEnemySymbol(0,2) ||
-                        isEnemySymbol(2,0) || isEnemySymbol(2,2)) {
-                    if (canBlock()) {
-                        block();
-                    } else {
-                        checkEdge();
-                    }
-                } else if (findSymbolsOnOppositeEdges()) {
-                    check(0,0);
-                }
-            } else if (isEnemySymbol(1,1)) {
-                if (canBlock())
-                    block();
-            }
-        }
-    }
-
-    private void botP2HardThirdMove() {
-        if (gameEngine.getRoundCount() == 5) {
-            if (canWin()) {
-                goForWin();
-            } else if (canBlock()) {
-                block();        // If there is one possible block and one fake block the block will be allowed but might block the fake one
-            } else {
-                checkWhatIsLeft();
-            }
-        }
-    }
-
-    private void botP2HardFourthMove() {
-        if (gameEngine.getRoundCount() == 7) {
-            if (canWin()) {
-                goForWin();
-            } else if (canBlock()) {
-                block();
-            } else {
-                checkWhatIsLeft();
-            }
-        }
-    }
-
-    private void botP1HardFirstMove() {
-        if (gameEngine.getRoundCount() == 0)
-            check(0, 0);
-    }
-
-    private void botP1HardSecondMove() {
-        if (gameEngine.getRoundCount() == 2) {
-            if (!(isChecked(2, 2))) {
-                check(2, 2);
-            } else {
-                check(2, 0);
-            }
-        }
-    }
-
-    private void botP1HardThirdMove() {
-        if (gameEngine.getRoundCount() == 4) {
-            if (isChecked(1, 1)) {
-                if (isChecked(0, 1)) {
-                    check(2, 1);
-                } else if (isChecked(2, 1)) {
-                    check(0, 1);
-                } else if (isChecked(1, 0)) {
-                    check(1, 2);
-                } else if (isChecked(1, 2)) {
-                    check(1, 0);
-                } else if (isChecked(0, 2)) {
-                    check(2, 0);
-                } else {
-                    check(0, 2);
-                }
-            } else if (match(2, 2, 0, 0)) {
-                if (isChecked(2, 0) && isChecked(0, 2)) {
-                    check(1, 1);
-                } else if (!(isChecked(2, 0))) {
-                    check(2, 0);
-                } else {
-                    check(0, 2);
-                }
-            } else {
-                if (isChecked(0, 2)) {
-                    check(1, 0);
-                } else {
-                    check(0, 2);
-                }
-            }
-        }
-    }
-
-    private void botP1HardFourthMove() {
-        if (gameEngine.getRoundCount() == 6) {
-            if (canWin()) {
-                goForWin();
-            } else if (canBlock()) {
-                block();
-            } else {
-                checkWhatIsLeft();
-            }
-        }
-    }
-
-    private void botP1HardFifthMove() {
-        if (gameEngine.getRoundCount() == 8) {
-            checkWhatIsLeft();
-        }
-    }
-
-    private void checkWhatIsLeft() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (!isChecked(i, j)) {
-                    check(i, j);
-                    return;
-                }
-            }
-        }
-    }
-
-    private boolean findSymbolsOnOppositeEdges() {
-        if ((isChecked(0,1)) && (isChecked(2,1))) {
-            return true;
-        } else if ((isChecked(1,0)) && (isChecked(1,2))) {
-            return true;
-        } else if ((isChecked(2,1)) && (isChecked(0,1))) {
-            return true;
-        } else if ((isChecked(1,2)) && (isChecked(1,0))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private void checkEdge() {
-        if ((!isChecked(0,1)) && (!isChecked(2,1))) {
-            check(0,1);
-        } else if ((!isChecked(1,0)) && (!isChecked(1,2))) {
-            check(1,0);
-        } else if ((!isChecked(2,1)) && (!isChecked(0,1))) {
-            check(2,1);
-        } else if ((!isChecked(1,2)) && (!isChecked(1,0))) {
-            check(1,2);
-        }
-    }
-
-    private boolean isEnemySymbol(int row, int column) {
-        if (gameEngine.getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
-            if (gameEngine.getPlayer1Symbol() == SettingsUtility.X) {
-                return getSymbolAt(row, column).equals("O");
-            } else if (gameEngine.getPlayer1Symbol() == SettingsUtility.O) {
-                return getSymbolAt(row, column).equals("X");
-            }
-        } else if (gameEngine.getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
-            if (gameEngine.getPlayer1Symbol() == SettingsUtility.X) {
-                return getSymbolAt(row, column).equals("X");
-            } else if (gameEngine.getPlayer1Symbol() == SettingsUtility.O) {
-                return getSymbolAt(row, column).equals("O");
-            }
-        }
-        return false;
-    }
-
-    private boolean isOwnSymbol(int row, int column) {
-        if (gameEngine.getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
-            if (gameEngine.getPlayer1Symbol() == SettingsUtility.X) {
-                return getSymbolAt(row, column).equals("X");
-            } else if (gameEngine.getPlayer1Symbol() == SettingsUtility.O) {
-                return getSymbolAt(row, column).equals("O");
-            }
-        } else if (gameEngine.getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
-            if (gameEngine.getPlayer1Symbol() == SettingsUtility.X) {
-                return getSymbolAt(row, column).equals("O");
-            } else if (gameEngine.getPlayer1Symbol() == SettingsUtility.O) {
-                return getSymbolAt(row, column).equals("X");
-            }
-        }
-        return false;
-    }
-
-    private void goForWin() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (isOwnSymbol(i, j)) {
-                    //Check vertically
-                    if ((i == 0) || (i == 1)) {
-                        if (match(i, j, i + 1, j)) {
-                            if ((i == 0) && (!isChecked(i + 2, j))) {
-                                check(i + 2, j);
-                                return;
-                            } else if ((i == 1) && (!isChecked(i - 1, j))) {
-                                check(i - 1, j);
-                                return;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j) &&
-                                    (!isChecked(i + 1, j))) {
-
-                                check(i + 1, j);
-                                return;
-                            }
-                        }
-                    }
-                    //Check horizontally
-                    if ((j == 0) || (j == 1)) {
-                        if (match(i, j, i, j + 1)) {
-                            if ((j == 0) && (!isChecked(i, j + 2))) {
-                                check(i, j + 2);
-                                return;
-                            } else if ((j == 1) && (!isChecked(i, j - 1))) {
-                                check(i, j - 1);
-                                return;
-                            }
-                        } else if (j == 0) {
-                            if (match(i, j, i, j + 2) &&
-                                    (!isChecked(i, j + 1))) {
-
-                                check(i, j + 1);
-                                return;
-                            }
-                        }
-                    }
-                    //Check the principal diagonal
-                    if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j + 1)) {
-                            if ((i == 0) && (!isChecked(i + 2, j + 2))) {
-                                check(i + 2, j + 2);
-                                return;
-                            } else if ((i == 1) && (!isChecked(i - 1, j - 1))) {
-                                check(i - 1, j - 1);
-                                return;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j + 2) &&
-                                    (!isChecked(i + 1, j + 1))) {
-
-                                check(i + 1, j + 1);
-                                return;
-                            }
-                        }
-                    }
-                    //Check the secondary diagonal
-                    if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j - 1)) {
-                            if ((i == 0) && (!isChecked(i + 2, j - 2))) {
-                                check(i + 2, j - 2);
-                                return;
-                            } else if ((i == 1) && (!isChecked(i - 1, j + 1))) {
-                                check(i - 1, j + 1);
-                                return;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j - 2) &&
-                                    (!isChecked(i + 1, j - 1))) {
-
-                                check(i + 1, j - 1);
-                                return;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private boolean canWin() {
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-
-                if (isOwnSymbol(i, j)) {
-                    //Check vertically
-                    if ((i == 0) || (i == 1)) {
-                        if (match(i, j, i + 1, j)) {
-                            if (i == 0) {
-                                if (!isChecked(2, j))
-                                    return true;
-                            } else {
-                                if (!isChecked(0, j))
-                                    return true;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j)) {
-                                if (!isChecked(1, j))
-                                    return true;
-                            }
-                        }
-                    }
-                    //Check horizontally
-                    if ((j == 0) || (j == 1)) {
-                        if (match(i, j, i, j + 1)) {
-                            if (j == 0) {
-                                if (!isChecked(i, 2))
-                                    return true;
-                            } else {
-                                if (!isChecked(i, 0))
-                                    return true;
-                            }
-                        } else if (j == 0) {
-                            if (match(i, j, i, j + 2)) {
-                                if (!isChecked(i, 1))
-                                    return true;
-                            }
-                        }
-                    }
-                    //Check the principal diagonal
-                    if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j + 1)) {
-                            if (i == 0) {
-                                if (!isChecked(2, 2))
-                                    return true;
-                            } else {
-                                if (!isChecked(0, 0))
-                                    return true;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j + 2)) {
-                                if (!isChecked(1, 1))
-                                    return true;
-                            }
-                        }
-                    }
-                    //Check the secondary diagonal
-                    if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j - 1)) {
-                            if (i == 0) {
-                                if (!isChecked(2, 0))
-                                    return true;
-                            } else {
-                                if (!isChecked(0, 2))
-                                    return true;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j - 2)) {
-                                if (!isChecked(1, 1))
-                                    return true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    private void block() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (isEnemySymbol(i, j)) {
-                    //Check vertically
-                    if ((i == 0) || (i == 1)) {
-                        if (match(i, j, i + 1, j)) {
-                            if ((i == 0) && (!isChecked(i + 2, j))) {
-                                check(i + 2, j);
-                                return;
-                            } else if ((i == 1) && (!isChecked(i - 1, j))) {
-                                check(i - 1, j);
-                                return;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j) &&
-                                    (!isChecked(i + 1, j))) {
-
-                                check(i + 1, j);
-                                return;
-                            }
-                        }
-                    }
-                    //Check horizontally
-                    if ((j == 0) || (j == 1)) {
-                        if (match(i, j, i, j + 1)) {
-                            if ((j == 0) && (!isChecked(i, j + 2))) {
-                                check(i, j + 2);
-                                return;
-                            } else if ((j == 1) && (!isChecked(i, j - 1))) {
-                                check(i, j - 1);
-                                return;
-                            }
-                        } else if (j == 0) {
-                            if (match(i, j, i, j + 2) &&
-                                    (!isChecked(i, j + 1))) {
-
-                                check(i, j + 1);
-                                return;
-                            }
-                        }
-                    }
-                    //Check the principal diagonal
-                    if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j + 1)) {
-                            if ((i == 0) && (!isChecked(i + 2, j + 2))) {
-                                check(i + 2, j + 2);
-                                return;
-                            } else if ((i == 1) && (!isChecked(i - 1, j - 1))) {
-                                check(i - 1, j - 1);
-                                return;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j + 2) &&
-                                    (!isChecked(i + 1, j + 1))) {
-
-                                check(i + 1, j + 1);
-                                return;
-                            }
-                        }
-                    }
-                    //Check the secondary diagonal
-                    if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j - 1)) {
-                            if ((i == 0) && (!isChecked(i + 2, j - 2))) {
-                                check(i + 2, j - 2);
-                                return;
-                            } else if ((i == 1) && (!isChecked( i - 1, j + 1))) {
-                                check(i - 1, j + 1);
-                                return;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j - 2) &&
-                                    (!isChecked(i + 1, j - 1))) {
-
-                                check(i + 1, j - 1);
-                                return;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private boolean canBlock() {
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-
-                if (isEnemySymbol(i, j)) {
-                    //Check vertically
-                    if ((i == 0) || (i == 1)) {
-                        if (match(i, j, i + 1, j)) {
-                            if (i == 0) {
-                                if (!isChecked(2, j))
-                                    return true;
-                            } else {
-                                if (!isChecked(0, j))
-                                    return true;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j)) {
-                                if (!isChecked(1, j))
-                                    return true;
-                            }
-                        }
-                    }
-                    //Check horizontally
-                    if ((j == 0) || (j == 1)) {
-                        if (match(i, j, i, j + 1)) {
-                            if (j == 0) {
-                                if (!isChecked(i, 2))
-                                    return true;
-                            } else {
-                                if (!isChecked(i, 0))
-                                    return true;
-                            }
-                        } else if (j == 0) {
-                            if (match(i, j, i, j + 2)) {
-                                if (!isChecked(i, 1))
-                                    return true;
-                            }
-                        }
-                    }
-                    //Check the principal diagonal
-                    if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j + 1)) {
-                            if (i == 0) {
-                                if (!isChecked(2, 2))
-                                    return true;
-                            } else {
-                                if (!isChecked(0, 0))
-                                    return true;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j + 2)) {
-                                if (!isChecked(1, 1))
-                                    return true;
-                            }
-                        }
-                    }
-                    //Check the secondary diagonal
-                    if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j - 1)) {
-                            if (i == 0) {
-                                if (!isChecked(2, 0))
-                                    return true;
-                            } else {
-                                if (!isChecked(0, 2))
-                                    return true;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j - 2)) {
-                                if (!isChecked(1, 1))
-                                    return true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean match(int row1, int column1, int row2, int column2) {
-        if (getSymbolAt(row1,column1).equals(getSymbolAt(row2,column2))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private String getSymbolAt(int row, int column) {
-        return buttons[row][column].getText().toString();
-    }
-
-    private boolean isChecked(int row, int column) {
-        if (!(buttons[row][column].getText().toString().equals(""))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private void check(int row, int column) {
-        if (!(buttons[row][column].getText().toString().equals(""))) {
-            return;
-        }
-
-        if (gameEngine.getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
-            if (mSymbolPlayer1 == SettingsUtility.X) {
-                buttons[row][column].setText("X");
-            } else if (mSymbolPlayer1 == SettingsUtility.O) {
-                buttons[row][column].setText("O");
-            }
-        } else if (gameEngine.getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
-            if (mSymbolPlayer1 == SettingsUtility.X) {
-                buttons[row][column].setText("O");
-            } else if (mSymbolPlayer1 == SettingsUtility.O) {
-                buttons[row][column].setText("X");
-            }
-        }
-    }
 
     private void gameButtonClicked(View v) {
         if (!((Button) v).getText().toString().equals("")) {
             return;
         }
 
-        if (mSymbolPlayer1 == SettingsUtility.X) {
+        if (gameEngine.getSymbolPlayer1() == SettingsUtility.X) {
             if (gameEngine.getPlayer1Turn()) {
                 ((Button) v).setText("X");
             } else {
                 ((Button) v).setText("O");
             }
-        } else if (mSymbolPlayer1 == SettingsUtility.O) {
+        } else if (gameEngine.getSymbolPlayer1() == SettingsUtility.O) {
             if (gameEngine.getPlayer1Turn()) {
                 ((Button) v).setText("O");
             } else {
@@ -751,21 +168,32 @@ public class GameActivity extends AppCompatActivity {
             }
         }
 
-        String[][] field = new String[3][3];
-        loadButtonsText(field);
         gameEngine.updateRoundCount();
-        gameEngine.roundResult(field);
+        gameEngine.roundResult(loadButtonsText());
         highlightWhoStarts();
 
         botMove();
     }
 
-    private void loadButtonsText(String[][] field) {
+    private void updateButtonsText(String[][] gameTable) {
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                buttons[i][j].setText(gameTable[i][j]);
+            }
+        }
+    }
+
+    private String[][] loadButtonsText() {
+
+        String[][] field = new String[3][3];
+
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 field[i][j] = buttons[i][j].getText().toString();
             }
         }
+
+        return field;
     }
 
     private void cleanBoard() {
@@ -807,10 +235,10 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showPlayerSymbol() {
-            if (mSymbolPlayer1 == SettingsUtility.X) {
+            if (gameEngine.getSymbolPlayer1() == SettingsUtility.X) {
                 textViewSymbolPlayer1.setText("X");
                 textViewSymbolPlayer2.setText("O");
-            } else if (mSymbolPlayer1 == SettingsUtility.O) {
+            } else if (gameEngine.getSymbolPlayer1() == SettingsUtility.O) {
                 textViewSymbolPlayer1.setText("O");
                 textViewSymbolPlayer2.setText("X");
             }
@@ -824,8 +252,8 @@ public class GameActivity extends AppCompatActivity {
         gameEngine.setWhoStartsDraw(preferences.getInt(SettingsUtility.PREFS_WHO_STARTS_DRAW_VALUE, SettingsUtility.DRAW_OTHER_PLAYER_STARTS));
         gameEngine.setWhoIsPlayer1(preferences.getInt(SettingsUtility.PREFS_PLAYER1_VALUE, SettingsUtility.BOT_IS_PLAYER_1));
         gameEngine.setDifficultyLevel(preferences.getInt(SettingsUtility.PREFS_DIFFICULTY_VALUE, SettingsUtility.DIFFICULTY_LEVEL_HARD));
+        gameEngine.setSymbolPlayer1(preferences.getInt(SettingsUtility.PREFS_SYMBOL_VALUE, SettingsUtility.X ));
         mHideSystemBars = preferences.getInt(SettingsUtility.PREFS_HIDE_SYSTEM_BARS_VALUE, 0);
-        mSymbolPlayer1 = preferences.getInt(SettingsUtility.PREFS_SYMBOL_VALUE, SettingsUtility.X );
     }
 
     private int hideSystemBars() {
