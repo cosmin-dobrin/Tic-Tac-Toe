@@ -275,267 +275,82 @@ public class GameEngine {
             for (int j = 0; j < 3; j++) {
 
                 if (isOwnSymbol(i, j, gameTable)) {
-                    stop = checkVerticallyForWin(gameTable, i, j);
+                    stop = checkVertically(gameTable, i, j);
                     if (stop) break;
-                    stop = checkHorizontallyForWin(gameTable, i, j);
+                    stop = checkHorizontally(gameTable, i, j);
                     if (stop) break;
-                    stop = checkPrincipalDiagonalForWin(gameTable, i, j);
+                    stop = checkPrincipalDiagonal(gameTable, i, j);
                     if (stop) break;
-                    stop = checkSecondaryDiagonalForWin(gameTable, i, j);
+                    stop = checkSecondaryDiagonal(gameTable, i, j);
                     if (stop) break;
                 }
             }
         }
     }
 
-    private boolean canWin(String[][] buttons) {
+    private boolean canWin(String[][] gameTable) {
+        boolean stop;
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
 
-                if (isOwnSymbol(i, j, buttons)) {
-                    //Check vertically
-                    if ((i == 0) || (i == 1)) {
-                        if (match(i, j, i + 1, j, buttons)) {
-                            if (i == 0) {
-                                if (!isChecked(2, j, buttons))
-                                    return true;
-                            } else {
-                                if (!isChecked(0, j, buttons))
-                                    return true;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j, buttons)) {
-                                if (!isChecked(1, j, buttons))
-                                    return true;
-                            }
-                        }
-                    }
-                    //Check horizontally
-                    if ((j == 0) || (j == 1)) {
-                        if (match(i, j, i, j + 1, buttons)) {
-                            if (j == 0) {
-                                if (!isChecked(i, 2, buttons))
-                                    return true;
-                            } else {
-                                if (!isChecked(i, 0, buttons))
-                                    return true;
-                            }
-                        } else if (j == 0) {
-                            if (match(i, j, i, j + 2, buttons)) {
-                                if (!isChecked(i, 1, buttons))
-                                    return true;
-                            }
-                        }
-                    }
-                    //Check the principal diagonal
-                    if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j + 1, buttons)) {
-                            if (i == 0) {
-                                if (!isChecked(2, 2, buttons))
-                                    return true;
-                            } else {
-                                if (!isChecked(0, 0, buttons))
-                                    return true;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j + 2, buttons)) {
-                                if (!isChecked(1, 1, buttons))
-                                    return true;
-                            }
-                        }
-                    }
-                    //Check the secondary diagonal
-                    if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j - 1, buttons)) {
-                            if (i == 0) {
-                                if (!isChecked(2, 0, buttons))
-                                    return true;
-                            } else {
-                                if (!isChecked(0, 2, buttons))
-                                    return true;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j - 2, buttons)) {
-                                if (!isChecked(1, 1, buttons))
-                                    return true;
-                            }
-                        }
-                    }
+                if (isOwnSymbol(i, j, gameTable)) {
+                    stop = scanVertically(gameTable, i, j);
+                    if (stop) return true;
+                    stop = scanHorizontally(gameTable, i, j);
+                    if (stop) return true;
+                    stop = scanPrincipalDiagonal(gameTable, i, j);
+                    if (stop) return true;
+                    stop = scanSecondaryDiagonal(gameTable, i, j);
+                    if (stop) return true;
                 }
             }
         }
         return false;
     }
 
-    private void block(String[][] buttons) {
+    private void block(String[][] gameTable) {
+        boolean stop;
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
 
-                if (isEnemySymbol(i, j, buttons)) {
-                    //Check vertically
-                    if ((i == 0) || (i == 1)) {
-                        if (match(i, j, i + 1, j, buttons)) {
-                            if ((i == 0) && (!isChecked(i + 2, j, buttons))) {
-                                check(i + 2, j, buttons);
-                                return;
-                            } else if ((i == 1) && (!isChecked(i - 1, j, buttons))) {
-                                check(i - 1, j, buttons);
-                                return;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j, buttons) &&
-                                    (!isChecked(i + 1, j, buttons))) {
-
-                                check(i + 1, j, buttons);
-                                return;
-                            }
-                        }
-                    }
-                    //Check horizontally
-                    if ((j == 0) || (j == 1)) {
-                        if (match(i, j, i, j + 1, buttons)) {
-                            if ((j == 0) && (!isChecked(i, j + 2, buttons))) {
-                                check(i, j + 2, buttons);
-                                return;
-                            } else if ((j == 1) && (!isChecked(i, j - 1, buttons))) {
-                                check(i, j - 1, buttons);
-                                return;
-                            }
-                        } else if (j == 0) {
-                            if (match(i, j, i, j + 2, buttons) &&
-                                    (!isChecked(i, j + 1, buttons))) {
-
-                                check(i, j + 1, buttons);
-                                return;
-                            }
-                        }
-                    }
-                    //Check the principal diagonal
-                    if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j + 1, buttons)) {
-                            if ((i == 0) && (!isChecked(i + 2, j + 2, buttons))) {
-                                check(i + 2, j + 2, buttons);
-                                return;
-                            } else if ((i == 1) && (!isChecked(i - 1, j - 1, buttons))) {
-                                check(i - 1, j - 1, buttons);
-                                return;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j + 2, buttons) &&
-                                    (!isChecked(i + 1, j + 1, buttons))) {
-
-                                check(i + 1, j + 1, buttons);
-                                return;
-                            }
-                        }
-                    }
-                    //Check the secondary diagonal
-                    if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j - 1, buttons)) {
-                            if ((i == 0) && (!isChecked(i + 2, j - 2, buttons))) {
-                                check(i + 2, j - 2, buttons);
-                                return;
-                            } else if ((i == 1) && (!isChecked( i - 1, j + 1, buttons))) {
-                                check(i - 1, j + 1, buttons);
-                                return;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j - 2, buttons) &&
-                                    (!isChecked(i + 1, j - 1, buttons))) {
-
-                                check(i + 1, j - 1, buttons);
-                                return;
-                            }
-                        }
-                    }
+                if (isEnemySymbol(i, j, gameTable)) {
+                    stop = checkVertically(gameTable, i, j);
+                    if (stop) break;
+                    stop = checkHorizontally(gameTable, i, j);
+                    if (stop) break;
+                    stop = checkPrincipalDiagonal(gameTable, i, j);
+                    if (stop) break;
+                    stop = checkSecondaryDiagonal(gameTable, i, j);
+                    if (stop) break;
                 }
             }
         }
     }
 
-    private boolean canBlock(String[][] buttons) {
+    private boolean canBlock(String[][] gameTable) {
+        boolean stop;
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
 
-                if (isEnemySymbol(i, j, buttons)) {
-                    //Check vertically
-                    if ((i == 0) || (i == 1)) {
-                        if (match(i, j, i + 1, j, buttons)) {
-                            if (i == 0) {
-                                if (!isChecked(2, j, buttons))
-                                    return true;
-                            } else {
-                                if (!isChecked(0, j, buttons))
-                                    return true;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j, buttons)) {
-                                if (!isChecked(1, j, buttons))
-                                    return true;
-                            }
-                        }
-                    }
-                    //Check horizontally
-                    if ((j == 0) || (j == 1)) {
-                        if (match(i, j, i, j + 1, buttons)) {
-                            if (j == 0) {
-                                if (!isChecked(i, 2, buttons))
-                                    return true;
-                            } else {
-                                if (!isChecked(i, 0, buttons))
-                                    return true;
-                            }
-                        } else if (j == 0) {
-                            if (match(i, j, i, j + 2, buttons)) {
-                                if (!isChecked(i, 1, buttons))
-                                    return true;
-                            }
-                        }
-                    }
-                    //Check the principal diagonal
-                    if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j + 1, buttons)) {
-                            if (i == 0) {
-                                if (!isChecked(2, 2, buttons))
-                                    return true;
-                            } else {
-                                if (!isChecked(0, 0, buttons))
-                                    return true;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j + 2, buttons)) {
-                                if (!isChecked(1, 1, buttons))
-                                    return true;
-                            }
-                        }
-                    }
-                    //Check the secondary diagonal
-                    if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j - 1, buttons)) {
-                            if (i == 0) {
-                                if (!isChecked(2, 0, buttons))
-                                    return true;
-                            } else {
-                                if (!isChecked(0, 2, buttons))
-                                    return true;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j - 2, buttons)) {
-                                if (!isChecked(1, 1, buttons))
-                                    return true;
-                            }
-                        }
-                    }
+                if (isEnemySymbol(i, j, gameTable)) {
+                    stop = scanVertically(gameTable, i, j);
+                    if (stop) return true;
+                    stop = scanHorizontally(gameTable, i, j);
+                    if (stop) return true;
+                    stop = scanPrincipalDiagonal(gameTable, i, j);
+                    if (stop) return true;
+                    stop = scanSecondaryDiagonal(gameTable, i, j);
+                    if (stop) return true;
                 }
             }
         }
         return false;
     }
 
-    private boolean checkVerticallyForWin(String[][] gameTable, int i, int j) {
+    private boolean checkVertically(String[][] gameTable, int i, int j) {
 
             if ((i == 0) || (i == 1)) {
                 if (match(i, j, i + 1, j, gameTable)) {
@@ -557,7 +372,7 @@ public class GameEngine {
         return false;
     }
 
-    private boolean checkHorizontallyForWin(String[][] gameTable, int i, int j) {
+    private boolean checkHorizontally(String[][] gameTable, int i, int j) {
 
             if ((j == 0) || (j == 1)) {
                 if (match(i, j, i, j + 1, gameTable)) {
@@ -580,7 +395,7 @@ public class GameEngine {
         return false;
     }
 
-    private boolean checkPrincipalDiagonalForWin(String[][] gameTable, int i, int j) {
+    private boolean checkPrincipalDiagonal(String[][] gameTable, int i, int j) {
 
             if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
                 if (match(i, j, i + 1, j + 1, gameTable)) {
@@ -603,7 +418,7 @@ public class GameEngine {
         return false;
     }
 
-    private boolean checkSecondaryDiagonalForWin(String[][] gameTable, int i, int j) {
+    private boolean checkSecondaryDiagonal(String[][] gameTable, int i, int j) {
 
             if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
                 if (match(i, j, i + 1, j - 1, gameTable)) {
@@ -623,6 +438,85 @@ public class GameEngine {
                     }
                 }
             }
+        return false;
+    }
+
+    private boolean scanVertically(String[][] gameTable, int i, int j) {
+
+        if ((i == 0) || (i == 1)) {
+            if (match(i, j, i + 1, j, gameTable)) {
+                if ((i == 0) && (!isChecked(i + 2, j, gameTable))) {
+                    return true;
+                } else if ((i == 1) && (!isChecked(i - 1, j, gameTable))) {
+                    return true;
+                }
+            } else if (i == 0) {
+                if (match(i, j, i + 2, j, gameTable) &&
+                        (!isChecked(i + 1, j, gameTable))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean scanHorizontally(String[][] gameTable, int i, int j) {
+
+        if ((j == 0) || (j == 1)) {
+            if (match(i, j, i, j + 1, gameTable)) {
+                if ((j == 0) && (!isChecked(i, j + 2, gameTable))) {
+                    return true;
+                } else if ((j == 1) && (!isChecked(i, j - 1, gameTable))) {
+                    return true;
+                }
+            } else if (j == 0) {
+                if (match(i, j, i, j + 2, gameTable) &&
+                        (!isChecked(i, j + 1, gameTable))) {
+
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean scanPrincipalDiagonal(String[][] gameTable, int i, int j) {
+
+        if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
+            if (match(i, j, i + 1, j + 1, gameTable)) {
+                if ((i == 0) && (!isChecked(i + 2, j + 2, gameTable))) {
+                    return true;
+                } else if ((i == 1) && (!isChecked(i - 1, j - 1, gameTable))) {
+                    return true;
+                }
+            } else if (i == 0) {
+                if (match(i, j, i + 2, j + 2, gameTable) &&
+                        (!isChecked(i + 1, j + 1, gameTable))) {
+
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean scanSecondaryDiagonal(String[][] gameTable, int i, int j) {
+
+        if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
+            if (match(i, j, i + 1, j - 1, gameTable)) {
+                if ((i == 0) && (!isChecked(i + 2, j - 2, gameTable))) {
+                    return true;
+                } else if ((i == 1) && (!isChecked(i - 1, j + 1, gameTable))) {
+                    return true;
+                }
+            } else if (i == 0) {
+                if (match(i, j, i + 2, j - 2, gameTable) &&
+                        (!isChecked(i + 1, j - 1, gameTable))) {
+
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
