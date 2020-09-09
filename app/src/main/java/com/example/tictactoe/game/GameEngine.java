@@ -255,18 +255,66 @@ public class GameEngine {
         }
     }
 
-    private void checkWhatIsLeft(String[][] buttons) {
+    private void checkWhatIsLeft(String[][] gameTable) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (!isChecked(i, j, buttons)) {
-                    check(i, j, buttons);
+                if (!isChecked(i, j, gameTable)) {
+                    check(i, j, gameTable);
                     return;
                 }
             }
         }
     }
 
-    //private void checkCornerCloseToEnemy()
+    private void checkCornerCloseToEnemyEdge(String[][] gameTable) {
+
+        if (isEnemySymbol(0, 1, gameTable)) {
+
+            if ((isEnemySymbol(2, 0, gameTable)) &&
+                    (!isChecked(0, 0, gameTable))) {
+                check(0, 0, gameTable);
+
+            } else if ((isEnemySymbol(2, 2, gameTable)) &&
+                    (!isChecked(0, 2, gameTable))) {
+                check(0, 2, gameTable);
+            }
+
+
+        } else if (isEnemySymbol(1, 0, gameTable)) {
+
+            if ((isEnemySymbol(0, 2, gameTable)) &&
+                    (!isChecked(0, 0, gameTable))) {
+                check(0, 0, gameTable);
+
+            } else if ((isEnemySymbol(2, 2, gameTable)) &&
+                    (!isChecked(2, 2, gameTable))) {
+                check(2, 2, gameTable);
+            }
+
+        } else if (isEnemySymbol(1, 2, gameTable)) {
+
+            if ((isEnemySymbol(0, 0, gameTable)) &&
+                    (!isChecked(0, 2, gameTable))) {
+                check(0, 2, gameTable);
+
+            } else if ((isEnemySymbol(2, 0, gameTable)) &&
+                    (!isChecked(2, 2, gameTable))) {
+                check(2, 2, gameTable);
+            }
+
+        } else if (isEnemySymbol(2, 1, gameTable)) {
+
+            if ((isEnemySymbol(0, 0, gameTable)) &&
+                    (!isChecked(2, 0, gameTable))) {
+                check(2, 0, gameTable);
+
+            } else if ((isEnemySymbol(0, 2, gameTable)) &&
+                    (!isChecked(2, 2, gameTable))) {
+                check(2, 2, gameTable);
+            }
+
+        }
+    }
 
     private void goForWin(String[][] gameTable) {
         boolean stop;
@@ -622,7 +670,7 @@ public class GameEngine {
                     if (canBlock(buttons)) {
                         block(buttons);
                     } else {
-                        checkEdge(buttons);
+                        checkCornerCloseToEnemyEdge(buttons);
                     }
                 } else if (findSymbolsOnOppositeEdges(buttons)) {
                     check(0,0, buttons);
