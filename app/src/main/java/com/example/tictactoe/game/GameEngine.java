@@ -276,13 +276,13 @@ public class GameEngine {
 
                 if (isOwnSymbol(i, j, gameTable)) {
                     stop = checkVertically(gameTable, i, j);
-                    if (stop) break;
+                    if (stop) return;
                     stop = checkHorizontally(gameTable, i, j);
-                    if (stop) break;
+                    if (stop) return;
                     stop = checkPrincipalDiagonal(gameTable, i, j);
-                    if (stop) break;
+                    if (stop) return;
                     stop = checkSecondaryDiagonal(gameTable, i, j);
-                    if (stop) break;
+                    if (stop) return;
                 }
             }
         }
@@ -317,13 +317,13 @@ public class GameEngine {
 
                 if (isEnemySymbol(i, j, gameTable)) {
                     stop = checkVertically(gameTable, i, j);
-                    if (stop) break;
+                    if (stop) return;
                     stop = checkHorizontally(gameTable, i, j);
-                    if (stop) break;
+                    if (stop) return;
                     stop = checkPrincipalDiagonal(gameTable, i, j);
-                    if (stop) break;
+                    if (stop) return;
                     stop = checkSecondaryDiagonal(gameTable, i, j);
-                    if (stop) break;
+                    if (stop) return;
                 }
             }
         }
