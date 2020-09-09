@@ -171,7 +171,7 @@ public class GameActivity extends AppCompatActivity {
         gameEngine.updateRoundCount();
         gameEngine.roundResult(loadButtonsText());
         highlightWhoStarts();
-
+        
         botMove();
     }
 

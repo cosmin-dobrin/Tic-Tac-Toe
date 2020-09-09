@@ -268,86 +268,21 @@ public class GameEngine {
 
     //private void checkCornerCloseToEnemy()
 
-    private void goForWin(String[][] buttons) {
+    private void goForWin(String[][] gameTable) {
+        boolean stop;
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (isOwnSymbol(i, j, buttons)) {
-                    //Check vertically
-                    if ((i == 0) || (i == 1)) {
-                        if (match(i, j, i + 1, j, buttons)) {
-                            if ((i == 0) && (!isChecked(i + 2, j, buttons))) {
-                                check(i + 2, j, buttons);
-                                return;
-                            } else if ((i == 1) && (!isChecked(i - 1, j, buttons))) {
-                                check(i - 1, j, buttons);
-                                return;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j, buttons) &&
-                                    (!isChecked(i + 1, j, buttons))) {
 
-                                check(i + 1, j, buttons);
-                                return;
-                            }
-                        }
-                    }
-                    //Check horizontally
-                    if ((j == 0) || (j == 1)) {
-                        if (match(i, j, i, j + 1, buttons)) {
-                            if ((j == 0) && (!isChecked(i, j + 2, buttons))) {
-                                check(i, j + 2, buttons);
-                                return;
-                            } else if ((j == 1) && (!isChecked(i, j - 1, buttons))) {
-                                check(i, j - 1, buttons);
-                                return;
-                            }
-                        } else if (j == 0) {
-                            if (match(i, j, i, j + 2, buttons) &&
-                                    (!isChecked(i, j + 1, buttons))) {
-
-                                check(i, j + 1, buttons);
-                                return;
-                            }
-                        }
-                    }
-                    //Check the principal diagonal
-                    if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j + 1, buttons)) {
-                            if ((i == 0) && (!isChecked(i + 2, j + 2, buttons))) {
-                                check(i + 2, j + 2, buttons);
-                                return;
-                            } else if ((i == 1) && (!isChecked(i - 1, j - 1, buttons))) {
-                                check(i - 1, j - 1, buttons);
-                                return;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j + 2, buttons) &&
-                                    (!isChecked(i + 1, j + 1, buttons))) {
-
-                                check(i + 1, j + 1, buttons);
-                                return;
-                            }
-                        }
-                    }
-                    //Check the secondary diagonal
-                    if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
-                        if (match(i, j, i + 1, j - 1, buttons)) {
-                            if ((i == 0) && (!isChecked(i + 2, j - 2, buttons))) {
-                                check(i + 2, j - 2, buttons);
-                                return;
-                            } else if ((i == 1) && (!isChecked(i - 1, j + 1, buttons))) {
-                                check(i - 1, j + 1, buttons);
-                                return;
-                            }
-                        } else if (i == 0) {
-                            if (match(i, j, i + 2, j - 2, buttons) &&
-                                    (!isChecked(i + 1, j - 1, buttons))) {
-
-                                check(i + 1, j - 1, buttons);
-                                return;
-                            }
-                        }
-                    }
+                if (isOwnSymbol(i, j, gameTable)) {
+                    stop = checkVerticallyForWin(gameTable, i, j);
+                    if (stop) break;
+                    stop = checkHorizontallyForWin(gameTable, i, j);
+                    if (stop) break;
+                    stop = checkPrincipalDiagonalForWin(gameTable, i, j);
+                    if (stop) break;
+                    stop = checkSecondaryDiagonalForWin(gameTable, i, j);
+                    if (stop) break;
                 }
             }
         }
@@ -600,6 +535,97 @@ public class GameEngine {
         return false;
     }
 
+    private boolean checkVerticallyForWin(String[][] gameTable, int i, int j) {
+
+            if ((i == 0) || (i == 1)) {
+                if (match(i, j, i + 1, j, gameTable)) {
+                    if ((i == 0) && (!isChecked(i + 2, j, gameTable))) {
+                        check(i + 2, j, gameTable);
+                        return true;
+                    } else if ((i == 1) && (!isChecked(i - 1, j, gameTable))) {
+                        check(i - 1, j, gameTable);
+                        return true;
+                    }
+                } else if (i == 0) {
+                    if (match(i, j, i + 2, j, gameTable) &&
+                            (!isChecked(i + 1, j, gameTable))) {
+                        check(i + 1, j, gameTable);
+                        return true;
+                    }
+                }
+            }
+        return false;
+    }
+
+    private boolean checkHorizontallyForWin(String[][] gameTable, int i, int j) {
+
+            if ((j == 0) || (j == 1)) {
+                if (match(i, j, i, j + 1, gameTable)) {
+                    if ((j == 0) && (!isChecked(i, j + 2, gameTable))) {
+                        check(i, j + 2, gameTable);
+                        return true;
+                    } else if ((j == 1) && (!isChecked(i, j - 1, gameTable))) {
+                        check(i, j - 1, gameTable);
+                        return true;
+                    }
+                } else if (j == 0) {
+                    if (match(i, j, i, j + 2, gameTable) &&
+                            (!isChecked(i, j + 1, gameTable))) {
+
+                        check(i, j + 1, gameTable);
+                        return true;
+                    }
+                }
+            }
+        return false;
+    }
+
+    private boolean checkPrincipalDiagonalForWin(String[][] gameTable, int i, int j) {
+
+            if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
+                if (match(i, j, i + 1, j + 1, gameTable)) {
+                    if ((i == 0) && (!isChecked(i + 2, j + 2, gameTable))) {
+                        check(i + 2, j + 2, gameTable);
+                        return true;
+                    } else if ((i == 1) && (!isChecked(i - 1, j - 1, gameTable))) {
+                        check(i - 1, j - 1, gameTable);
+                        return true;
+                    }
+                } else if (i == 0) {
+                    if (match(i, j, i + 2, j + 2, gameTable) &&
+                            (!isChecked(i + 1, j + 1, gameTable))) {
+
+                        check(i + 1, j + 1, gameTable);
+                        return true;
+                    }
+                }
+            }
+        return false;
+    }
+
+    private boolean checkSecondaryDiagonalForWin(String[][] gameTable, int i, int j) {
+
+            if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
+                if (match(i, j, i + 1, j - 1, gameTable)) {
+                    if ((i == 0) && (!isChecked(i + 2, j - 2, gameTable))) {
+                        check(i + 2, j - 2, gameTable);
+                        return true;
+                    } else if ((i == 1) && (!isChecked(i - 1, j + 1, gameTable))) {
+                        check(i - 1, j + 1, gameTable);
+                        return true;
+                    }
+                } else if (i == 0) {
+                    if (match(i, j, i + 2, j - 2, gameTable) &&
+                            (!isChecked(i + 1, j - 1, gameTable))) {
+
+                        check(i + 1, j - 1, gameTable);
+                        return true;
+                    }
+                }
+            }
+        return false;
+    }
+
     //Bot Moves:
 
     //For Bot being Player 1:
@@ -748,6 +774,8 @@ public class GameEngine {
 
         return buttons;
     }
+
+    // Setters/Getters:
 
     public boolean getPlayer1Wins() {
         return player1Wins;
