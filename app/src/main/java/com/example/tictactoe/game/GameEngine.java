@@ -241,6 +241,18 @@ public class GameEngine {
         }
     }
 
+    private void checkCorner(String[][] buttons) {
+        if (!isChecked(0,0, buttons)) {
+            check(0,0, buttons);
+        } else if (!isChecked(0,2, buttons)) {
+            check(0,2, buttons);
+        } else if (!isChecked(2,1, buttons)) {
+            check(2,0, buttons);
+        } else if (!isChecked(1,2, buttons)) {
+            check(2,2, buttons);
+        }
+    }
+
     private boolean findSymbolsOnOppositeEdges(String[][] buttons) {
         if ((isChecked(0,1, buttons)) && (isChecked(2,1, buttons))) {
             return true;
@@ -657,33 +669,21 @@ public class GameEngine {
 
     void botP1HardThirdMove(String[][] buttons) {
         if (getRoundCount() == 4) {
-            if (isChecked(1, 1, buttons)) {
-                if (isChecked(0, 1, buttons)) {
-                    check(2, 1, buttons);
-                } else if (isChecked(2, 1, buttons)) {
-                    check(0, 1, buttons);
-                } else if (isChecked(1, 0, buttons)) {
-                    check(1, 2, buttons);
-                } else if (isChecked(1, 2, buttons)) {
-                    check(1, 0, buttons);
-                } else if (isChecked(0, 2, buttons)) {
-                    check(2, 0, buttons);
-                } else {
-                    check(0, 2, buttons);
+            if (isEnemySymbol(1, 1, buttons)) {
+                if (canWin(buttons)) {
+                    goForWin(buttons);
+                } else if (canBlock(buttons)) {
+                    block(buttons);
                 }
-            } else if (match(2, 2, 0, 0, buttons)) {
-                if (isChecked(2, 0, buttons) && isChecked(0, 2, buttons)) {
-                    check(1, 1, buttons);
-                } else if (!(isChecked(2, 0, buttons))) {
-                    check(2, 0, buttons);
+            } else if (isOwnSymbol(0, 0, buttons) &&
+                    isOwnSymbol(2, 2, buttons)) {
+
+                if (canWin(buttons)) {
+                    goForWin(buttons);
+                } else if (canBlock(buttons)) {
+                    block(buttons);
                 } else {
-                    check(0, 2, buttons);
-                }
-            } else {
-                if (isChecked(0, 2, buttons)) {
-                    check(1, 0, buttons);
-                } else {
-                    check(0, 2, buttons);
+                    checkCorner(buttons);
                 }
             }
         }
@@ -720,19 +720,17 @@ public class GameEngine {
 
     void botP2HardFirstMove(String[][] buttons) {
         if (getRoundCount() == 1) {
-            if (isEnemySymbol(1,1, buttons)) {
-                check(0,0, buttons);
+            if (!isEnemySymbol(1, 1, buttons)) {
+                check(1, 1, buttons);
             } else {
-                check(1,1, buttons);
+                checkCorner(buttons);
             }
         }
     }
 
     void botP2HardSecondMove(String[][] buttons) {
         if (getRoundCount() == 3) {
-            if (match(1, 1, 2, 2, buttons) && isChecked(0,0, buttons)) {
-                check(2,0, buttons);
-            } else if (isOwnSymbol(1,1, buttons)) {
+            if (isOwnSymbol(1,1, buttons)) {
                 if (scanEnemyCorners(buttons)) {
                     if (canBlock(buttons)) {
                         block(buttons);
@@ -747,8 +745,11 @@ public class GameEngine {
                     checkWhatIsLeft(buttons);
                 }
             } else if (isEnemySymbol(1,1, buttons)) {
-                if (canBlock(buttons))
+                if (canBlock(buttons)) {
                     block(buttons);
+                } else {
+                    checkCorner(buttons);
+                }
             }
         }
     }
