@@ -568,6 +568,74 @@ public class GameEngine {
         return false;
     }
 
+    private boolean scanEdgeOppositeToCorner(String[][] gameTable ) {
+
+        if (isEnemySymbol(0, 1, gameTable)) {
+
+            if (isEnemySymbol(2, 0, gameTable)) {
+                return true;
+            } else if (isEnemySymbol(2, 2, gameTable)) {
+                return true;
+            }
+        } else if (isEnemySymbol(1, 0, gameTable)) {
+
+            if (isEnemySymbol(0, 2, gameTable)) {
+                return true;
+            } else if (isEnemySymbol(2, 2, gameTable)) {
+                return true;
+            }
+        } else if (isEnemySymbol(1, 2, gameTable)) {
+
+            if (isEnemySymbol(0, 0, gameTable)) {
+                return true;
+            } else if (isEnemySymbol(2, 0, gameTable)) {
+                return true;
+            }
+        } else if (isEnemySymbol(2, 1, gameTable)) {
+
+            if (isEnemySymbol(0, 0, gameTable)) {
+                return true;
+            } else if (isEnemySymbol(0, 2, gameTable)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean scanEnemyEdges(String[][] gameTable) {
+        if (isEnemySymbol(0, 1, gameTable))
+            return true;
+
+        if (isEnemySymbol(1, 0, gameTable))
+            return true;
+
+        if (isEnemySymbol(1, 2, gameTable))
+            return true;
+
+        if (isEnemySymbol(2, 1, gameTable))
+            return true;
+
+        return false;
+    }
+
+    private boolean scanEnemyCorners(String[][] gameTable) {
+
+        if (isEnemySymbol(0, 0, gameTable))
+            return true;
+
+        if (isEnemySymbol(0, 2, gameTable))
+            return true;
+
+        if (isEnemySymbol(2, 0, gameTable))
+            return true;
+
+        if (isEnemySymbol(2, 2, gameTable))
+            return true;
+
+        return false;
+    }
+
     //Bot Moves:
 
     //For Bot being Player 1:
@@ -665,12 +733,13 @@ public class GameEngine {
             if (match(1, 1, 2, 2, buttons) && isChecked(0,0, buttons)) {
                 check(2,0, buttons);
             } else if (isOwnSymbol(1,1, buttons)) {
-                if (isEnemySymbol(0,0, buttons) || isEnemySymbol(0,2, buttons) ||
-                        isEnemySymbol(2,0, buttons) || isEnemySymbol(2,2, buttons)) {
+                if (scanEnemyCorners(buttons)) {
                     if (canBlock(buttons)) {
                         block(buttons);
-                    } else {
+                    } else if (scanEdgeOppositeToCorner(buttons)) {
                         checkCornerCloseToEnemyEdge(buttons);
+                    } else {
+                        checkEdge(buttons);
                     }
                 } else if (findSymbolsOnOppositeEdges(buttons)) {
                     check(0,0, buttons);
