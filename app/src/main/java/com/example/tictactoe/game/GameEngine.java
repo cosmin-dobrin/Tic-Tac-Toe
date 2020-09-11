@@ -153,9 +153,9 @@ public class GameEngine {
         }
     }
 
-    //Single player mode specific methods:
+    /** Single player mode specific methods: **/
 
-    private void check(int row, int column, String[][] buttons) {
+    public void check(int row, int column, String[][] buttons) {
         if (isChecked(row, column, buttons)) {
             return;
         }
@@ -175,7 +175,7 @@ public class GameEngine {
         }
     }
 
-    private boolean isChecked(int row, int column, String[][] buttons) {
+    public boolean isChecked(int row, int column, String[][] buttons) {
         if (!(buttons[row][column].equals(""))) {
             return true;
         } else {
@@ -195,7 +195,7 @@ public class GameEngine {
         }
     }
 
-    private boolean isEnemySymbol(int row, int column, String[][] buttons) {
+    public boolean isEnemySymbol(int row, int column, String[][] buttons) {
         if (getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
             if (getSymbolPlayer1() == SettingsUtility.X) {
                 return getSymbolAt(row, column, buttons).equals("O");
@@ -212,7 +212,7 @@ public class GameEngine {
         return false;
     }
 
-    private boolean isOwnSymbol(int row, int column, String[][] buttons) {
+    public boolean isOwnSymbol(int row, int column, String[][] buttons) {
         if (getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
             if (getSymbolPlayer1() == SettingsUtility.X) {
                 return getSymbolAt(row, column, buttons).equals("X");
@@ -229,7 +229,7 @@ public class GameEngine {
         return false;
     }
 
-    private void checkEdge(String[][] buttons) {
+    public void checkEdge(String[][] buttons) {
         if ((!isChecked(0,1, buttons)) && (!isChecked(2,1, buttons))) {
             check(0,1, buttons);
         } else if ((!isChecked(1,0, buttons)) && (!isChecked(1,2, buttons))) {
@@ -241,7 +241,7 @@ public class GameEngine {
         }
     }
 
-    private void checkCorner(String[][] buttons) {
+    public void checkCorner(String[][] buttons) {
         if (!isChecked(0,0, buttons)) {
             check(0,0, buttons);
         } else if (!isChecked(0,2, buttons)) {
@@ -253,7 +253,7 @@ public class GameEngine {
         }
     }
 
-    private boolean findSymbolsOnOppositeEdges(String[][] buttons) {
+    public boolean findSymbolsOnOppositeEdges(String[][] buttons) {
         if ((isChecked(0,1, buttons)) && (isChecked(2,1, buttons))) {
             return true;
         } else if ((isChecked(1,0, buttons)) && (isChecked(1,2, buttons))) {
@@ -267,7 +267,7 @@ public class GameEngine {
         }
     }
 
-    private void checkWhatIsLeft(String[][] gameTable) {
+    public void checkWhatIsLeft(String[][] gameTable) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (!isChecked(i, j, gameTable)) {
@@ -278,7 +278,7 @@ public class GameEngine {
         }
     }
 
-    private void checkCornerCloseToEnemyEdge(String[][] gameTable) {
+    public void checkCornerCloseToEnemyEdge(String[][] gameTable) {
 
         if (isEnemySymbol(0, 1, gameTable)) {
 
@@ -328,7 +328,7 @@ public class GameEngine {
         }
     }
 
-    private void goForWin(String[][] gameTable) {
+    public void goForWin(String[][] gameTable) {
         boolean stop;
 
         for (int i = 0; i < 3; i++) {
@@ -348,7 +348,7 @@ public class GameEngine {
         }
     }
 
-    private boolean canWin(String[][] gameTable) {
+    public boolean canWin(String[][] gameTable) {
         boolean stop;
 
         for (int i = 0; i < 3; i++) {
@@ -369,7 +369,7 @@ public class GameEngine {
         return false;
     }
 
-    private void block(String[][] gameTable) {
+    public void block(String[][] gameTable) {
         boolean stop;
 
         for (int i = 0; i < 3; i++) {
@@ -389,7 +389,7 @@ public class GameEngine {
         }
     }
 
-    private boolean canBlock(String[][] gameTable) {
+    public boolean canBlock(String[][] gameTable) {
         boolean stop;
 
         for (int i = 0; i < 3; i++) {
@@ -580,7 +580,7 @@ public class GameEngine {
         return false;
     }
 
-    private boolean scanEdgeOppositeToCorner(String[][] gameTable ) {
+    public boolean scanEdgeOppositeToCorner(String[][] gameTable ) {
 
         if (isEnemySymbol(0, 1, gameTable)) {
 
@@ -631,7 +631,7 @@ public class GameEngine {
         return false;
     }
 
-    private boolean scanEnemyCorners(String[][] gameTable) {
+    public boolean scanEnemyCorners(String[][] gameTable) {
 
         if (isEnemySymbol(0, 0, gameTable))
             return true;
@@ -648,146 +648,7 @@ public class GameEngine {
         return false;
     }
 
-    //Bot Moves:
-
-    //For Bot being Player 1:
-
-    void botP1HardFirstMove(String[][] buttons) {
-        if (getRoundCount() == 0)
-            check(0, 0, buttons);
-    }
-
-    void botP1HardSecondMove(String[][] buttons) {
-        if (getRoundCount() == 2) {
-            if (!(isChecked(2, 2, buttons))) {
-                check(2, 2, buttons);
-            } else {
-                check(2, 0, buttons);
-            }
-        }
-    }
-
-    void botP1HardThirdMove(String[][] buttons) {
-        if (getRoundCount() == 4) {
-            if (isEnemySymbol(1, 1, buttons)) {
-                if (canWin(buttons)) {
-                    goForWin(buttons);
-                } else if (canBlock(buttons)) {
-                    block(buttons);
-                }
-            } else if (isOwnSymbol(0, 0, buttons) &&
-                    isOwnSymbol(2, 2, buttons)) {
-
-                if (canWin(buttons)) {
-                    goForWin(buttons);
-                } else if (canBlock(buttons)) {
-                    block(buttons);
-                } else {
-                    checkCorner(buttons);
-                }
-            }
-        }
-    }
-
-    void botP1HardFourthMove(String[][] buttons) {
-        if (getRoundCount() == 6) {
-            if (canWin(buttons)) {
-                goForWin(buttons);
-            } else if (canBlock(buttons)) {
-                block(buttons);
-            } else {
-                checkWhatIsLeft(buttons);
-            }
-        }
-    }
-
-    void botP1HardFifthMove(String[][] buttons) {
-        if (getRoundCount() == 8)
-            checkWhatIsLeft(buttons);
-    }
-
-    String[][] botP1HardMoves(String[][] buttons) {
-        botP1HardFirstMove(buttons);
-        botP1HardSecondMove(buttons);
-        botP1HardThirdMove(buttons);
-        botP1HardFourthMove(buttons);
-        botP1HardFifthMove(buttons);
-
-        return buttons;
-    }
-
-    //For Bot being Player 2:
-
-    void botP2HardFirstMove(String[][] buttons) {
-        if (getRoundCount() == 1) {
-            if (!isEnemySymbol(1, 1, buttons)) {
-                check(1, 1, buttons);
-            } else {
-                checkCorner(buttons);
-            }
-        }
-    }
-
-    void botP2HardSecondMove(String[][] buttons) {
-        if (getRoundCount() == 3) {
-            if (isOwnSymbol(1,1, buttons)) {
-                if (scanEnemyCorners(buttons)) {
-                    if (canBlock(buttons)) {
-                        block(buttons);
-                    } else if (scanEdgeOppositeToCorner(buttons)) {
-                        checkCornerCloseToEnemyEdge(buttons);
-                    } else {
-                        checkEdge(buttons);
-                    }
-                } else if (findSymbolsOnOppositeEdges(buttons)) {
-                    check(0,0, buttons);
-                } else {
-                    checkWhatIsLeft(buttons);
-                }
-            } else if (isEnemySymbol(1,1, buttons)) {
-                if (canBlock(buttons)) {
-                    block(buttons);
-                } else {
-                    checkCorner(buttons);
-                }
-            }
-        }
-    }
-
-    void botP2HardThirdMove(String[][] buttons) {
-        if (getRoundCount() == 5) {
-            if (canWin(buttons)) {
-                goForWin(buttons);
-            } else if (canBlock(buttons)) {
-                block(buttons);
-            } else {
-                checkWhatIsLeft(buttons);
-            }
-        }
-    }
-
-    void botP2HardFourthMove(String[][] buttons) {
-        if (getRoundCount() == 7) {
-            if (canWin(buttons)) {
-                goForWin(buttons);
-            } else if (canBlock(buttons)) {
-                block(buttons);
-            } else {
-                checkWhatIsLeft(buttons);
-            }
-        }
-    }
-
-    String[][] botP2HardMoves(String[][] buttons) {
-        botP2HardFirstMove(buttons);
-        botP2HardSecondMove(buttons);
-        botP2HardThirdMove(buttons);
-        botP2HardFourthMove(buttons);
-
-        return buttons;
-    }
-
-    // Setters/Getters:
+    /** Setters/Getters: **/
 
     public boolean getPlayer1Wins() {
         return player1Wins;

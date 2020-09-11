@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tictactoe.BotEngine;
 import com.example.tictactoe.LocaleManager;
 import com.example.tictactoe.MenuActivity;
 import com.example.tictactoe.R;
@@ -123,12 +124,13 @@ public class GameActivity extends AppCompatActivity {
 
     private void botMove() {
         if (mSinglePlayerMode) {
+            BotEngine botEngine = new BotEngine(gameEngine);
             if (gameEngine.getDifficultyLevel() == SettingsUtility.DIFFICULTY_LEVEL_HARD) {
                 if (gameEngine.getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
                         if (gameEngine.getPlayer1Turn()) {
 
-                            updateButtonsText(gameEngine.botP1HardMoves(loadButtonsText()));
-                            updateButtonsText(gameEngine.botP2HardMoves(loadButtonsText()));
+                            updateButtonsText(botEngine.botP1HardMoves(loadButtonsText()));
+                            updateButtonsText(botEngine.botP2HardMoves(loadButtonsText()));
 
                             gameEngine.updateRoundCount();
                             gameEngine.roundResult(loadButtonsText());
@@ -137,8 +139,8 @@ public class GameActivity extends AppCompatActivity {
                     } else if (gameEngine.getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
                         if (!gameEngine.getPlayer1Turn()) {
 
-                            updateButtonsText(gameEngine.botP2HardMoves(loadButtonsText()));
-                            updateButtonsText(gameEngine.botP1HardMoves(loadButtonsText()));
+                            updateButtonsText(botEngine.botP2HardMoves(loadButtonsText()));
+                            updateButtonsText(botEngine.botP1HardMoves(loadButtonsText()));
 
                             gameEngine.updateRoundCount();
                             gameEngine.roundResult(loadButtonsText());
