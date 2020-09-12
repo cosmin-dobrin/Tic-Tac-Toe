@@ -163,19 +163,31 @@ public class BotEngine {
 
     void botP1MediumThirdMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 4) {
-            gameEngine.randomCheck(gameTable);
+            if (gameEngine.canBlock(gameTable)) {
+                gameEngine.block(gameTable);
+            } else if (gameEngine.canWin(gameTable)) {
+                gameEngine.goForWin(gameTable);
+            } else {
+                gameEngine.randomCheck(gameTable);
+            }
         }
     }
 
     void botP1MediumFourthMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 6) {
-            gameEngine.randomCheck(gameTable);
+            if (gameEngine.canBlock(gameTable)) {
+                gameEngine.block(gameTable);
+            } else if (gameEngine.canWin(gameTable)) {
+                gameEngine.goForWin(gameTable);
+            } else {
+                gameEngine.checkWhatIsLeft(gameTable);
+            }
         }
     }
 
     void botP1MediumFifthMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 8) {
-            gameEngine.randomCheck(gameTable);
+            gameEngine.checkWhatIsLeft(gameTable);
         }
     }
 
