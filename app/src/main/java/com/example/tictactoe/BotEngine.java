@@ -147,6 +147,83 @@ public class BotEngine {
         return buttons;
     }
 
+    /** Game mode: MEDIUM -- For Bot being Player 1: **/
+
+    void botP1MediumFirstMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 0) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    void botP1MediumSecondMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 2) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    void botP1MediumThirdMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 4) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    void botP1MediumFourthMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 6) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    void botP1MediumFifthMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 8) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    public String[][] botP1MediumMoves(String[][] gameTable) {
+        botP1MediumFirstMove(gameTable);
+        botP1MediumSecondMove(gameTable);
+        botP1MediumThirdMove(gameTable);
+        botP1MediumFourthMove(gameTable);
+        botP1MediumFifthMove(gameTable);
+
+        return gameTable;
+    }
+
+    /** Game mode: MEDIUM -- For Bot being Player 2: **/
+
+    void botP2MediumFirstMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 1) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    void botP2MediumSecondMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 3) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    void botP2MediumThirdMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 5) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    void botP2MediumFourthMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 7) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    public String[][] botP2MediumMoves(String[][] gameTable) {
+        botP2MediumFirstMove(gameTable);
+        botP2MediumSecondMove(gameTable);
+        botP2MediumThirdMove(gameTable);
+        botP2MediumFourthMove(gameTable);
+
+        return gameTable;
+    }
+
     /** Game mode: EASY -- For Bot being Player 1: **/
 
     void botP1EasyFirstMove(String[][] gameTable) {
