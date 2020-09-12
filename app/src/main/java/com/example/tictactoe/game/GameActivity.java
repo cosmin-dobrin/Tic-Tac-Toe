@@ -161,8 +161,8 @@ public class GameActivity extends AppCompatActivity {
                     } else if (gameEngine.getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
                         if (!gameEngine.getPlayer1Turn()) {
 
-                            updateButtonsText(botEngine.botP2EasyMoves(loadButtonsText()));
-                            updateButtonsText(botEngine.botP1EasyMoves(loadButtonsText()));
+                            updateButtonsText(botEngine.botP2MediumMoves(loadButtonsText()));
+                            updateButtonsText(botEngine.botP1MediumMoves(loadButtonsText()));
 
                             gameEngine.updateRoundCount();
                             gameEngine.roundResult(loadButtonsText());
