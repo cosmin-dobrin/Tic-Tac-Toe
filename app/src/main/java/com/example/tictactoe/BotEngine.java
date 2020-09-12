@@ -163,10 +163,10 @@ public class BotEngine {
 
     void botP1MediumThirdMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 4) {
-            if (gameEngine.canBlock(gameTable)) {
-                gameEngine.block(gameTable);
-            } else if (gameEngine.canWin(gameTable)) {
+            if (gameEngine.canWin(gameTable)) {
                 gameEngine.goForWin(gameTable);
+            } else if (gameEngine.canBlock(gameTable)) {
+                gameEngine.block(gameTable);
             } else {
                 gameEngine.randomCheck(gameTable);
             }
@@ -175,17 +175,17 @@ public class BotEngine {
 
     void botP1MediumFourthMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 6) {
-            if (gameEngine.canBlock(gameTable)) {
-                gameEngine.block(gameTable);
-            } else if (gameEngine.canWin(gameTable)) {
+            if (gameEngine.canWin(gameTable)) {
                 gameEngine.goForWin(gameTable);
+            } else if (gameEngine.canBlock(gameTable)) {
+                gameEngine.block(gameTable);
             } else {
                 gameEngine.checkWhatIsLeft(gameTable);
             }
         }
     }
 
-    void botP1MediumFifthMove(String[][] gameTable) {
+    void botP1MediumFifthMove(String[][] gameTable)  {
         if (gameEngine.getRoundCount() == 8) {
             gameEngine.checkWhatIsLeft(gameTable);
         }
@@ -211,19 +211,35 @@ public class BotEngine {
 
     void botP2MediumSecondMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 3) {
-            gameEngine.randomCheck(gameTable);
+            if (gameEngine.canBlock(gameTable)) {
+                gameEngine.block(gameTable);
+            } else {
+                gameEngine.randomCheck(gameTable);
+            }
         }
     }
 
     void botP2MediumThirdMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 5) {
-            gameEngine.randomCheck(gameTable);
+            if (gameEngine.canWin(gameTable)) {
+                gameEngine.goForWin(gameTable);
+            } else if (gameEngine.canBlock(gameTable)) {
+                gameEngine.block(gameTable);
+            } else {
+                gameEngine.checkWhatIsLeft(gameTable);
+            }
         }
     }
 
     void botP2MediumFourthMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 7) {
-            gameEngine.randomCheck(gameTable);
+            if (gameEngine.canBlock(gameTable)) {
+                gameEngine.block(gameTable);
+            } else if (gameEngine.canWin(gameTable)) {
+                gameEngine.goForWin(gameTable);
+            } else {
+                gameEngine.checkWhatIsLeft(gameTable);
+            }
         }
     }
 
