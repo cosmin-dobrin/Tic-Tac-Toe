@@ -151,7 +151,7 @@ public class BotEngine {
 
     void botP1EasyFirstMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 0) {
-            gameEngine.checkEdge(gameTable);
+            gameEngine.randomCheck(gameTable);
         }
     }
 
