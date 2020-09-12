@@ -6,8 +6,6 @@ public class BotEngine {
 
     GameEngine gameEngine;
 
-    public BotEngine(){}
-
     public BotEngine(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
     }
@@ -147,5 +145,82 @@ public class BotEngine {
         botP2HardFourthMove(buttons);
 
         return buttons;
+    }
+
+    /** Game mode: EASY -- For Bot being Player 1: **/
+
+    void botP1EasyFirstMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 0) {
+            gameEngine.checkEdge(gameTable);
+        }
+    }
+
+    void botP1EasySecondMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 2) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    void botP1EasyThirdMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 4) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    void botP1EasyFourthMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 6) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    void botP1EasyFifthMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 8) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    public String[][] botP1EasyMoves(String[][] gameTable) {
+        botP1EasyFirstMove(gameTable);
+        botP1EasySecondMove(gameTable);
+        botP1EasyThirdMove(gameTable);
+        botP1EasyFourthMove(gameTable);
+        botP1EasyFifthMove(gameTable);
+
+        return gameTable;
+    }
+
+    /** Game mode: EASY -- For Bot being Player 2: **/
+
+    void botP2EasyFirstMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 1) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    void botP2EasySecondMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 3) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    void botP2EasyThirdMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 5) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    void botP2EasyFourthMove(String[][] gameTable) {
+        if (gameEngine.getRoundCount() == 7) {
+            gameEngine.randomCheck(gameTable);
+        }
+    }
+
+    public String[][] botP2EasyMoves(String[][] gameTable) {
+        botP2EasyFirstMove(gameTable);
+        botP2EasySecondMove(gameTable);
+        botP2EasyThirdMove(gameTable);
+        botP2EasyFourthMove(gameTable);
+
+        return gameTable;
     }
 }

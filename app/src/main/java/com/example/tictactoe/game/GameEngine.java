@@ -2,6 +2,8 @@ package com.example.tictactoe.game;
 
 import com.example.tictactoe.SettingsUtility;
 
+import java.util.Random;
+
 public class GameEngine {
 
     private boolean player1Turn = true;
@@ -152,8 +154,6 @@ public class GameEngine {
             }
         }
     }
-
-    /** Single player mode specific methods: **/
 
     public void check(int row, int column, String[][] buttons) {
         if (isChecked(row, column, buttons)) {
@@ -648,6 +648,39 @@ public class GameEngine {
         return false;
     }
 
+    public int randomNumber() {
+        Random random = new Random();
+        return random.nextInt(3);
+    }
+
+    public void randomCheck(String[][] gameTable) {
+        int randomRow = randomNumber();
+        int randomColumn = randomNumber();
+
+        boolean stop = false;
+
+        while (!stop) {
+
+            if (!isChecked(randomRow, randomColumn, gameTable)) {
+                check(randomRow, randomColumn, gameTable);
+                stop = true;
+            } else {
+                randomRow = randomNumber();
+                randomColumn = randomNumber();
+            }
+        }
+    }
+
+    private void completion() {
+        if (gameCompletionListener != null) {
+            gameCompletionListener.onCompletion();
+        }
+    }
+
+    void updateRoundCount() {
+        roundCount++;
+    }
+
     /** Setters/Getters: **/
 
     public boolean getPlayer1Wins() {
@@ -684,16 +717,6 @@ public class GameEngine {
 
     public int getSymbolPlayer1() {
         return this.mSymbolPlayer1;
-    }
-
-    void updateRoundCount() {
-        roundCount++;
-    }
-
-    private void completion() {
-        if (gameCompletionListener != null) {
-            gameCompletionListener.onCompletion();
-        }
     }
 
     public void setCompletionListener(GameCompletionListener gameCompletionListener) {

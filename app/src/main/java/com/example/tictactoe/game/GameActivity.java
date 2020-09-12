@@ -147,6 +147,28 @@ public class GameActivity extends AppCompatActivity {
                             highlightWhoStarts();
                         }
                     }
+                } else if (gameEngine.getDifficultyLevel() == SettingsUtility.DIFFICULTY_LEVEL_EASY) {
+                    if (gameEngine.getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
+                        if (gameEngine.getPlayer1Turn()) {
+
+                            updateButtonsText(botEngine.botP1EasyMoves(loadButtonsText()));
+                            updateButtonsText(botEngine.botP2EasyMoves(loadButtonsText()));
+
+                            gameEngine.updateRoundCount();
+                            gameEngine.roundResult(loadButtonsText());
+                            highlightWhoStarts();
+                        }
+                    } else if (gameEngine.getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
+                        if (!gameEngine.getPlayer1Turn()) {
+
+                            updateButtonsText(botEngine.botP2EasyMoves(loadButtonsText()));
+                            updateButtonsText(botEngine.botP1EasyMoves(loadButtonsText()));
+
+                            gameEngine.updateRoundCount();
+                            gameEngine.roundResult(loadButtonsText());
+                            highlightWhoStarts();
+                        }
+                    }
                 }
             }
         }
