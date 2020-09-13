@@ -7,6 +7,7 @@ import java.util.Random;
 public class GameEngine {
 
     private boolean player1Turn = true;
+    private boolean mPlayer1StartsMatch = true;
     private int roundCount;
     private int player1Points = 0;
     private int player2Points = 0;
@@ -139,18 +140,16 @@ public class GameEngine {
             if (getWhoStarts() == SettingsUtility.WINNER_STARTS) {
                 setPlayer1Turn(true);
             } else if ((getWhoStarts() == SettingsUtility.DIFFERENT_PLAYER_STARTS) ) {
-                    setPlayer1Turn(false);
+                setPlayer1StartsMatch(!getPlayer1StartsMatch());
+                setPlayer1Turn(getPlayer1StartsMatch());
             }
 
         } else if (getPlayer2Wins()) {
             if (getWhoStarts() == SettingsUtility.WINNER_STARTS) {
                 setPlayer1Turn(false);
             } else if (getWhoStarts() == SettingsUtility.DIFFERENT_PLAYER_STARTS) {
-                if ((getPlayer1Points() == 0) && (getPlayer2Points() == 1)) {
-                    setPlayer1Turn(false);
-                } else {
-                    setPlayer1Turn(true);
-                }
+                setPlayer1StartsMatch(!getPlayer1StartsMatch());
+                setPlayer1Turn(getPlayer1StartsMatch());
             }
         }
     }
@@ -753,5 +752,13 @@ public class GameEngine {
 
     public void setDifficultyLevel(int mDifficultyLevel) {
         this.mDifficultyLevel = mDifficultyLevel;
+    }
+
+    public boolean getPlayer1StartsMatch() {
+        return mPlayer1StartsMatch;
+    }
+
+    public void setPlayer1StartsMatch(boolean player1StartsMatch) {
+        this.mPlayer1StartsMatch = player1StartsMatch;
     }
 }
