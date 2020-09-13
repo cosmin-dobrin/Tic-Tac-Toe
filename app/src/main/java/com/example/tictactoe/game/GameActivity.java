@@ -258,13 +258,13 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showToast() {
-        if ((gameEngine.getPlayer1Wins()) && (gameEngine.getRoundCount() != 0)) {
+        if (gameEngine.getPlayer1Wins()) {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.player_1_wins), Toast.LENGTH_SHORT).show();
-        } else if((gameEngine.getPlayer2Wins()) && (gameEngine.getRoundCount() != 0)) {
+        } else if (gameEngine.getPlayer2Wins()) {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.player_2_wins), Toast.LENGTH_SHORT).show();
-        } else if(gameEngine.getRoundCount() != 0) {
+        } else if((!gameEngine.getPlayer1Wins()) && (!gameEngine.getPlayer1Wins())) {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.draw), Toast.LENGTH_SHORT).show();
         }
