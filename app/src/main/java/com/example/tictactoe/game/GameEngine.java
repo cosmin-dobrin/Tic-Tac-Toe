@@ -2,9 +2,12 @@ package com.example.tictactoe.game;
 
 import com.example.tictactoe.SettingsUtility;
 
+import java.util.Random;
+
 public class GameEngine {
 
     private boolean player1Turn = true;
+    private boolean mPlayer1StartsMatch = true;
     private int roundCount;
     private int player1Points = 0;
     private int player2Points = 0;
@@ -12,7 +15,7 @@ public class GameEngine {
     private boolean player2Wins = false;
     private int whoStarts = 0;
     private int whoStartsDraw = 0;
-    private int player1Symbol = 0;
+    private int mSymbolPlayer1 = 0;
     private int mWhoIsPlayer1 = 0;
     private int mDifficultyLevel = 0;
     private GameState gameState = new GameState();
@@ -122,7 +125,7 @@ public class GameEngine {
         completion();
     }
 
-    void whoStarts() {
+    private void whoStarts() {
 
         if ((!getPlayer1Wins()) && (!getPlayer2Wins())) {
 
@@ -137,25 +140,547 @@ public class GameEngine {
             if (getWhoStarts() == SettingsUtility.WINNER_STARTS) {
                 setPlayer1Turn(true);
             } else if ((getWhoStarts() == SettingsUtility.DIFFERENT_PLAYER_STARTS) ) {
-                    setPlayer1Turn(false);
+                setPlayer1StartsMatch(!getPlayer1StartsMatch());
+                setPlayer1Turn(getPlayer1StartsMatch());
             }
 
         } else if (getPlayer2Wins()) {
             if (getWhoStarts() == SettingsUtility.WINNER_STARTS) {
                 setPlayer1Turn(false);
             } else if (getWhoStarts() == SettingsUtility.DIFFERENT_PLAYER_STARTS) {
-                if ((getPlayer1Points() == 0) && (getPlayer2Points() == 1)) {
-                    setPlayer1Turn(false);
-                } else {
-                    setPlayer1Turn(true);
+                setPlayer1StartsMatch(!getPlayer1StartsMatch());
+                setPlayer1Turn(getPlayer1StartsMatch());
+            }
+        }
+    }
+
+    public void check(int row, int column, String[][] buttons) {
+        if (isChecked(row, column, buttons)) {
+            return;
+        }
+
+        if (getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
+            if (mSymbolPlayer1 == SettingsUtility.X) {
+                buttons[row][column] = "X";
+            } else if (mSymbolPlayer1 == SettingsUtility.O) {
+                buttons[row][column] = "O";
+            }
+        } else if (getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
+            if (mSymbolPlayer1 == SettingsUtility.X) {
+                buttons[row][column] = "O";
+            } else if (mSymbolPlayer1 == SettingsUtility.O) {
+                buttons[row][column] = "X";
+            }
+        }
+    }
+
+    public boolean isChecked(int row, int column, String[][] buttons) {
+        if (!(buttons[row][column].equals(""))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private String getSymbolAt(int row, int column, String[][] buttons) {
+        return buttons[row][column];
+    }
+
+    private boolean match(int row1, int column1, int row2, int column2, String[][] buttons) {
+        if (getSymbolAt(row1,column1,buttons).equals(getSymbolAt(row2,column2,buttons))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isEnemySymbol(int row, int column, String[][] buttons) {
+        if (getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
+            if (getSymbolPlayer1() == SettingsUtility.X) {
+                return getSymbolAt(row, column, buttons).equals("O");
+            } else if (getSymbolPlayer1() == SettingsUtility.O) {
+                return getSymbolAt(row, column, buttons).equals("X");
+            }
+        } else if (getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
+            if (getSymbolPlayer1() == SettingsUtility.X) {
+                return getSymbolAt(row, column, buttons).equals("X");
+            } else if (getSymbolPlayer1() == SettingsUtility.O) {
+                return getSymbolAt(row, column, buttons).equals("O");
+            }
+        }
+        return false;
+    }
+
+    public boolean isOwnSymbol(int row, int column, String[][] buttons) {
+        if (getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
+            if (getSymbolPlayer1() == SettingsUtility.X) {
+                return getSymbolAt(row, column, buttons).equals("X");
+            } else if (getSymbolPlayer1() == SettingsUtility.O) {
+                return getSymbolAt(row, column, buttons).equals("O");
+            }
+        } else if (getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
+            if (getSymbolPlayer1() == SettingsUtility.X) {
+                return getSymbolAt(row, column, buttons).equals("O");
+            } else if (getSymbolPlayer1() == SettingsUtility.O) {
+                return getSymbolAt(row, column, buttons).equals("X");
+            }
+        }
+        return false;
+    }
+
+    public void checkEdge(String[][] buttons) {
+        if ((!isChecked(0,1, buttons)) && (!isChecked(2,1, buttons))) {
+            check(0,1, buttons);
+        } else if ((!isChecked(1,0, buttons)) && (!isChecked(1,2, buttons))) {
+            check(1,0, buttons);
+        } else if ((!isChecked(2,1, buttons)) && (!isChecked(0,1, buttons))) {
+            check(2,1, buttons);
+        } else if ((!isChecked(1,2, buttons)) && (!isChecked(1,0, buttons))) {
+            check(1,2, buttons);
+        }
+    }
+
+    public void checkCorner(String[][] buttons) {
+        if (!isChecked(0,0, buttons)) {
+            check(0,0, buttons);
+        } else if (!isChecked(0,2, buttons)) {
+            check(0,2, buttons);
+        } else if (!isChecked(2,1, buttons)) {
+            check(2,0, buttons);
+        } else if (!isChecked(1,2, buttons)) {
+            check(2,2, buttons);
+        }
+    }
+
+    public boolean findSymbolsOnOppositeEdges(String[][] buttons) {
+        if ((isChecked(0,1, buttons)) && (isChecked(2,1, buttons))) {
+            return true;
+        } else if ((isChecked(1,0, buttons)) && (isChecked(1,2, buttons))) {
+            return true;
+        } else if ((isChecked(2,1, buttons)) && (isChecked(0,1, buttons))) {
+            return true;
+        } else if ((isChecked(1,2, buttons)) && (isChecked(1,0, buttons))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void checkWhatIsLeft(String[][] gameTable) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!isChecked(i, j, gameTable)) {
+                    check(i, j, gameTable);
+                    return;
                 }
             }
         }
     }
 
-    private void botHardMove() {
+    public void checkCornerCloseToEnemyEdge(String[][] gameTable) {
 
+        if (isEnemySymbol(0, 1, gameTable)) {
+
+            if ((isEnemySymbol(2, 0, gameTable)) &&
+                    (!isChecked(0, 0, gameTable))) {
+                check(0, 0, gameTable);
+
+            } else if ((isEnemySymbol(2, 2, gameTable)) &&
+                    (!isChecked(0, 2, gameTable))) {
+                check(0, 2, gameTable);
+            }
+
+
+        } else if (isEnemySymbol(1, 0, gameTable)) {
+
+            if ((isEnemySymbol(0, 2, gameTable)) &&
+                    (!isChecked(0, 0, gameTable))) {
+                check(0, 0, gameTable);
+
+            } else if ((isEnemySymbol(2, 2, gameTable)) &&
+                    (!isChecked(2, 2, gameTable))) {
+                check(2, 2, gameTable);
+            }
+
+        } else if (isEnemySymbol(1, 2, gameTable)) {
+
+            if ((isEnemySymbol(0, 0, gameTable)) &&
+                    (!isChecked(0, 2, gameTable))) {
+                check(0, 2, gameTable);
+
+            } else if ((isEnemySymbol(2, 0, gameTable)) &&
+                    (!isChecked(2, 2, gameTable))) {
+                check(2, 2, gameTable);
+            }
+
+        } else if (isEnemySymbol(2, 1, gameTable)) {
+
+            if ((isEnemySymbol(0, 0, gameTable)) &&
+                    (!isChecked(2, 0, gameTable))) {
+                check(2, 0, gameTable);
+
+            } else if ((isEnemySymbol(0, 2, gameTable)) &&
+                    (!isChecked(2, 2, gameTable))) {
+                check(2, 2, gameTable);
+            }
+
+        }
     }
+
+    public void goForWin(String[][] gameTable) {
+        boolean stop;
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+
+                if (isOwnSymbol(i, j, gameTable)) {
+                    stop = checkVertically(gameTable, i, j);
+                    if (stop) return;
+                    stop = checkHorizontally(gameTable, i, j);
+                    if (stop) return;
+                    stop = checkPrincipalDiagonal(gameTable, i, j);
+                    if (stop) return;
+                    stop = checkSecondaryDiagonal(gameTable, i, j);
+                    if (stop) return;
+                }
+            }
+        }
+    }
+
+    public boolean canWin(String[][] gameTable) {
+        boolean stop;
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+
+                if (isOwnSymbol(i, j, gameTable)) {
+                    stop = scanVertically(gameTable, i, j);
+                    if (stop) return true;
+                    stop = scanHorizontally(gameTable, i, j);
+                    if (stop) return true;
+                    stop = scanPrincipalDiagonal(gameTable, i, j);
+                    if (stop) return true;
+                    stop = scanSecondaryDiagonal(gameTable, i, j);
+                    if (stop) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void block(String[][] gameTable) {
+        boolean stop;
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+
+                if (isEnemySymbol(i, j, gameTable)) {
+                    stop = checkVertically(gameTable, i, j);
+                    if (stop) return;
+                    stop = checkHorizontally(gameTable, i, j);
+                    if (stop) return;
+                    stop = checkPrincipalDiagonal(gameTable, i, j);
+                    if (stop) return;
+                    stop = checkSecondaryDiagonal(gameTable, i, j);
+                    if (stop) return;
+                }
+            }
+        }
+    }
+
+    public boolean canBlock(String[][] gameTable) {
+        boolean stop;
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+
+                if (isEnemySymbol(i, j, gameTable)) {
+                    stop = scanVertically(gameTable, i, j);
+                    if (stop) return true;
+                    stop = scanHorizontally(gameTable, i, j);
+                    if (stop) return true;
+                    stop = scanPrincipalDiagonal(gameTable, i, j);
+                    if (stop) return true;
+                    stop = scanSecondaryDiagonal(gameTable, i, j);
+                    if (stop) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean checkVertically(String[][] gameTable, int i, int j) {
+
+            if ((i == 0) || (i == 1)) {
+                if (match(i, j, i + 1, j, gameTable)) {
+                    if ((i == 0) && (!isChecked(i + 2, j, gameTable))) {
+                        check(i + 2, j, gameTable);
+                        return true;
+                    } else if ((i == 1) && (!isChecked(i - 1, j, gameTable))) {
+                        check(i - 1, j, gameTable);
+                        return true;
+                    }
+                } else if (i == 0) {
+                    if (match(i, j, i + 2, j, gameTable) &&
+                            (!isChecked(i + 1, j, gameTable))) {
+                        check(i + 1, j, gameTable);
+                        return true;
+                    }
+                }
+            }
+        return false;
+    }
+
+    private boolean checkHorizontally(String[][] gameTable, int i, int j) {
+
+            if ((j == 0) || (j == 1)) {
+                if (match(i, j, i, j + 1, gameTable)) {
+                    if ((j == 0) && (!isChecked(i, j + 2, gameTable))) {
+                        check(i, j + 2, gameTable);
+                        return true;
+                    } else if ((j == 1) && (!isChecked(i, j - 1, gameTable))) {
+                        check(i, j - 1, gameTable);
+                        return true;
+                    }
+                } else if (j == 0) {
+                    if (match(i, j, i, j + 2, gameTable) &&
+                            (!isChecked(i, j + 1, gameTable))) {
+
+                        check(i, j + 1, gameTable);
+                        return true;
+                    }
+                }
+            }
+        return false;
+    }
+
+    private boolean checkPrincipalDiagonal(String[][] gameTable, int i, int j) {
+
+            if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
+                if (match(i, j, i + 1, j + 1, gameTable)) {
+                    if ((i == 0) && (!isChecked(i + 2, j + 2, gameTable))) {
+                        check(i + 2, j + 2, gameTable);
+                        return true;
+                    } else if ((i == 1) && (!isChecked(i - 1, j - 1, gameTable))) {
+                        check(i - 1, j - 1, gameTable);
+                        return true;
+                    }
+                } else if (i == 0) {
+                    if (match(i, j, i + 2, j + 2, gameTable) &&
+                            (!isChecked(i + 1, j + 1, gameTable))) {
+
+                        check(i + 1, j + 1, gameTable);
+                        return true;
+                    }
+                }
+            }
+        return false;
+    }
+
+    private boolean checkSecondaryDiagonal(String[][] gameTable, int i, int j) {
+
+            if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
+                if (match(i, j, i + 1, j - 1, gameTable)) {
+                    if ((i == 0) && (!isChecked(i + 2, j - 2, gameTable))) {
+                        check(i + 2, j - 2, gameTable);
+                        return true;
+                    } else if ((i == 1) && (!isChecked(i - 1, j + 1, gameTable))) {
+                        check(i - 1, j + 1, gameTable);
+                        return true;
+                    }
+                } else if (i == 0) {
+                    if (match(i, j, i + 2, j - 2, gameTable) &&
+                            (!isChecked(i + 1, j - 1, gameTable))) {
+
+                        check(i + 1, j - 1, gameTable);
+                        return true;
+                    }
+                }
+            }
+        return false;
+    }
+
+    private boolean scanVertically(String[][] gameTable, int i, int j) {
+
+        if ((i == 0) || (i == 1)) {
+            if (match(i, j, i + 1, j, gameTable)) {
+                if ((i == 0) && (!isChecked(i + 2, j, gameTable))) {
+                    return true;
+                } else if ((i == 1) && (!isChecked(i - 1, j, gameTable))) {
+                    return true;
+                }
+            } else if (i == 0) {
+                if (match(i, j, i + 2, j, gameTable) &&
+                        (!isChecked(i + 1, j, gameTable))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean scanHorizontally(String[][] gameTable, int i, int j) {
+
+        if ((j == 0) || (j == 1)) {
+            if (match(i, j, i, j + 1, gameTable)) {
+                if ((j == 0) && (!isChecked(i, j + 2, gameTable))) {
+                    return true;
+                } else if ((j == 1) && (!isChecked(i, j - 1, gameTable))) {
+                    return true;
+                }
+            } else if (j == 0) {
+                if (match(i, j, i, j + 2, gameTable) &&
+                        (!isChecked(i, j + 1, gameTable))) {
+
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean scanPrincipalDiagonal(String[][] gameTable, int i, int j) {
+
+        if (((i == 0) && (j == 0)) || ((i == 1) && (j == 1))) {
+            if (match(i, j, i + 1, j + 1, gameTable)) {
+                if ((i == 0) && (!isChecked(i + 2, j + 2, gameTable))) {
+                    return true;
+                } else if ((i == 1) && (!isChecked(i - 1, j - 1, gameTable))) {
+                    return true;
+                }
+            } else if (i == 0) {
+                if (match(i, j, i + 2, j + 2, gameTable) &&
+                        (!isChecked(i + 1, j + 1, gameTable))) {
+
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean scanSecondaryDiagonal(String[][] gameTable, int i, int j) {
+
+        if (((i == 0) && (j == 2)) || ((i == 1) && (j == 1))) {
+            if (match(i, j, i + 1, j - 1, gameTable)) {
+                if ((i == 0) && (!isChecked(i + 2, j - 2, gameTable))) {
+                    return true;
+                } else if ((i == 1) && (!isChecked(i - 1, j + 1, gameTable))) {
+                    return true;
+                }
+            } else if (i == 0) {
+                if (match(i, j, i + 2, j - 2, gameTable) &&
+                        (!isChecked(i + 1, j - 1, gameTable))) {
+
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean scanEdgeOppositeToCorner(String[][] gameTable ) {
+
+        if (isEnemySymbol(0, 1, gameTable)) {
+
+            if (isEnemySymbol(2, 0, gameTable)) {
+                return true;
+            } else if (isEnemySymbol(2, 2, gameTable)) {
+                return true;
+            }
+        } else if (isEnemySymbol(1, 0, gameTable)) {
+
+            if (isEnemySymbol(0, 2, gameTable)) {
+                return true;
+            } else if (isEnemySymbol(2, 2, gameTable)) {
+                return true;
+            }
+        } else if (isEnemySymbol(1, 2, gameTable)) {
+
+            if (isEnemySymbol(0, 0, gameTable)) {
+                return true;
+            } else if (isEnemySymbol(2, 0, gameTable)) {
+                return true;
+            }
+        } else if (isEnemySymbol(2, 1, gameTable)) {
+
+            if (isEnemySymbol(0, 0, gameTable)) {
+                return true;
+            } else if (isEnemySymbol(0, 2, gameTable)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean scanEnemyEdges(String[][] gameTable) {
+        if (isEnemySymbol(0, 1, gameTable))
+            return true;
+
+        if (isEnemySymbol(1, 0, gameTable))
+            return true;
+
+        if (isEnemySymbol(1, 2, gameTable))
+            return true;
+
+        if (isEnemySymbol(2, 1, gameTable))
+            return true;
+
+        return false;
+    }
+
+    public boolean scanEnemyCorners(String[][] gameTable) {
+
+        if (isEnemySymbol(0, 0, gameTable))
+            return true;
+
+        if (isEnemySymbol(0, 2, gameTable))
+            return true;
+
+        if (isEnemySymbol(2, 0, gameTable))
+            return true;
+
+        if (isEnemySymbol(2, 2, gameTable))
+            return true;
+
+        return false;
+    }
+
+    public int randomNumber() {
+        Random random = new Random();
+        return random.nextInt(3);
+    }
+
+    public void randomCheck(String[][] gameTable) {
+        int randomRow = randomNumber();
+        int randomColumn = randomNumber();
+
+        boolean stop = false;
+
+        while (!stop) {
+
+            if (!isChecked(randomRow, randomColumn, gameTable)) {
+                check(randomRow, randomColumn, gameTable);
+                stop = true;
+            } else {
+                randomRow = randomNumber();
+                randomColumn = randomNumber();
+            }
+        }
+    }
+
+    private void completion() {
+        if (gameCompletionListener != null) {
+            gameCompletionListener.onCompletion();
+        }
+    }
+
+    void updateRoundCount() {
+        roundCount++;
+    }
+
+    /** Setters/Getters: **/
 
     public boolean getPlayer1Wins() {
         return player1Wins;
@@ -189,18 +714,8 @@ public class GameEngine {
         return whoStartsDraw;
     }
 
-    public int getPlayer1Symbol() {
-        return player1Symbol;
-    }
-
-    void updateRoundCount() {
-        roundCount++;
-    }
-
-    private void completion() {
-        if (gameCompletionListener != null) {
-            gameCompletionListener.onCompletion();
-        }
+    public int getSymbolPlayer1() {
+        return this.mSymbolPlayer1;
     }
 
     public void setCompletionListener(GameCompletionListener gameCompletionListener) {
@@ -219,8 +734,8 @@ public class GameEngine {
         this.whoStartsDraw = whoStartsDraw;
     }
 
-    public void setPlayer1Symbol(int symbol) {
-        this.player1Symbol = symbol;
+    public void setSymbolPlayer1(int mSymbolPlayer1) {
+        this.mSymbolPlayer1 = mSymbolPlayer1;
     }
 
     public int getWhoIsPlayer1() {
@@ -237,5 +752,13 @@ public class GameEngine {
 
     public void setDifficultyLevel(int mDifficultyLevel) {
         this.mDifficultyLevel = mDifficultyLevel;
+    }
+
+    public boolean getPlayer1StartsMatch() {
+        return mPlayer1StartsMatch;
+    }
+
+    public void setPlayer1StartsMatch(boolean player1StartsMatch) {
+        this.mPlayer1StartsMatch = player1StartsMatch;
     }
 }
