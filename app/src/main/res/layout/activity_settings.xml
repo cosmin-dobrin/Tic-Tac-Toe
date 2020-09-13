@@ -1,207 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
-    <TextView
-        android:id="@+id/radio_who_starts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/text_radio_who_starts"
-        android:textColor="@android:color/background_dark"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <RadioGroup
-        android:id="@+id/radio_group_who_starts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radio_who_starts">
-
-        <RadioButton
-            android:id="@+id/radio_button_winner"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/radio_button_winner_text" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/radio_button_different"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/radio_button_different_text" />
-    </RadioGroup>
+            <TextView
+                android:id="@+id/radio_who_starts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/text_radio_who_starts"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/radio_who_starts_case_draw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/text_radio_who_starts_case_draw"
-        android:textSize="18sp"
-        android:textColor="@android:color/background_dark"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_group_who_starts" />
+            <RadioGroup
+                android:id="@+id/radio_group_who_starts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/radio_who_starts">
 
-    <RadioGroup
-        android:id="@+id/radio_group_who_starts_case_draw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radio_who_starts_case_draw">
+                <RadioButton
+                    android:id="@+id/radio_button_winner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_button_winner_text" />
 
-        <RadioButton
-            android:id="@+id/radio_button_draw_other"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/radio_button_text_other" />
+                <RadioButton
+                    android:id="@+id/radio_button_different"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_button_different_text" />
+            </RadioGroup>
 
-        <RadioButton
-            android:id="@+id/radio_button_draw_same"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/radio_button_text_same" />
-    </RadioGroup>
+            <TextView
+                android:id="@+id/radio_who_starts_case_draw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/text_radio_who_starts_case_draw"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radio_group_who_starts" />
 
-    <TextView
-        android:id="@+id/textView_symbol_chooser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:textSize="18sp"
-        android:textColor="@android:color/background_dark"
-        android:text="@string/textView_text_symbol_chooser"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_group_who_starts_case_draw" />
+            <RadioGroup
+                android:id="@+id/radio_group_who_starts_case_draw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/radio_who_starts_case_draw">
 
-    <RadioGroup
-        android:id="@+id/radio_group_symbol_chooser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView_symbol_chooser">
+                <RadioButton
+                    android:id="@+id/radio_button_draw_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_button_text_other" />
 
-        <RadioButton
-            android:id="@+id/radio_button_symbol_X"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:text="@string/x" />
+                <RadioButton
+                    android:id="@+id/radio_button_draw_same"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_button_text_same" />
+            </RadioGroup>
 
-        <RadioButton
-            android:id="@+id/radio_button_symbol_O"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/o" />
-    </RadioGroup>
+            <TextView
+                android:id="@+id/textView_symbol_chooser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/textView_text_symbol_chooser"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radio_group_who_starts_case_draw" />
 
-    <TextView
-        android:id="@+id/textView_player1_chooser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:textSize="18sp"
-        android:textColor="@android:color/background_dark"
-        android:text="@string/textView_text_player1_chooser"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_group_symbol_chooser" />
+            <RadioGroup
+                android:id="@+id/radio_group_symbol_chooser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_symbol_chooser">
 
-    <RadioGroup
-        android:id="@+id/radio_group_player1_chooser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView_player1_chooser">
+                <RadioButton
+                    android:id="@+id/radio_button_symbol_X"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    android:text="@string/x" />
 
-        <RadioButton
-            android:id="@+id/radio_button_you"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:text="@string/radio_button_text_you" />
+                <RadioButton
+                    android:id="@+id/radio_button_symbol_O"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/o" />
+            </RadioGroup>
 
-        <RadioButton
-            android:id="@+id/radio_button_robot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/radio_button_text_robot" />
-    </RadioGroup>
+            <TextView
+                android:id="@+id/textView_player1_chooser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/textView_text_player1_chooser"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radio_group_symbol_chooser" />
 
-    <TextView
-        android:id="@+id/textView_difficulty_chooser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:textSize="18sp"
-        android:textColor="@android:color/background_dark"
-        android:text="@string/textView_text_difficulty_chooser"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_group_player1_chooser" />
+            <RadioGroup
+                android:id="@+id/radio_group_player1_chooser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_player1_chooser">
 
-    <RadioGroup
-        android:id="@+id/radio_group_difficulty_chooser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView_difficulty_chooser">
+                <RadioButton
+                    android:id="@+id/radio_button_you"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    android:text="@string/radio_button_text_you" />
 
-        <RadioButton
-            android:id="@+id/radio_button_easy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="@string/radio_button_text_easy" />
+                <RadioButton
+                    android:id="@+id/radio_button_robot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_button_text_robot" />
+            </RadioGroup>
 
-        <RadioButton
-            android:id="@+id/radio_button_medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="@string/radio_button_text_medium" />
+            <TextView
+                android:id="@+id/textView_difficulty_chooser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/textView_text_difficulty_chooser"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radio_group_player1_chooser" />
 
-        <RadioButton
-            android:id="@+id/radio_button_hard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/radio_button_text_hard" />
-    </RadioGroup>
+            <RadioGroup
+                android:id="@+id/radio_group_difficulty_chooser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_difficulty_chooser">
 
-    <Switch
-        android:id="@+id/switch_show_system_bars"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/switch_text_hide_system_bars"
-        android:textColor="@android:color/background_dark"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_group_difficulty_chooser" />
+                <RadioButton
+                    android:id="@+id/radio_button_easy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/radio_button_text_easy" />
 
+                <RadioButton
+                    android:id="@+id/radio_button_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/radio_button_text_medium" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_hard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_button_text_hard" />
+            </RadioGroup>
+
+            <Switch
+                android:id="@+id/switch_show_system_bars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/switch_text_hide_system_bars"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radio_group_difficulty_chooser" />
+        </LinearLayout>
+    </HorizontalScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
