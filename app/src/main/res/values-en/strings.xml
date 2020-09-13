@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tic Tac Toe</string>
-    <string name="reset_button">reset</string>
+    <string name="reset_button">Reset</string>
     <string name="player_1_pointsText">Player 1: %1$d</string>
     <string name="player_2_pointsText">Player 2: %1$d</string>
     <string name="draw">Draw!</string>
     <string name="player_1_wins">Player 1 wins!</string>
     <string name="player_2_wins">Player 2 wins!</string>
-    <string name="button_label_language">Language</string>
-    <string name="button_label_start">Two players</string>
     <string name="english">English</string>
     <string name="german">German</string>
     <string name="french">French</string>
     <string name="spanish">Spanish</string>
     <string name="italian">Italian</string>
     <string name="romanian">Romanian</string>
-    <string name="choose_language">Choose Language: </string>
+    <string name="choose_language">"Choose Language: "</string>
+    <string name="button_label_language">Language</string>
+    <string name="button_label_start">Two Players</string>
     <string name="button_label_settings">Settings</string>
     <string name="text_radio_who_starts">Choose who starts after each round:</string>
     <string name="radio_button_winner_text">The winner of the previous round starts</string>
@@ -28,11 +28,11 @@
     <string name="textView_text_symbol_chooser">Choose a symbol for Player 1:</string>
     <string name="x">X</string>
     <string name="o">O</string>
+    <string name="textView_text_player1_chooser">Choose who is Player 1:</string>
     <string name="radio_button_text_you">You</string>
     <string name="radio_button_text_robot">The robot</string>
     <string name="textView_text_difficulty_chooser">Choose the difficulty:</string>
     <string name="radio_button_text_easy">Easy</string>
     <string name="radio_button_text_medium">Medium</string>
     <string name="radio_button_text_hard">Hard</string>
-    <string name="textView_text_player1_chooser">Choose who is Player 1:</string>
 </resources>

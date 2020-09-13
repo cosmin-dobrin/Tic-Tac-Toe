@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,24 +10,31 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp" >
 
         <TextView
             android:id="@+id/text_view_p1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/player_1_pointsText"
             android:layout_below="@id/text_view_p2"
-            android:textSize="30sp"
-            android:freezesText="true" />
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/text_view_symbol_1"
+            android:freezesText="true"
+            android:text="@string/player_1_pointsText"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/text_view_p2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/text_view_symbol_2"
+            android:freezesText="true"
             android:text="@string/player_2_pointsText"
-            android:textSize="30sp"
-            android:freezesText="true" />
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/button_reset"
@@ -37,96 +45,82 @@
             android:layout_marginEnd="33dp"
             android:text="@string/reset_button" />
 
+        <TextView
+            android:id="@+id/text_view_symbol_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/text_view_symbol_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_symbol_1"
+            android:textSize="30sp" />
+
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
 
         <Button
             android:id="@+id/button_00"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="60sp"
-            android:freezesText="true" />
+            style="@style/ButtonStyle" />
 
         <Button
             android:id="@+id/button_01"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="60sp"
-            android:freezesText="true" />
+            style="@style/ButtonStyle" />
 
         <Button
             android:id="@+id/button_02"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="60sp"
-            android:freezesText="true" />
+            style="@style/ButtonStyle" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" >
 
         <Button
             android:id="@+id/button_10"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="60sp"
-            android:freezesText="true" />
+            style="@style/ButtonStyle" />
 
         <Button
             android:id="@+id/button_11"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="60sp"
-            android:freezesText="true" />
+            style="@style/ButtonStyle" />
 
         <Button
             android:id="@+id/button_12"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="60sp"
-            android:freezesText="true" />
+            style="@style/ButtonStyle" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="44dp">
 
         <Button
             android:id="@+id/button_20"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="60sp"
-            android:freezesText="true" />
+            style="@style/ButtonStyle" />
 
         <Button
             android:id="@+id/button_21"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="60sp"
-            android:freezesText="true" />
+            style="@style/ButtonStyle" />
 
         <Button
             android:id="@+id/button_22"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="60sp"
-            android:freezesText="true" />
-    </LinearLayout>
+            style="@style/ButtonStyle" />
 
+    </LinearLayout>
 </LinearLayout>
