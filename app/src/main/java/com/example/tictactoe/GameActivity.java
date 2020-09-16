@@ -1,7 +1,6 @@
-package com.example.tictactoe.game;
+package com.example.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.ColorUtils;
 import androidx.core.widget.TextViewCompat;
 
 import android.content.Context;
@@ -9,17 +8,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.tictactoe.BotEngine;
-import com.example.tictactoe.LocaleManager;
-import com.example.tictactoe.MenuActivity;
-import com.example.tictactoe.R;
-import com.example.tictactoe.SettingsUtility;
 
 public class GameActivity extends AppCompatActivity {
 

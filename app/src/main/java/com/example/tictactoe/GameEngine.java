@@ -1,6 +1,4 @@
-package com.example.tictactoe.game;
-
-import com.example.tictactoe.SettingsUtility;
+package com.example.tictactoe;
 
 import java.util.Random;
 
@@ -42,8 +40,8 @@ public class GameEngine {
         player2Points = gameState.getPlayer2Points();
     }
 
-    void roundResult(String[][] field) {
-        if (checkForWin(field)) {
+    void roundResult(String[][] gameTable) {
+        if (checkForWin(gameTable)) {
             if (player1Turn) {
                 player1Wins();
             } else {
@@ -56,33 +54,33 @@ public class GameEngine {
         }
     }
 
-    private boolean checkForWin(String[][] field) {
+    private boolean checkForWin(String[][] gameTable) {
 
         for (int i = 0; i < 3; i++) {
-            if (field[i][0].equals(field[i][1])
-                    && field[i][0].equals(field[i][2])
-                    && !field[i][0].equals("")) {
+            if (gameTable[i][0].equals(gameTable[i][1])
+                    && gameTable[i][0].equals(gameTable[i][2])
+                    && !gameTable[i][0].equals("")) {
                 return true;
             }
         }
 
         for (int i = 0; i < 3; i++) {
-            if (field[0][i].equals(field[1][i])
-                    && field[0][i].equals(field[2][i])
-                    && !field[0][i].equals("")) {
+            if (gameTable[0][i].equals(gameTable[1][i])
+                    && gameTable[0][i].equals(gameTable[2][i])
+                    && !gameTable[0][i].equals("")) {
                 return true;
             }
         }
 
-        if (field[0][0].equals(field[1][1])
-                && field[0][0].equals(field[2][2])
-                && !field[0][0].equals("")) {
+        if (gameTable[0][0].equals(gameTable[1][1])
+                && gameTable[0][0].equals(gameTable[2][2])
+                && !gameTable[0][0].equals("")) {
             return true;
         }
 
-        if (field[0][2].equals(field[1][1])
-                && field[0][2].equals(field[2][0])
-                && !field[0][2].equals("")) {
+        if (gameTable[0][2].equals(gameTable[1][1])
+                && gameTable[0][2].equals(gameTable[2][0])
+                && !gameTable[0][2].equals("")) {
             return true;
         }
 
@@ -154,112 +152,112 @@ public class GameEngine {
         }
     }
 
-    public void check(int row, int column, String[][] buttons) {
-        if (isChecked(row, column, buttons)) {
+    public void check(int row, int column, String[][] gameTable) {
+        if (isChecked(row, column, gameTable)) {
             return;
         }
 
         if (getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
             if (mSymbolPlayer1 == SettingsUtility.X) {
-                buttons[row][column] = "X";
+                gameTable[row][column] = "X";
             } else if (mSymbolPlayer1 == SettingsUtility.O) {
-                buttons[row][column] = "O";
+                gameTable[row][column] = "O";
             }
         } else if (getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
             if (mSymbolPlayer1 == SettingsUtility.X) {
-                buttons[row][column] = "O";
+                gameTable[row][column] = "O";
             } else if (mSymbolPlayer1 == SettingsUtility.O) {
-                buttons[row][column] = "X";
+                gameTable[row][column] = "X";
             }
         }
     }
 
-    public boolean isChecked(int row, int column, String[][] buttons) {
-        if (!(buttons[row][column].equals(""))) {
+    public boolean isChecked(int row, int column, String[][] gameTable) {
+        if (!(gameTable[row][column].equals(""))) {
             return true;
         } else {
             return false;
         }
     }
 
-    private String getSymbolAt(int row, int column, String[][] buttons) {
-        return buttons[row][column];
+    private String getSymbolAt(int row, int column, String[][] gameTable) {
+        return gameTable[row][column];
     }
 
-    private boolean match(int row1, int column1, int row2, int column2, String[][] buttons) {
-        if (getSymbolAt(row1,column1,buttons).equals(getSymbolAt(row2,column2,buttons))) {
+    private boolean match(int row1, int column1, int row2, int column2, String[][] gameTable) {
+        if (getSymbolAt(row1,column1,gameTable).equals(getSymbolAt(row2,column2,gameTable))) {
             return true;
         } else {
             return false;
         }
     }
 
-    public boolean isEnemySymbol(int row, int column, String[][] buttons) {
+    public boolean isEnemySymbol(int row, int column, String[][] gameTable) {
         if (getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
             if (getSymbolPlayer1() == SettingsUtility.X) {
-                return getSymbolAt(row, column, buttons).equals("O");
+                return getSymbolAt(row, column, gameTable).equals("O");
             } else if (getSymbolPlayer1() == SettingsUtility.O) {
-                return getSymbolAt(row, column, buttons).equals("X");
+                return getSymbolAt(row, column, gameTable).equals("X");
             }
         } else if (getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
             if (getSymbolPlayer1() == SettingsUtility.X) {
-                return getSymbolAt(row, column, buttons).equals("X");
+                return getSymbolAt(row, column, gameTable).equals("X");
             } else if (getSymbolPlayer1() == SettingsUtility.O) {
-                return getSymbolAt(row, column, buttons).equals("O");
+                return getSymbolAt(row, column, gameTable).equals("O");
             }
         }
         return false;
     }
 
-    public boolean isOwnSymbol(int row, int column, String[][] buttons) {
+    public boolean isOwnSymbol(int row, int column, String[][] gameTable) {
         if (getWhoIsPlayer1() == SettingsUtility.BOT_IS_PLAYER_1) {
             if (getSymbolPlayer1() == SettingsUtility.X) {
-                return getSymbolAt(row, column, buttons).equals("X");
+                return getSymbolAt(row, column, gameTable).equals("X");
             } else if (getSymbolPlayer1() == SettingsUtility.O) {
-                return getSymbolAt(row, column, buttons).equals("O");
+                return getSymbolAt(row, column, gameTable).equals("O");
             }
         } else if (getWhoIsPlayer1() == SettingsUtility.YOU_ARE_PLAYER_1) {
             if (getSymbolPlayer1() == SettingsUtility.X) {
-                return getSymbolAt(row, column, buttons).equals("O");
+                return getSymbolAt(row, column, gameTable).equals("O");
             } else if (getSymbolPlayer1() == SettingsUtility.O) {
-                return getSymbolAt(row, column, buttons).equals("X");
+                return getSymbolAt(row, column, gameTable).equals("X");
             }
         }
         return false;
     }
 
-    public void checkEdge(String[][] buttons) {
-        if ((!isChecked(0,1, buttons)) && (!isChecked(2,1, buttons))) {
-            check(0,1, buttons);
-        } else if ((!isChecked(1,0, buttons)) && (!isChecked(1,2, buttons))) {
-            check(1,0, buttons);
-        } else if ((!isChecked(2,1, buttons)) && (!isChecked(0,1, buttons))) {
-            check(2,1, buttons);
-        } else if ((!isChecked(1,2, buttons)) && (!isChecked(1,0, buttons))) {
-            check(1,2, buttons);
+    public void checkEdge(String[][] gameTable) {
+        if ((!isChecked(0,1, gameTable)) && (!isChecked(2,1, gameTable))) {
+            check(0,1, gameTable);
+        } else if ((!isChecked(1,0, gameTable)) && (!isChecked(1,2, gameTable))) {
+            check(1,0, gameTable);
+        } else if ((!isChecked(2,1, gameTable)) && (!isChecked(0,1, gameTable))) {
+            check(2,1, gameTable);
+        } else if ((!isChecked(1,2, gameTable)) && (!isChecked(1,0, gameTable))) {
+            check(1,2, gameTable);
         }
     }
 
-    public void checkCorner(String[][] buttons) {
-        if (!isChecked(0,0, buttons)) {
-            check(0,0, buttons);
-        } else if (!isChecked(0,2, buttons)) {
-            check(0,2, buttons);
-        } else if (!isChecked(2,1, buttons)) {
-            check(2,0, buttons);
-        } else if (!isChecked(1,2, buttons)) {
-            check(2,2, buttons);
+    public void checkCorner(String[][] gameTable) {
+        if (!isChecked(0,0, gameTable)) {
+            check(0,0, gameTable);
+        } else if (!isChecked(0,2, gameTable)) {
+            check(0,2, gameTable);
+        } else if (!isChecked(2,1, gameTable)) {
+            check(2,0, gameTable);
+        } else if (!isChecked(1,2, gameTable)) {
+            check(2,2, gameTable);
         }
     }
 
-    public boolean findSymbolsOnOppositeEdges(String[][] buttons) {
-        if ((isChecked(0,1, buttons)) && (isChecked(2,1, buttons))) {
+    public boolean findSymbolsOnOppositeEdges(String[][] gameTable) {
+        if ((isChecked(0,1, gameTable)) && (isChecked(2,1, gameTable))) {
             return true;
-        } else if ((isChecked(1,0, buttons)) && (isChecked(1,2, buttons))) {
+        } else if ((isChecked(1,0, gameTable)) && (isChecked(1,2, gameTable))) {
             return true;
-        } else if ((isChecked(2,1, buttons)) && (isChecked(0,1, buttons))) {
+        } else if ((isChecked(2,1, gameTable)) && (isChecked(0,1, gameTable))) {
             return true;
-        } else if ((isChecked(1,2, buttons)) && (isChecked(1,0, buttons))) {
+        } else if ((isChecked(1,2, gameTable)) && (isChecked(1,0, gameTable))) {
             return true;
         } else {
             return false;
@@ -610,22 +608,6 @@ public class GameEngine {
                 return true;
             }
         }
-
-        return false;
-    }
-
-    private boolean scanEnemyEdges(String[][] gameTable) {
-        if (isEnemySymbol(0, 1, gameTable))
-            return true;
-
-        if (isEnemySymbol(1, 0, gameTable))
-            return true;
-
-        if (isEnemySymbol(1, 2, gameTable))
-            return true;
-
-        if (isEnemySymbol(2, 1, gameTable))
-            return true;
 
         return false;
     }

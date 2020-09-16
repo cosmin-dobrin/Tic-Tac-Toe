@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".game.GameActivity"
+            android:name=".GameActivity"
             android:parentActivityName=".MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

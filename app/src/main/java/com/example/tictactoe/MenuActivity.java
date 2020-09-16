@@ -9,10 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.tictactoe.game.GameActivity;
-
-import java.util.Set;
-
 public class MenuActivity extends AppCompatActivity {
 
     public static final String EXTRA_SINGLE_PLAYER_MODE = "com.example.tictactoe.extra.SINGLE_PLAYER_MODE";
