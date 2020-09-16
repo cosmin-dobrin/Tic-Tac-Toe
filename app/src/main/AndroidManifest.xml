@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tictactoe">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.dobrincosminiulian.tictactoe">
 
     <application
         android:allowBackup="true"
@@ -15,7 +14,7 @@
             android:parentActivityName=".MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.tictactoe.MenuActivity" />
+                android:value="com.dobrincosminiulian.tictactoe.MenuActivity" />
         </activity>
         <activity android:name=".MenuActivity">
             <intent-filter>
@@ -29,7 +28,7 @@
             android:parentActivityName=".MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.tictactoe.MenuActivity" />
+                android:value="com.dobrincosminiulian.tictactoe.MenuActivity" />
         </activity>
     </application>
 

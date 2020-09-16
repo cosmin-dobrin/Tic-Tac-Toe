@@ -1,4 +1,4 @@
-package com.example.tictactoe;
+package com.dobrincosminiulian.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,7 +11,7 @@ import android.widget.Button;
 
 public class MenuActivity extends AppCompatActivity {
 
-    public static final String EXTRA_SINGLE_PLAYER_MODE = "com.example.tictactoe.extra.SINGLE_PLAYER_MODE";
+    public static final String EXTRA_SINGLE_PLAYER_MODE = "com.dobrincosminiulian.tictactoe.extra.SINGLE_PLAYER_MODE";
     private LocaleManager localeManager = new LocaleManager(this, this);
     private View decorView;
     private int mHideSystemBars = 0;

@@ -1,4 +1,4 @@
-package com.example.tictactoe;
+package com.dobrincosminiulian.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.TextViewCompat;
