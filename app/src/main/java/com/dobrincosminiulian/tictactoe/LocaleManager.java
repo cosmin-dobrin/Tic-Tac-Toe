@@ -1,4 +1,4 @@
-package com.example.tictactoe;
+package com.dobrincosminiulian.tictactoe;
 
 import android.app.Activity;
 import android.content.Context;
@@ -38,7 +38,7 @@ public class LocaleManager {
         setLocale(language);
     }
 
-    void showChangeLanguageDialog() {
+    public void showChangeLanguageDialog() {
         final String[] listItems = {activity.getString(R.string.english),
                 activity.getString(R.string.german), activity.getString(R.string.spanish),
                 activity.getString(R.string.french), activity.getString(R.string.italian),

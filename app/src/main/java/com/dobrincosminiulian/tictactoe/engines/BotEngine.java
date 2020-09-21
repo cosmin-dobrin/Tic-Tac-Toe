@@ -1,6 +1,4 @@
-package com.example.tictactoe;
-
-import com.example.tictactoe.game.GameEngine;
+package com.dobrincosminiulian.tictactoe.engines;
 
 public class BotEngine {
 
@@ -12,139 +10,139 @@ public class BotEngine {
 
     /** Game mode: HARD -- For Bot being Player 1: **/
 
-    void botP1HardFirstMove(String[][] buttons) {
+    void botP1HardFirstMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 0)
-            gameEngine.check(0, 0, buttons);
+            gameEngine.check(0, 0, gameTable);
     }
 
-    void botP1HardSecondMove(String[][] buttons) {
+    void botP1HardSecondMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 2) {
-            if (!(gameEngine.isChecked(2, 2, buttons))) {
-                gameEngine.check(2, 2, buttons);
+            if (!(gameEngine.isChecked(2, 2, gameTable))) {
+                gameEngine.check(2, 2, gameTable);
             } else {
-                gameEngine.check(2, 0, buttons);
+                gameEngine.check(2, 0, gameTable);
             }
         }
     }
 
-    void botP1HardThirdMove(String[][] buttons) {
+    void botP1HardThirdMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 4) {
-            if (gameEngine.isEnemySymbol(1, 1, buttons)) {
-                if (gameEngine.canWin(buttons)) {
-                    gameEngine.goForWin(buttons);
-                } else if (gameEngine.canBlock(buttons)) {
-                    gameEngine.block(buttons);
+            if (gameEngine.isEnemySymbol(1, 1, gameTable)) {
+                if (gameEngine.canWin(gameTable)) {
+                    gameEngine.goForWin(gameTable);
+                } else if (gameEngine.canBlock(gameTable)) {
+                    gameEngine.block(gameTable);
                 }
-            } else if (gameEngine.isOwnSymbol(0, 0, buttons) &&
-                    gameEngine.isOwnSymbol(2, 2, buttons)) {
+            } else if (gameEngine.isOwnSymbol(0, 0, gameTable) &&
+                    gameEngine.isOwnSymbol(2, 2, gameTable)) {
 
-                if (gameEngine.canWin(buttons)) {
-                    gameEngine.goForWin(buttons);
-                } else if (gameEngine.canBlock(buttons)) {
-                    gameEngine.block(buttons);
+                if (gameEngine.canWin(gameTable)) {
+                    gameEngine.goForWin(gameTable);
+                } else if (gameEngine.canBlock(gameTable)) {
+                    gameEngine.block(gameTable);
                 } else {
-                    gameEngine.checkCorner(buttons);
+                    gameEngine.checkCorner(gameTable);
                 }
             }
         }
     }
 
-    void botP1HardFourthMove(String[][] buttons) {
+    void botP1HardFourthMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 6) {
-            if (gameEngine.canWin(buttons)) {
-                gameEngine.goForWin(buttons);
-            } else if (gameEngine.canBlock(buttons)) {
-                gameEngine.block(buttons);
+            if (gameEngine.canWin(gameTable)) {
+                gameEngine.goForWin(gameTable);
+            } else if (gameEngine.canBlock(gameTable)) {
+                gameEngine.block(gameTable);
             } else {
-                gameEngine.checkWhatIsLeft(buttons);
+                gameEngine.checkWhatIsLeft(gameTable);
             }
         }
     }
 
-    void botP1HardFifthMove(String[][] buttons) {
+    void botP1HardFifthMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 8)
-            gameEngine.checkWhatIsLeft(buttons);
+            gameEngine.checkWhatIsLeft(gameTable);
     }
 
-    public String[][] botP1HardMoves(String[][] buttons) {
-        botP1HardFirstMove(buttons);
-        botP1HardSecondMove(buttons);
-        botP1HardThirdMove(buttons);
-        botP1HardFourthMove(buttons);
-        botP1HardFifthMove(buttons);
+    public String[][] botP1HardMoves(String[][] gameTable) {
+        botP1HardFirstMove(gameTable);
+        botP1HardSecondMove(gameTable);
+        botP1HardThirdMove(gameTable);
+        botP1HardFourthMove(gameTable);
+        botP1HardFifthMove(gameTable);
 
-        return buttons;
+        return gameTable;
     }
 
     /** Game mode: HARD -- For Bot being Player 2: **/
 
-    void botP2HardFirstMove(String[][] buttons) {
+    void botP2HardFirstMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 1) {
-            if (!gameEngine.isEnemySymbol(1, 1, buttons)) {
-                gameEngine.check(1, 1, buttons);
+            if (!gameEngine.isEnemySymbol(1, 1, gameTable)) {
+                gameEngine.check(1, 1, gameTable);
             } else {
-                gameEngine.checkCorner(buttons);
+                gameEngine.checkCorner(gameTable);
             }
         }
     }
 
-    void botP2HardSecondMove(String[][] buttons) {
+    void botP2HardSecondMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 3) {
-            if (gameEngine.isOwnSymbol(1,1, buttons)) {
-                if (gameEngine.scanEnemyCorners(buttons)) {
-                    if (gameEngine.canBlock(buttons)) {
-                        gameEngine.block(buttons);
-                    } else if (gameEngine.scanEdgeOppositeToCorner(buttons)) {
-                        gameEngine.checkCornerCloseToEnemyEdge(buttons);
+            if (gameEngine.isOwnSymbol(1,1, gameTable)) {
+                if (gameEngine.scanEnemyCorners(gameTable)) {
+                    if (gameEngine.canBlock(gameTable)) {
+                        gameEngine.block(gameTable);
+                    } else if (gameEngine.scanEdgeOppositeToCorner(gameTable)) {
+                        gameEngine.checkCornerCloseToEnemyEdge(gameTable);
                     } else {
-                        gameEngine.checkEdge(buttons);
+                        gameEngine.checkEdge(gameTable);
                     }
-                } else if (gameEngine.findSymbolsOnOppositeEdges(buttons)) {
-                    gameEngine.check(0,0, buttons);
+                } else if (gameEngine.findSymbolsOnOppositeEdges(gameTable)) {
+                    gameEngine.check(0,0, gameTable);
                 } else {
-                    gameEngine.checkWhatIsLeft(buttons);
+                    gameEngine.checkWhatIsLeft(gameTable);
                 }
-            } else if (gameEngine.isEnemySymbol(1,1, buttons)) {
-                if (gameEngine.canBlock(buttons)) {
-                    gameEngine.block(buttons);
+            } else if (gameEngine.isEnemySymbol(1,1, gameTable)) {
+                if (gameEngine.canBlock(gameTable)) {
+                    gameEngine.block(gameTable);
                 } else {
-                    gameEngine.checkCorner(buttons);
+                    gameEngine.checkCorner(gameTable);
                 }
             }
         }
     }
 
-    void botP2HardThirdMove(String[][] buttons) {
+    void botP2HardThirdMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 5) {
-            if (gameEngine.canWin(buttons)) {
-                gameEngine.goForWin(buttons);
-            } else if (gameEngine.canBlock(buttons)) {
-                gameEngine.block(buttons);
+            if (gameEngine.canWin(gameTable)) {
+                gameEngine.goForWin(gameTable);
+            } else if (gameEngine.canBlock(gameTable)) {
+                gameEngine.block(gameTable);
             } else {
-                gameEngine.checkWhatIsLeft(buttons);
+                gameEngine.checkWhatIsLeft(gameTable);
             }
         }
     }
 
-    void botP2HardFourthMove(String[][] buttons) {
+    void botP2HardFourthMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 7) {
-            if (gameEngine.canWin(buttons)) {
-                gameEngine.goForWin(buttons);
-            } else if (gameEngine.canBlock(buttons)) {
-                gameEngine.block(buttons);
+            if (gameEngine.canWin(gameTable)) {
+                gameEngine.goForWin(gameTable);
+            } else if (gameEngine.canBlock(gameTable)) {
+                gameEngine.block(gameTable);
             } else {
-                gameEngine.checkWhatIsLeft(buttons);
+                gameEngine.checkWhatIsLeft(gameTable);
             }
         }
     }
 
-    public String[][] botP2HardMoves(String[][] buttons) {
-        botP2HardFirstMove(buttons);
-        botP2HardSecondMove(buttons);
-        botP2HardThirdMove(buttons);
-        botP2HardFourthMove(buttons);
+    public String[][] botP2HardMoves(String[][] gameTable) {
+        botP2HardFirstMove(gameTable);
+        botP2HardSecondMove(gameTable);
+        botP2HardThirdMove(gameTable);
+        botP2HardFourthMove(gameTable);
 
-        return buttons;
+        return gameTable;
     }
 
     /** Game mode: MEDIUM -- For Bot being Player 1: **/

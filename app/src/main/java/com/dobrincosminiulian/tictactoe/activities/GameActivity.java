@@ -1,7 +1,6 @@
-package com.example.tictactoe.game;
+package com.dobrincosminiulian.tictactoe.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.ColorUtils;
 import androidx.core.widget.TextViewCompat;
 
 import android.content.Context;
@@ -9,17 +8,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tictactoe.BotEngine;
-import com.example.tictactoe.LocaleManager;
-import com.example.tictactoe.MenuActivity;
-import com.example.tictactoe.R;
-import com.example.tictactoe.SettingsUtility;
+import com.dobrincosminiulian.tictactoe.engines.BotEngine;
+import com.dobrincosminiulian.tictactoe.GameCompletionListener;
+import com.dobrincosminiulian.tictactoe.engines.GameEngine;
+import com.dobrincosminiulian.tictactoe.LocaleManager;
+import com.dobrincosminiulian.tictactoe.R;
+import com.dobrincosminiulian.tictactoe.SettingsUtility;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -258,13 +257,13 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showToast() {
-        if (gameEngine.getPlayer1Wins()) {
+        if (gameEngine.getPlayer1Wins() && (!gameEngine.getPlayer2Wins())) {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.player_1_wins), Toast.LENGTH_SHORT).show();
-        } else if (gameEngine.getPlayer2Wins()) {
+        } else if (gameEngine.getPlayer2Wins() && (!gameEngine.getPlayer1Wins())) {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.player_2_wins), Toast.LENGTH_SHORT).show();
-        } else if((!gameEngine.getPlayer1Wins()) && (!gameEngine.getPlayer1Wins())) {
+        } else if((!gameEngine.getPlayer1Wins()) && (!gameEngine.getPlayer2Wins())) {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.draw), Toast.LENGTH_SHORT).show();
         }

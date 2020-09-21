@@ -1,19 +1,19 @@
-package com.example.tictactoe.game;
+package com.dobrincosminiulian.tictactoe;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-class GameStateRepository {
+public class GameStateRepository {
 
     private GameState gameState;
 
-    GameStateRepository(GameState gameState) {
+    public GameStateRepository(GameState gameState) {
         this.gameState = gameState;
     }
 
-    void save() {
+    public void save() {
 
         try {
             FileOutputStream fos = new FileOutputStream("GameState.ser");
@@ -25,7 +25,7 @@ class GameStateRepository {
         }
     }
 
-    void load() {
+    public void load() {
 
         try {
             FileInputStream fis = new FileInputStream("GameState.ser");

@@ -1,4 +1,4 @@
-package com.example.tictactoe.game;
+package com.dobrincosminiulian.tictactoe;
 
 public interface GameCompletionListener {
 
