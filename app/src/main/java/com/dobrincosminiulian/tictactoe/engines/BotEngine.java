@@ -27,22 +27,13 @@ public class BotEngine {
 
     void botP1HardThirdMove(String[][] gameTable) {
         if (gameEngine.getRoundCount() == 4) {
-            if (gameEngine.isEnemySymbol(1, 1, gameTable)) {
-                if (gameEngine.canWin(gameTable)) {
-                    gameEngine.goForWin(gameTable);
-                } else if (gameEngine.canBlock(gameTable)) {
-                    gameEngine.block(gameTable);
-                }
-            } else if (gameEngine.isOwnSymbol(0, 0, gameTable) &&
-                    gameEngine.isOwnSymbol(2, 2, gameTable)) {
 
-                if (gameEngine.canWin(gameTable)) {
-                    gameEngine.goForWin(gameTable);
-                } else if (gameEngine.canBlock(gameTable)) {
-                    gameEngine.block(gameTable);
-                } else {
-                    gameEngine.checkCorner(gameTable);
-                }
+            if (gameEngine.canWin(gameTable)) {
+                gameEngine.goForWin(gameTable);
+            } else if (gameEngine.canBlock(gameTable)) {
+                gameEngine.block(gameTable);
+            } else {
+                gameEngine.checkCorner(gameTable);
             }
         }
     }
