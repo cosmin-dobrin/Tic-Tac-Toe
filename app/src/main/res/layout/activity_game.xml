@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".game.GameActivity">
+    tools:context="activities.GameActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:layout_toEndOf="@+id/text_view_symbol_1"
             android:freezesText="true"
             android:text="@string/player_1_pointsText"
-            android:textSize="30sp" />
+            android:textSize="28sp" />
 
         <TextView
             android:id="@+id/text_view_p2"
@@ -34,7 +34,7 @@
             android:layout_toEndOf="@+id/text_view_symbol_2"
             android:freezesText="true"
             android:text="@string/player_2_pointsText"
-            android:textSize="30sp" />
+            android:textSize="28sp" />
 
         <Button
             android:id="@+id/button_reset"
@@ -42,21 +42,23 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="33dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/text_view_p2"
             android:text="@string/reset_button" />
 
         <TextView
             android:id="@+id/text_view_symbol_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp" />
+            android:textSize="28sp" />
 
         <TextView
             android:id="@+id/text_view_symbol_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_view_symbol_1"
-            android:textSize="30sp" />
+            android:textSize="28sp" />
 
     </RelativeLayout>
 
