@@ -1,4 +1,4 @@
-package com.dobrincosminiulian.tictactoe;
+package com.dobrincosminiulian.tictactoe.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.TextViewCompat;
@@ -12,6 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.dobrincosminiulian.tictactoe.engines.BotEngine;
+import com.dobrincosminiulian.tictactoe.GameCompletionListener;
+import com.dobrincosminiulian.tictactoe.engines.GameEngine;
+import com.dobrincosminiulian.tictactoe.LocaleManager;
+import com.dobrincosminiulian.tictactoe.R;
+import com.dobrincosminiulian.tictactoe.SettingsUtility;
 
 public class GameActivity extends AppCompatActivity {
 

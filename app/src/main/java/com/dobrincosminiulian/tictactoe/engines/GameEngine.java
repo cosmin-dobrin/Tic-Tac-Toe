@@ -1,4 +1,9 @@
-package com.dobrincosminiulian.tictactoe;
+package com.dobrincosminiulian.tictactoe.engines;
+
+import com.dobrincosminiulian.tictactoe.GameCompletionListener;
+import com.dobrincosminiulian.tictactoe.GameState;
+import com.dobrincosminiulian.tictactoe.GameStateRepository;
+import com.dobrincosminiulian.tictactoe.SettingsUtility;
 
 import java.util.Random;
 
@@ -20,7 +25,7 @@ public class GameEngine {
     private GameStateRepository gameStateRepository = new GameStateRepository(gameState);
     private GameCompletionListener gameCompletionListener;
 
-    void saveGameState() {
+    public void saveGameState() {
 
         gameState.setPlayer1Turn(player1Turn);
         gameState.setRoundCount(roundCount);
@@ -30,7 +35,7 @@ public class GameEngine {
         gameStateRepository.save();
     }
 
-    void loadGameState() {
+    public void loadGameState() {
 
         gameStateRepository.load();
 
@@ -40,7 +45,7 @@ public class GameEngine {
         player2Points = gameState.getPlayer2Points();
     }
 
-    void roundResult(String[][] gameTable) {
+    public void roundResult(String[][] gameTable) {
         if (checkForWin(gameTable)) {
             if (player1Turn) {
                 player1Wins();
@@ -115,7 +120,7 @@ public class GameEngine {
         whoStarts();
     }
 
-    void resetGame() {
+    public void resetGame() {
         player1Points = 0;
         player2Points = 0;
         roundCount = 0;
@@ -658,7 +663,7 @@ public class GameEngine {
         }
     }
 
-    void updateRoundCount() {
+    public void updateRoundCount() {
         roundCount++;
     }
 

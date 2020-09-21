@@ -1,4 +1,4 @@
-package com.dobrincosminiulian.tictactoe;
+package com.dobrincosminiulian.tictactoe.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.dobrincosminiulian.tictactoe.LocaleManager;
+import com.dobrincosminiulian.tictactoe.R;
+import com.dobrincosminiulian.tictactoe.SettingsUtility;
 
 public class MenuActivity extends AppCompatActivity {
 

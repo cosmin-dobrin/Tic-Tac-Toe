@@ -1,4 +1,4 @@
-package com.dobrincosminiulian.tictactoe;
+package com.dobrincosminiulian.tictactoe.engines;
 
 public class BotEngine {
 

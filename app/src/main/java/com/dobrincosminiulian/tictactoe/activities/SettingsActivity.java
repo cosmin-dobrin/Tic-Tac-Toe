@@ -1,4 +1,4 @@
-package com.dobrincosminiulian.tictactoe;
+package com.dobrincosminiulian.tictactoe.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,11 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+
+import com.dobrincosminiulian.tictactoe.engines.GameEngine;
+import com.dobrincosminiulian.tictactoe.LocaleManager;
+import com.dobrincosminiulian.tictactoe.R;
+import com.dobrincosminiulian.tictactoe.SettingsUtility;
 
 
 public class SettingsActivity extends AppCompatActivity {
