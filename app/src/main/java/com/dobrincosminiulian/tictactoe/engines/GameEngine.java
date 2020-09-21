@@ -124,6 +124,8 @@ public class GameEngine {
         player1Points = 0;
         player2Points = 0;
         roundCount = 0;
+        player1Wins = true;
+        player2Wins = true;
         player1Turn = true;
         completion();
     }
